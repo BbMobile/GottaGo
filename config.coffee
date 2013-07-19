@@ -2,6 +2,10 @@
 currentEnv = process.env.NODE_ENV or 'development'
 exports.appName = "GottaGo"
 exports.floors = [2]
+exports.room =
+  names =
+    '2a' : 'Stinky Repo'
+    '2b' : 'Holy Commode'
 exports.env =
   production: false
   staging: false

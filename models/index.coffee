@@ -1,4 +1,5 @@
 crypto = require('crypto')
+config = require('../config')
 
 defineModels = (mongoose, fn) ->
   Schema = mongoose.Schema
@@ -12,7 +13,15 @@ defineModels = (mongoose, fn) ->
     'room': String
     'time': { type: Date, default: Date.now }
     'status': String
-  });
+  },
+  {
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+  })
+
+  Event.virtual('name').get( ->
+    return 'config.room.names[this.floor + this.room]'
+  )
 
   # Document.virtual('id')
   #   .get(function() {
@@ -23,8 +32,6 @@ defineModels = (mongoose, fn) ->
   #   this.keywords = extractKeywords(this.data);
   #   next();
   # });
-
-
 
 
   mongoose.model('Event', Event);
