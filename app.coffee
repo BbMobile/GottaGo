@@ -6,6 +6,8 @@ http = require('http')
 path = require('path')
 models = require('./models')
 config = require('./config')
+nodemailer = require("nodemailer")
+
 
 # api = require('./routes/api')
 
@@ -87,6 +89,15 @@ app.get('/partials/:name', routes.partials)
 app.post('/api/event', (req, res) ->
 	params = req.body
 
+	# setup e-mail data with unicode symbols
+	mailOptions = {
+	    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>", # sender address
+	    to: "", # list of receivers
+	    subject: "Hello ✔", # Subject line
+	    text: "Hello world ✔", # plaintext body
+	    html: "<b>Hello world ✔</b>" # html body
+	}
+
 	event = new Event(
 		{
 			'floor': params.floor
@@ -101,8 +112,46 @@ app.post('/api/event', (req, res) ->
 		else
 			res.statusCode = 200
 			res.send("OK")
+
+			# Unlocked is 0
+			if event.status = 0
+				Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+					if err?
+						return false
+
+					for person in que
+						mailOptions.to = person.contact
+						mail(mailOptions)
+
+				).remove()
 	)
+
+
 )
+
+# create reusable transport method (opens pool of SMTP connections)
+smtpTransport = nodemailer.createTransport("SMTP",{
+    service: "medu",
+    auth: {
+        user: "soYouGottaGo@gottaGo.medu.com",
+        pass: ""
+    },
+    host: "mail1.medu.com"
+})
+
+
+mail = (mailOptions) ->
+
+	# send mail with defined transport object
+	smtpTransport.sendMail(mailOptions, (error, response) ->
+    if error
+      console.log(error)
+    else
+      console.log("Message sent: " + response.message)
+
+    # if you don't want to use this transport object anymore, uncomment following line
+    smtpTransport.close() # shut down the connection pool, no more messages
+	)
 
 
 # Angular API
