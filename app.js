@@ -86,16 +86,16 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 app.post('/api/event', function(req, res) {
-  var event, mailOptions, params;
+  var event, mailOptions, mailto, params;
 
   params = req.body;
   mailOptions = {
-    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>",
+    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>",
     to: "",
-    subject: "Hello ✔",
-    text: "Hello world ✔",
-    html: "<b>Hello world ✔</b>"
+    subject: "A Bathroom on the " + params.floor + "nd is available!!",
+    text: "A Bathroom on the " + params.floor + "nd is available!! "
   };
+  mailto = [];
   event = new Event({
     'floor': params.floor,
     'room': params.room,
@@ -117,41 +117,24 @@ app.post('/api/event', function(req, res) {
             'time': -1
           }
         }).exec(function(err, que) {
-          var person, _i, _len, _results;
+          var person, _i, _len;
 
           if (err != null) {
             return false;
           }
-          _results = [];
           for (_i = 0, _len = que.length; _i < _len; _i++) {
             person = que[_i];
-            mailOptions.to = person.contact;
-            _results.push(mail(mailOptions, function(err) {}));
+            mailto.push("<" + person.contact + ">");
           }
-          return _results;
+          mailOptions.to = mailto.join(",");
+          mailOption.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
+          if (mailto.length > 1) {
+            mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
+          }
+          return mail(mailOptions, function(err) {});
         }).remove();
       }
     }
-  });
-});
-
-app.get('/api/mail', function(req, res) {
-  var mailOptions;
-
-  mailOptions = {
-    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>",
-    to: "Joe Taylor <iamjoetaylor@gmail.com>",
-    subject: "Hello ✔",
-    text: "Hello world ✔",
-    html: "<b>Hello world ✔</b>"
-  };
-  return mail(mailOptions, function(err) {
-    if (err != null) {
-      res.statusCode = 400;
-      return res.send(err);
-    }
-    res.statusCode = 200;
-    return res.send("ok");
   });
 });
 

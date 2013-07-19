@@ -91,12 +91,13 @@ app.post('/api/event', (req, res) ->
 
 	# setup e-mail data with unicode symbols
 	mailOptions = {
-	    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>", # sender address
+	    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>", # sender address
 	    to: "", # list of receivers
-	    subject: "Hello ✔", # Subject line
-	    text: "Hello world ✔", # plaintext body
-	    html: "<b>Hello world ✔</b>" # html body
+	    subject: "A Bathroom on the #{params.floor}nd is available!!", # Subject line
+	    text: "A Bathroom on the #{params.floor}nd is available!! " # plaintext body
+	    # html: "<b>Hello world ✔</b>" # html body
 	}
+	mailto = []
 
 	event = new Event(
 		{
@@ -120,34 +121,21 @@ app.post('/api/event', (req, res) ->
 						return false
 
 					for person in que
-						mailOptions.to = person.contact
-						mail(mailOptions, (err) ->
+						mailto.push("<#{person.contact}>")
 
-						)
+					mailOptions.to = mailto.join(",")
+					mailOption.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
+					if mailto.length > 1
+						mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
+
+					mail(mailOptions, (err) ->
+
+					)
 				).remove()
 	)
 
 
-)
-
-app.get('/api/mail', (req, res) ->
-	mailOptions = {
-	    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>", # sender address
-	    to: "Joe Taylor <iamjoetaylor@gmail.com>", # list of receivers
-	    subject: "Hello ✔", # Subject line
-	    text: "Hello world ✔", # plaintext body
-	    html: "<b>Hello world ✔</b>" # html body
-	}
-
-	mail(mailOptions, (err) ->
-		if err?
-			res.statusCode = 400
-			return res.send(err)
-
-		res.statusCode = 200
-		res.send("ok")
-	)
 )
 
 # create reusable transport method (opens pool of SMTP connections)
