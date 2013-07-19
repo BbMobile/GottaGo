@@ -59,7 +59,7 @@ html
         .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{queue[$index]}} humans in the queue)
         .queue(ng-show="notify[floor[0].floor]=='qued'")
           span(ng-show="queue[$index]-1>0") ({{queue[$index]-1}} OTHER humans in the queue)
-          span(ng-hide="queue[$index]-1>0") ({{queue[$index]-1}} OTHER humans in the queue)
+          span(ng-hide="queue[$index]-1>0") (You are the only one in the queue right now)
     .about-wrapper
       .about
         h2 Just think of how much time we've saved you?
