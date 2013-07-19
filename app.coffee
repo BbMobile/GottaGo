@@ -126,8 +126,8 @@ app.post('/api/event', (req, res) ->
 	# setup e-mail data with unicode symbols
 	mailOptions = {
 	    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>", # sender address
-	    to: "", # list of receivers
-	    subject: "A Bathroom on the #{params.floor}nd is available!!", # Subject line
+	    bcc: "", # list of receivers
+	    subject: "A Bathroom on the #{params.floor}nd floor is available!!", # Subject line
 	    text: "A Bathroom on the #{params.floor}nd is available!! " # plaintext body
 	    # html: "<b>Hello world ✔</b>" # html body
 	}
@@ -154,7 +154,7 @@ app.post('/api/event', (req, res) ->
 			if parseInt(event.status) is 0 or event.status is "0"
 				console.log("2event.status "+ event.status)
 
-				allQue = Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+				Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 					if err?
 						console.log("err "+ err)
 
@@ -165,7 +165,7 @@ app.post('/api/event', (req, res) ->
 					for person in que
 						mailto.push("<#{person.contact}>")
 
-					mailOptions.to = mailto.join(",")
+					mailOptions.bcc = mailto.join(",")
 					mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
 					console.log("mailOptions " + mailOptions)
@@ -177,7 +177,7 @@ app.post('/api/event', (req, res) ->
 					)
 				)
 
-				# allQue.remove()
+				Que.find().remove()
 	)
 
 

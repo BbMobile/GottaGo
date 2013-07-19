@@ -131,8 +131,8 @@ app.post('/api/event', function(req, res) {
   params = req.body;
   mailOptions = {
     from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>",
-    to: "",
-    subject: "A Bathroom on the " + params.floor + "nd is available!!",
+    bcc: "",
+    subject: "A Bathroom on the " + params.floor + "nd floor is available!!",
     text: "A Bathroom on the " + params.floor + "nd is available!! "
   };
   mailto = [];
@@ -142,8 +142,6 @@ app.post('/api/event', function(req, res) {
     'status': params.status
   });
   return event.save(function(err) {
-    var allQue;
-
     if (err != null) {
       res.statusCode = 400;
       return res.send("Error");
@@ -153,7 +151,7 @@ app.post('/api/event', function(req, res) {
       console.log("1event.status " + (parseInt(event.status) === 0 || event.status === "0"));
       if (parseInt(event.status) === 0 || event.status === "0") {
         console.log("2event.status " + event.status);
-        return allQue = Que.find({
+        Que.find({
           'floor': event.floor
         }, {}, {
           sort: {
@@ -171,7 +169,7 @@ app.post('/api/event', function(req, res) {
             person = que[_i];
             mailto.push("<" + person.contact + ">");
           }
-          mailOptions.to = mailto.join(",");
+          mailOptions.bcc = mailto.join(",");
           mailOptions.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
           console.log("mailOptions " + mailOptions);
           if (mailto.length > 1) {
@@ -179,6 +177,7 @@ app.post('/api/event', function(req, res) {
           }
           return mail(mailOptions, function(err) {});
         });
+        return Que.find().remove();
       }
     }
   });
