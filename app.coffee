@@ -154,9 +154,7 @@ app.post('/api/event', (req, res) ->
 			if parseInt(event.status) is 0 or event.status is "0"
 				console.log("2event.status "+ event.status)
 
-				allQue = Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }})
-
-				allQue.exec( (err, que) ->
+				allQue = Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 					if err?
 						console.log("err "+ err)
 
@@ -179,7 +177,7 @@ app.post('/api/event', (req, res) ->
 					)
 				)
 
-				allQue.remove()
+				# allQue.remove()
 	)
 
 
