@@ -29,7 +29,7 @@ defineModels = function(mongoose, fn) {
   Event.virtual('name').get(function() {
     return 'config.room.names[this.floor + this.room]';
   });
-  return Que = new Schema({
+  Que = new Schema({
     'floor': Number,
     'contact': String,
     'time': {
@@ -38,12 +38,9 @@ defineModels = function(mongoose, fn) {
     },
     'status': Number
   });
+  mongoose.model('Event', Event);
+  mongoose.model('Que', Que);
+  return fn();
 };
-
-mongoose.model('Event', Event);
-
-mongoose.model('Que', Que);
-
-fn();
 
 exports.defineModels = defineModels;

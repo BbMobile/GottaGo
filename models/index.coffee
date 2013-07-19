@@ -41,8 +41,8 @@ defineModels = (mongoose, fn) ->
   # })
 
 
-mongoose.model('Event', Event)
-mongoose.model('Que', Que)
-fn()
+  mongoose.model('Event', Event)
+  mongoose.model('Que', Que)
+  fn()
 
 exports.defineModels = defineModels
