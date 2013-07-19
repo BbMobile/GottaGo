@@ -6,7 +6,7 @@ crypto = require('crypto');
 config = require('../config');
 
 defineModels = function(mongoose, fn) {
-  var Event, ObjectId, Schema;
+  var Event, ObjectId, Que, Schema;
 
   Schema = mongoose.Schema;
   ObjectId = Schema.ObjectId;
@@ -17,7 +17,7 @@ defineModels = function(mongoose, fn) {
       type: Date,
       "default": Date.now
     },
-    'status': String
+    'status': Number
   }, {
     toObject: {
       virtuals: true
@@ -29,8 +29,21 @@ defineModels = function(mongoose, fn) {
   Event.virtual('name').get(function() {
     return 'config.room.names[this.floor + this.room]';
   });
-  mongoose.model('Event', Event);
-  return fn();
+  return Que = new Schema({
+    'floor': Number,
+    'contact': String,
+    'time': {
+      type: Date,
+      "default": Date.now
+    },
+    'status': Number
+  });
 };
+
+mongoose.model('Event', Event);
+
+mongoose.model('Que', Que);
+
+fn();
 
 exports.defineModels = defineModels;

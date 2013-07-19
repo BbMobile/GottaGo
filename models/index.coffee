@@ -12,7 +12,7 @@ defineModels = (mongoose, fn) ->
     'floor': Number
     'room': String
     'time': { type: Date, default: Date.now }
-    'status': String
+    'status': Number
   },
   {
     toObject: { virtuals: true },
@@ -23,18 +23,26 @@ defineModels = (mongoose, fn) ->
     return 'config.room.names[this.floor + this.room]'
   )
 
+  Que = new Schema({
+    'floor': Number
+    'contact': String
+    'time': { type: Date, default: Date.now }
+    'status': Number
+  })
+
   # Document.virtual('id')
   #   .get(function() {
-  #     return this._id.toHexString();
-  #   });
+  #     return this._id.toHexString()
+  #   })
 
   # Document.pre('save', function(next) {
-  #   this.keywords = extractKeywords(this.data);
-  #   next();
-  # });
+  #   this.keywords = extractKeywords(this.data)
+  #   next()
+  # })
 
 
-  mongoose.model('Event', Event);
-  fn();
+mongoose.model('Event', Event)
+mongoose.model('Que', Que)
+fn()
 
 exports.defineModels = defineModels

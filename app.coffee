@@ -69,7 +69,8 @@ app.configure('production', ->
 # Models
 
 models.defineModels(mongoose, ->
-  app.Event = Event = mongoose.model('Event')
+	app.Event = Event = mongoose.model('Event')
+	app.Que = Que = mongoose.model('Que')
   db = mongoose.connect(app.set('db-uri'))
 )
 
@@ -136,12 +137,36 @@ app.get('/api/status', (req, res) ->
 )
 
 app.get('/api/que/:floor', (req, res) ->
-	if 1
-		res.statusCode = 400
-		res.send("Error")
-	else
+	Que.findOne({'floor' : req.params.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+		if err?
+			res.statusCode = 400
+			return res.send("Error")
+
 		res.statusCode = 200
-		res.send("OK")
+		res.send(que)
+	)
+)
+
+app.post('/api/que/:floor', (req, res) ->
+	params = req.body
+	floor = req.params.floor
+
+	que = new Que(
+		{
+			'floor': floor
+			'status': 1
+			'contact': params.email || params.phone
+		}
+	)
+
+	que.save( (err) ->
+		if err?
+			res.statusCode = 400
+			res.send("Error")
+		else
+			res.statusCode = 200
+			res.send("OK")
+	)
 )
 
 
