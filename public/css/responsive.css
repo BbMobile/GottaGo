@@ -23,7 +23,7 @@
 		margin: 0;
 		position: relative;
 	}
-	.second-floor-badges {
+	.floor-badges {
 		padding: 20px 0 0 0;
 	}
 	.badge {
@@ -126,7 +126,7 @@
 		width: 768px;
 		padding: 0;
 	}
-	.second-floor-badges {
+	.floor-badges {
 		width: 100%;
 		color: #fff;
 		padding: 60px 0 0 0;
