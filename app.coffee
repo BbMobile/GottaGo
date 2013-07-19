@@ -150,8 +150,12 @@ app.post('/api/event', (req, res) ->
 
 			# Unlocked is 0
 			if event.status = 0
+				console.log("event.status "+ event.status)
+
 				Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 					if err?
+						console.log("err "+ err)
+
 						return false
 
 					console.log("que "+ que)

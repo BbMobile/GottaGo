@@ -149,6 +149,7 @@ app.post('/api/event', function(req, res) {
       res.statusCode = 200;
       res.send("OK");
       if (event.status = 0) {
+        console.log("event.status " + event.status);
         return Que.find({
           'floor': event.floor,
           'status': 1
@@ -160,6 +161,7 @@ app.post('/api/event', function(req, res) {
           var person, _i, _len;
 
           if (err != null) {
+            console.log("err " + err);
             return false;
           }
           console.log("que " + que);
