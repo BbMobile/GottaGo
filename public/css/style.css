@@ -7,6 +7,9 @@ html {
 ::-moz-selection {
 	background: #2ab573;
 }
+*:focus { 
+	outline: none; 
+}
 body {
 	background: #fff;
 	font: 20px "Proxima Nova", helvetica neue, helvetica, arial,sans-serif;
@@ -158,6 +161,7 @@ input {
 	border: none;
 	background: #c7c7ca;
 	color: #fff;
+	font-family: "Proxima Nova Bold";
 }
 .addqueue {
 	display: block;
