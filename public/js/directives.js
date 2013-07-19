@@ -43,8 +43,8 @@ angular.module('gottaGo.directives', [])
               $scope.start = $element[0].start = function () {
                   $scope.startTime = $scope.startTimeAttr ? new Date($scope.startTimeAttr) : new Date();
                   if($scope.startTimeAttr)  {
-                    debugger;
-                    $scope.startTime = new Date() - ($scope.startTime - 25420000);
+                    $scope.startTime = $scope.startTime;
+                    console.log($scope.startTime, $scope.startTimeAttr)
                   }
                   resetTimeout();
                   tick();
