@@ -15,7 +15,7 @@
   getQue = function() {
     var floor, _i, _len, _ref, _results;
 
-    $scope.que = [];
+    $scope.que = ["0"];
     _ref = $scope.floorsArray;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {

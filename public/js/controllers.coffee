@@ -15,7 +15,7 @@ angular.module('gottaGo.controllers', ['ngResource'])
     return roomNames[floor+room]
 
   getQue = ->
-    $scope.que = []
+    $scope.que = ["0"]
 
     for floor in $scope.floorsArray
       Que.get(floor[0].floor).success((response) ->
