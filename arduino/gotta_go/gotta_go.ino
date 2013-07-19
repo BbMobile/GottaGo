@@ -145,17 +145,15 @@ void notify(int level, char room, boolean occupied)
     client.print("\n\n");
     client.print(data);
     
-    // Uncomment below to see HTTP responses
-//    char c;
-//    delay(1000);
-//    while(client.connected() && !client.available()) delay(1); 
-//    while (client.available()) {
-//      c = client.read();
-//      Serial.print(c);
-//    }
-//    client.stop();
-//    client.flush();
-    
+    // Display HTTP responses
+    char c;
+    delay(1000);
+    while(client.connected() && !client.available()) delay(1); 
+    while (client.available()) {
+      c = client.read();
+      Serial.print(c);
+    }
     client.stop();
+    client.flush();
   }
 }
