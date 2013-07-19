@@ -189,6 +189,7 @@ app.get('/api/status', (req, res) ->
 	for floor, index in config.floors
 		floorArray = []
 		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
+			console.log(event)
 			if err?
 				res.statusCode = 400
 				return res.send("Error")
@@ -197,6 +198,7 @@ app.get('/api/status', (req, res) ->
 		)
 
 		Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
+			console.log(event)
 			if err?
 				res.statusCode = 400
 				return res.send("Error")
