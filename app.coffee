@@ -154,12 +154,15 @@ app.post('/api/event', (req, res) ->
 					if err?
 						return false
 
+					console.log("que "+ que)
+
 					for person in que
 						mailto.push("<#{person.contact}>")
 
 					mailOptions.to = mailto.join(",")
 					mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
+					console.log("mailOptions " + mailOptions)
 					if mailto.length > 1
 						mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
 
@@ -203,7 +206,6 @@ app.get('/api/status', (req, res) ->
 	for floor, index in config.floors
 		floorArray = []
 		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
-			console.log(event)
 			if err?
 				res.statusCode = 400
 				return res.send("Error")
