@@ -26,7 +26,7 @@ html
           b Go!
         h2 go
     .badge-wrapper(ng-repeat="floor in floorsArray")
-      div(ng-class="{{floor[0].floor}}-floor-badges")
+      div(class="floor-badges")
         .badge.twoa.vacant(ng-show="floor[0].status==0")
           .twoa-vacant Vacant
         .badge.twoa.occupied(ng-hide="floor[0].status==0")
