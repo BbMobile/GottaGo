@@ -85,46 +85,6 @@ app.get('/', routes.index);
 
 app.get('/partials/:name', routes.partials);
 
-app.get('/api/mail', function(req, res) {
-  var mailOptions, mailto;
-
-  mailOptions = {
-    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>",
-    to: "",
-    subject: "A Bathroom on the 2nd is available!!",
-    text: "A Bathroom on the 2nd is available!! "
-  };
-  mailto = [];
-  console.log(req, res);
-  Que.find({
-    'floor': 2,
-    'status': 1
-  }, {}, {
-    sort: {
-      'time': -1
-    }
-  }).exec(function(err, que) {
-    var person, _i, _len;
-
-    if (err != null) {
-      return false;
-    }
-    console.log(que);
-    for (_i = 0, _len = que.length; _i < _len; _i++) {
-      person = que[_i];
-      mailto.push("<" + person.contact + ">");
-    }
-    mailOptions.to = mailto.join(",");
-    mailOptions.text = "A Bathroom on the 2nd is available!! \n ";
-    if (mailto.length > 1) {
-      mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
-    }
-    return mail(mailOptions, function(err) {});
-  });
-  res.statusCode = 200;
-  return res.send(statusArray);
-});
-
 app.post('/api/event', function(req, res) {
   var event, mailOptions, mailto, params;
 

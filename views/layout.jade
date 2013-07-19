@@ -37,12 +37,12 @@ html
           .twob-occupied Occupied
       .badge-title.twoa-title
         h3 {{getRoomNames(floor[0].floor,floor[0].room)}}
-        timer(interval="1000").timestamp
+        timer(interval="1000", start-time="floor[0].time").timestamp
           span.hours {{hours|double}}:
           | {{minutes|double}}:{{seconds|double}}
       .badge-title.twob-title
         h3 {{getRoomNames(floor[1].floor,floor[1].room)}}
-        timer(interval="1000").timestamp
+        timer(interval="1000", start-time="floor[1].time").timestamp
           span.hours {{hours|double}}:
           | {{minutes|double}}:{{seconds|double}}
       .notify(ng-show="floor[0].status==1&&floor[1].status==1")

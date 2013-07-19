@@ -85,39 +85,6 @@ models.defineModels(mongoose, ->
 app.get('/', routes.index)
 app.get('/partials/:name', routes.partials)
 
-app.get('/api/mail', (req, res) ->
-	# setup e-mail data with unicode symbols
-	mailOptions = {
-	    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>", # sender address
-	    to: "", # list of receivers
-	    subject: "A Bathroom on the 2nd is available!!", # Subject line
-	    text: "A Bathroom on the 2nd is available!! " # plaintext body
-	    # html: "<b>Hello world ✔</b>" # html body
-	}
-	mailto = []
-
-	console.log(req, res)
-
-	Que.find({'floor' : 2, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
-		if err?
-			return false
-		console.log(que)
-		for person in que
-			mailto.push("<#{person.contact}>")
-
-		mailOptions.to = mailto.join(",")
-		mailOptions.text = "A Bathroom on the 2nd is available!! \n " # plaintext body
-
-		if mailto.length > 1
-			mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
-
-		mail(mailOptions, (err) ->
-
-		)
-	)
-	res.statusCode = 200
-	res.send( statusArray )
-)
 
 # Private API
 app.post('/api/event', (req, res) ->
