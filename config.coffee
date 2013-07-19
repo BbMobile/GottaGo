@@ -19,6 +19,3 @@ if currentEnv not in ['production', 'staging']
   exports.server.ip = '0.0.0.0'
 exports.db =
   URL: "mongodb://localhost:27017/#{exports.appName.toLowerCase()}_#{currentEnv}"
-
-
-
