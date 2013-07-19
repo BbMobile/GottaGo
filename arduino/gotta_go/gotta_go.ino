@@ -1,176 +1,118 @@
 #include <SPI.h>
 #include <Ethernet.h>
 
-// Local Network Settings
-byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x99, 0x09 }; // Must be unique on local network
+// This Arduino's floor level
+int level = 2;
 
+// Room identifiers
+char room_a = 'a';
+char room_b = 'b';
 
-// Variable Setup
+// This Arduino's unique MAC
+byte mac[] = { 0x90, 0xA2, 0xDA, 0x0E, 0x99, 0x09 };
+
+// Door lock switch pins
+int room_a_switch_pin = 8;
+int room_b_switch_pin = 9;
+ 
+// Wall indicator LED pins
+int room_a_led_pin = 5;
+int room_b_led_pin = 6;
+
+// Last switch readings (potentially spurious, used for debouncing)
+boolean room_a_last_reading = HIGH;
+boolean room_b_last_reading = HIGH;
+
+// Last switch readings after debouncing
+int room_a_last_stable_reading = HIGH;
+int room_b_last_stable_reading = HIGH;
+
+// Debounce delays to filter out switch noise
+// http://arduino.cc/en/Tutorial/Debounce
+long debounce_delay = 50;
+long room_a_last_debounce = 0;
+long room_b_last_debounce = 0;
+
+// Ethernet client
+EthernetClient client;
+
 long lastConnectionTime = 0; 
 boolean lastConnected = false;
 int failedCounter = 0;
 
-// Initialize Arduino Ethernet Client
-EthernetClient client;
-
-
-// ThingSpeak Settings
-char thingSpeakAddress[] = "api.thingspeak.com";
-String bathroomPostAPIKey = "7568KTGD1GFQN1DF";
-//String bathroomPostAPIKey = "OUW598TV1ONCNK8A8";
+// Server host to POST occupancy changes to
+char serverHost[] = "gottago.medu.com";
+char serverPath[] = "/api/event";
  
-bathroom = {
-  avail: 0,
-  locked: 1
-}
-
-
-int bathroomALed = 12;
-int bathroomBLed = 13;
-
-int sensorA = A0;
-int sensorB = A1;
-
-
-void setup() {
-  // initialize serial communication:
-  Serial.begin(9600);  
+void setup()
+{
+  Serial.begin(9600);
   
-  pinMode(bathroomALed, OUTPUT);   
-  pinMode(bathroomBLed, OUTPUT);   
-
+  // Switch pins are inputs using the built-in pull-up resistors
+  pinMode(room_a_switch_pin, INPUT_PULLUP);
+  pinMode(room_b_switch_pin, INPUT_PULLUP);
   
-   // Start Ethernet on Arduino
+  // LED pins are outputs
+  pinMode(room_a_led_pin, OUTPUT);
+  pinMode(room_b_led_pin, OUTPUT);
+  
+  // Light both LEDs until Ethernet is setup
+  digitalWrite(room_a_led_pin, HIGH);
+  digitalWrite(room_b_led_pin, HIGH);
+  
+  // Setup Ethernet connection
   startEthernet();
-  
   delay(1000);
-  
 }
-
-void loop() {
-  // read the sensor:
-  int sensorA_Reading = analogRead(sensorA);
-  if(sensorA_Reading > 0){
-    Serial.println("A Open");
-    digitalWrite(bathroomALed, LOW);    // turn the LED off by making the voltage LOW
-    updateBathroomStatus({
-      GGFloor: 2,
-      GGRoom: "a",
-      GGStatus: bathroom.locked
-    });
-  }else  {
-    Serial.println("A Lock");
-    digitalWrite(bathroomALed, HIGH);   // turn the LED on (HIGH is the voltage level)
-    updateBathroomStatus({
-      GGFloor: 2,
-      GGRoom: "a",
-      GGStatus: bathroom.avail
-    });
-  }
-  
-  int sensorB_Reading = analogRead(sensorB);
-      Serial.println(sensorB_Reading);
-
-  if(sensorB_Reading > 0){
-    Serial.println("B Open");
-    digitalWrite(bathroomBLed, LOW);    // turn the LED off by making the voltage LOW
-    updateBathroomStatus({
-      GGFloor: 2,
-      GGRoom: "b",
-      GGStatus: bathroom.locked
-    });
-  }else  {
-    Serial.println("B Lock");
-    digitalWrite(bathroomBLed, HIGH);   // turn the LED on (HIGH is the voltage level)
-    updateBathroomStatus({
-      GGFloor: 2,
-      GGRoom: "b",
-      GGStatus: bathroom.avail
-    });
-  }
-  
-  
-  
-    
-  // Print Update Response to Serial Monitor
-  if (client.available())
+ 
+void loop()
+{
+  // Record inital room A input
+  int room_a_reading = digitalRead(room_a_switch_pin);
+  if (room_a_reading != room_a_last_reading)
   {
-    char c = client.read();
-    Serial.print(c);
+    room_a_last_debounce = millis();
   }
   
-  // Disconnect from ThingSpeak
-  if (!client.connected() && lastConnected)
+  // Record inital room B input
+  int room_b_reading = digitalRead(room_b_switch_pin);
+  if (room_b_reading != room_b_last_reading)
   {
-    Serial.println("...disconnected");
-    Serial.println();
-    
-    client.stop();
+    room_b_last_debounce = millis();
   }
-    
-  // Check if Arduino Ethernet needs to be restarted
-  if (failedCounter > 3 ) {startEthernet();}
   
-  lastConnected = client.connected();
+  // Update the indicator lights
+  digitalWrite(room_a_led_pin, !room_a_reading);
+  digitalWrite(room_b_led_pin, !room_b_reading);
   
-  
-  
-  delay(1);        // delay in between reads for stability
-}
-
-
-
-void updateBathroomStatus( bathroomObj ) {
-  if (client.connect(thingSpeakAddress, 80))
-  { 
-    // Create HTTP POST Data
-    var data = "api_key="+bathroomPostAPIKey+"&floor="+bathroomObj.GGFloor+"&room="+bathroomObj.GGRoom+"&status="+bathroomObj.GGStatus;
-    
-    // /apps/thinghttp/send_request?api_key=7568KTGD1GFQN1DF
-    client.print("POST /apps/thinghttp/send_request HTTP/1.1\n");
-    client.print("Host: api.thingspeak.com\n");
-    client.print("Connection: close\n");
-    client.print("Content-Type: application/x-www-form-urlencoded\n");
-    client.print("Content-Length: ");
-    client.print(data.length());
-    client.print("\n\n");
-
-    client.print(data);
-    
-    lastConnectionTime = millis();
-    
-    if (client.connected())
+  // Debounce room A switch
+  if ((millis() - room_a_last_debounce) > debounce_delay)
+  {
+    if (room_a_reading != room_a_last_stable_reading)
     {
-      Serial.println("Connecting to ThingSpeak...");
-      Serial.println();
-      
-      failedCounter = 0;
+      notify(level, room_a, (room_a_reading) ? false : true);
+      room_a_last_stable_reading = room_a_reading;
     }
-    else
-    {
-      failedCounter++;
+  }
+  room_a_last_reading = room_a_reading;
   
-      Serial.println("Connection to ThingSpeak failed ("+String(failedCounter, DEC)+")");   
-      Serial.println();
-    }
-    
-  }
-  else
+  // Debounce room B switch
+  if ((millis() - room_b_last_debounce) > debounce_delay)
   {
-    failedCounter++;
-    
-    Serial.println("Connection to ThingSpeak Failed ("+String(failedCounter, DEC)+")");   
-    Serial.println();
-    
-    lastConnectionTime = millis(); 
+    if (room_b_reading != room_b_last_stable_reading)
+    {
+      notify(level, room_b, (room_b_reading) ? false : true);
+      room_b_last_stable_reading = room_b_reading;
+    }
   }
+  room_b_last_reading = room_b_reading;
 }
 
-void startEthernet() {
-  
+void startEthernet()
+{
   client.stop();
 
-  Serial.println("Connecting Arduino to network...");
+  Serial.println("Waiting for DHCP...");
   Serial.println();  
 
   delay(1000);
@@ -179,13 +121,41 @@ void startEthernet() {
   if (Ethernet.begin(mac) == 0)
   {
     Serial.println("DHCP Failed, reset Arduino to try again");
-    Serial.println();
   }
   else
   {
     Serial.println("Arduino connected to network using DHCP");
-    Serial.println();
   }
   
   delay(1000);
+}
+
+void notify(int level, char room, boolean occupied)
+{
+  if (client.connect(serverHost, 80))
+  {
+    String data = "floor=" + String(level, DEC) + "&room=" + String(room) + "&status=" + String(occupied, DEC);
+    Serial.println("Making HTTP request: " + data);
+    client.print("POST " + String(serverPath) + " HTTP/1.1\n");
+    client.print("Host: " + String(serverHost) + "\n");
+    client.print("Connection: close\n");
+    client.print("Content-Type: application/x-www-form-urlencoded\n");
+    client.print("Content-Length: ");
+    client.print(data.length());
+    client.print("\n\n");
+    client.print(data);
+    
+    // Uncomment below to see HTTP responses
+//    char c;
+//    delay(1000);
+//    while(client.connected() && !client.available()) delay(1); 
+//    while (client.available()) {
+//      c = client.read();
+//      Serial.print(c);
+//    }
+//    client.stop();
+//    client.flush();
+    
+    client.stop();
+  }
 }
