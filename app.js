@@ -142,6 +142,8 @@ app.post('/api/event', function(req, res) {
     'status': params.status
   });
   return event.save(function(err) {
+    var allQue;
+
     if (err != null) {
       res.statusCode = 400;
       return res.send("Error");
@@ -151,14 +153,15 @@ app.post('/api/event', function(req, res) {
       console.log("1event.status " + (parseInt(event.status) === 0 || event.status === "0"));
       if (parseInt(event.status) === 0 || event.status === "0") {
         console.log("2event.status " + event.status);
-        return Que.find({
+        allQue = Que.find({
           'floor': event.floor,
           'status': 1
         }, {}, {
           sort: {
             'time': -1
           }
-        }).exec(function(err, que) {
+        });
+        allQue.exec(function(err, que) {
           var person, _i, _len;
 
           if (err != null) {
@@ -177,7 +180,8 @@ app.post('/api/event', function(req, res) {
             mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
           }
           return mail(mailOptions, function(err) {});
-        }).remove();
+        });
+        return allQue.remove();
       }
     }
   });
