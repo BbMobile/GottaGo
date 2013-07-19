@@ -71,7 +71,7 @@ app.configure('production', ->
 models.defineModels(mongoose, ->
 	app.Event = Event = mongoose.model('Event')
 	app.Que = Que = mongoose.model('Que')
-  db = mongoose.connect(app.set('db-uri'))
+	db = mongoose.connect(app.set('db-uri'))
 )
 
 
@@ -171,7 +171,7 @@ app.post('/api/que/:floor', (req, res) ->
 
 
 # redirect all others to the index (HTML5 history)
-app.get('*', routes.index)
+app.get('(!public)*', routes.index)
 
 
 

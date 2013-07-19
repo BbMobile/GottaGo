@@ -70,9 +70,10 @@ app.configure('production', function() {
 });
 
 models.defineModels(mongoose, function() {
-  var db;
+  var Que, db;
 
   app.Event = Event = mongoose.model('Event');
+  app.Que = Que = mongoose.model('Que');
   return db = mongoose.connect(app.set('db-uri'));
 });
 
@@ -147,16 +148,45 @@ app.get('/api/status', function(req, res) {
 });
 
 app.get('/api/que/:floor', function(req, res) {
-  if (1) {
-    res.statusCode = 400;
-    return res.send("Error");
-  } else {
+  return Que.findOne({
+    'floor': req.params.floor,
+    'status': 1
+  }, {}, {
+    sort: {
+      'time': -1
+    }
+  }).exec(function(err, que) {
+    if (err != null) {
+      res.statusCode = 400;
+      return res.send("Error");
+    }
     res.statusCode = 200;
-    return res.send("OK");
-  }
+    return res.send(que);
+  });
 });
 
-app.get('*', routes.index);
+app.post('/api/que/:floor', function(req, res) {
+  var floor, params, que;
+
+  params = req.body;
+  floor = req.params.floor;
+  que = new Que({
+    'floor': floor,
+    'status': 1,
+    'contact': params.email || params.phone
+  });
+  return que.save(function(err) {
+    if (err != null) {
+      res.statusCode = 400;
+      return res.send("Error");
+    } else {
+      res.statusCode = 200;
+      return res.send("OK");
+    }
+  });
+});
+
+app.get('(!public)*', routes.index);
 
 http.createServer(app).listen(app.get('port'), function() {
   return console.log("Express server listening on port " + app.get('port'));
