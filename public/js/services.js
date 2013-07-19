@@ -11,3 +11,21 @@ services.factory("Status", function($http) {
     url: "/api/status"
   });
 });
+
+services.factory("Que", function($http) {
+  return {
+    'get': function(floor) {
+      return $http({
+        method: "GET",
+        url: "/api/que/" + floor
+      });
+    },
+    'post': function(floor, data) {
+      return $http({
+        method: "POST",
+        url: "/api/que/" + floor,
+        data: data
+      });
+    }
+  };
+});

@@ -12,6 +12,7 @@ config = require('./config')
 app = express()
 
 Event = null
+Que = null
 
 
 app.configure( ->
@@ -137,7 +138,7 @@ app.get('/api/status', (req, res) ->
 )
 
 app.get('/api/que/:floor', (req, res) ->
-	Que.findOne({'floor' : req.params.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+	Que.find({'floor' : req.params.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 		if err?
 			res.statusCode = 400
 			return res.send("Error")
@@ -155,7 +156,7 @@ app.post('/api/que/:floor', (req, res) ->
 		{
 			'floor': floor
 			'status': 1
-			'contact': params.email || params.phone
+			'contact': params.contact
 		}
 	)
 
