@@ -85,6 +85,34 @@ app.get('/', routes.index);
 
 app.get('/partials/:name', routes.partials);
 
+app.get('/api/mail', function(req, res) {
+  return Que.find({
+    'floor': event.floor,
+    'status': 1
+  }, {}, {
+    sort: {
+      'time': -1
+    }
+  }).exec(function(err, que) {
+    var person, _i, _len;
+
+    if (err != null) {
+      return false;
+    }
+    console.log(que);
+    for (_i = 0, _len = que.length; _i < _len; _i++) {
+      person = que[_i];
+      mailto.push("<" + person.contact + ">");
+    }
+    mailOptions.to = mailto.join(",");
+    mailOption.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
+    if (mailto.length > 1) {
+      mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
+    }
+    return mail(mailOptions, function(err) {});
+  });
+});
+
 app.post('/api/event', function(req, res) {
   var event, mailOptions, mailto, params;
 

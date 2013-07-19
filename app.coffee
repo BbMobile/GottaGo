@@ -85,6 +85,26 @@ models.defineModels(mongoose, ->
 app.get('/', routes.index)
 app.get('/partials/:name', routes.partials)
 
+app.get('/api/mail', (req, res) ->
+	Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+		if err?
+			return false
+		console.log(que)
+		for person in que
+			mailto.push("<#{person.contact}>")
+
+		mailOptions.to = mailto.join(",")
+		mailOption.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
+
+		if mailto.length > 1
+			mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
+
+		mail(mailOptions, (err) ->
+
+		)
+	)
+)
+
 # Private API
 app.post('/api/event', (req, res) ->
 	params = req.body
