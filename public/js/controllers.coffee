@@ -45,6 +45,9 @@ angular.module('gottaGo.controllers', ['ngResource'])
       for room, roomIndex in floor
         if room.time isnt newData[floorIndex][roomIndex].time
           $scope.floorsArray = newData
+
+          #Wilkl not work with multi floors
+          $scope.notify[2] = ''
           return
 
 

@@ -50,6 +50,7 @@
         room = floor[roomIndex];
         if (room.time !== newData[floorIndex][roomIndex].time) {
           $scope.floorsArray = newData;
+          $scope.notify[2] = '';
           return;
         }
       }
