@@ -91,8 +91,8 @@ app.get('/api/mail', function(req, res) {
   mailOptions = {
     from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>",
     to: "",
-    subject: "A Bathroom on the " + params.floor + "nd is available!!",
-    text: "A Bathroom on the " + params.floor + "nd is available!! "
+    subject: "A Bathroom on the 2nd is available!!",
+    text: "A Bathroom on the 2nd is available!! "
   };
   mailto = [];
   console.log(req, res);
@@ -115,7 +115,7 @@ app.get('/api/mail', function(req, res) {
       mailto.push("<" + person.contact + ">");
     }
     mailOptions.to = mailto.join(",");
-    mailOption.text = "A Bathroom on the " + 2 + "nd is available!! \n ";
+    mailOption.text = "A Bathroom on the 2nd is available!! \n ";
     if (mailto.length > 1) {
       mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
     }

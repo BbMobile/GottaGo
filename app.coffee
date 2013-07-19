@@ -90,8 +90,8 @@ app.get('/api/mail', (req, res) ->
 	mailOptions = {
 	    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>", # sender address
 	    to: "", # list of receivers
-	    subject: "A Bathroom on the #{params.floor}nd is available!!", # Subject line
-	    text: "A Bathroom on the #{params.floor}nd is available!! " # plaintext body
+	    subject: "A Bathroom on the 2nd is available!!", # Subject line
+	    text: "A Bathroom on the 2nd is available!! " # plaintext body
 	    # html: "<b>Hello world ✔</b>" # html body
 	}
 	mailto = []
@@ -106,7 +106,7 @@ app.get('/api/mail', (req, res) ->
 			mailto.push("<#{person.contact}>")
 
 		mailOptions.to = mailto.join(",")
-		mailOption.text = "A Bathroom on the #{2}nd is available!! \n " # plaintext body
+		mailOption.text = "A Bathroom on the 2nd is available!! \n " # plaintext body
 
 		if mailto.length > 1
 			mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
