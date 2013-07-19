@@ -22,15 +22,30 @@ angular.module('gottaGo.controllers', ['ngResource'])
         $scope.que.push(response.length)
       )
 
+  Status.get().success((response) ->
+    isDifferent(response)
+
+    getQue()
+  )
+
   setInterval( ->
     Status.get().success((response) ->
-      $scope.floorsArray = response
+      isDifferent(response)
 
       getQue()
-
     )
-  , 2000)
+  , 4000)
 
+  isDifferent = (newData) ->
+    if $scope.floorsArray.length is 0
+      $scope.floorsArray = newData
+      return
+
+    for floor, floorIndex in $scope.floorsArray
+      for room, roomIndex in floor
+        if room.time isnt newData[floorIndex][roomIndex].time
+          $scope.floorsArray = newData
+          return
 
 
   $scope.addToQue = (floor, contact) ->

@@ -54,13 +54,13 @@ html
           | Notify Me
         input(ng-model="notifyContact", ng-show="notify[floor[0].floor]=='input'")
         submit(ng-click="addToQue(floor[0].floor, notifyContact)", ng-show="notify[floor[0].floor]=='input'")
-          | Add Que
-        div(ng-show="notify[floor[0].floor]=='qued'") You are in the que!
+          | Add Queue
+        div(ng-show="notify[floor[0].floor]=='qued'") You are in the queue!
         .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[$index]}} humans in the queue)
         .queue(ng-show="notify[floor[0].floor]=='qued'") ({{que[$index]-1}} OTHER humans in the queue)
     .about-wrapper
       .about
-        h2 Just think of how much time we've saved you?
+        h2 Just think of how much time we've saved you!
         .avatar.joe
         .avatar.eric
         .avatar.collin

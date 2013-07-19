@@ -35,6 +35,6 @@ config( ($routeProvider, $locationProvider, $httpProvider) ->
   )
 )
 .value("roomNames", {
-  '2a':'Finckle'
+  '2a':'Finkle'
   '2b':'Einhorn'
 })
