@@ -177,14 +177,18 @@ app.post('/api/que/:floor', function(req, res) {
     'status': 1,
     'contact': params.contact
   });
-  return que.save(function(err) {
-    if (err != null) {
-      res.statusCode = 400;
-      return res.send("Error");
-    } else {
-      res.statusCode = 200;
-      return res.send("OK");
-    }
+  return que.validate(function(validationErr) {
+    return que.save(function(err) {
+      if (err != null) {
+        res.statusCode = 400;
+        return res.send({
+          message: "Invalid Email"
+        });
+      } else {
+        res.statusCode = 200;
+        return res.send("OK");
+      }
+    });
   });
 });
 

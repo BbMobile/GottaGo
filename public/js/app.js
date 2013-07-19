@@ -12,7 +12,7 @@
         var _ref;
 
         if (((_ref = response.data) != null ? _ref.message : void 0) != null) {
-          $rootScope.error = response.data.message;
+          $rootScope.error = response.message;
         } else {
           $rootScope.error = "Sorry there is a problem, please try again later.";
         }

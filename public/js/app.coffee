@@ -26,7 +26,7 @@ config( ($routeProvider, $locationProvider, $httpProvider) ->
           #error -> if 401 save the request and broadcast an event
           (response) ->
             if response.data?.message?
-              $rootScope.error = response.data.message
+              $rootScope.error = response.message
             else
               $rootScope.error = "Sorry there is a problem, please try again later."
 

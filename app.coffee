@@ -160,14 +160,17 @@ app.post('/api/que/:floor', (req, res) ->
 		}
 	)
 
-	que.save( (err) ->
-		if err?
-			res.statusCode = 400
-			res.send("Error")
-		else
-			res.statusCode = 200
-			res.send("OK")
+	que.validate( (validationErr) ->
+		que.save( (err) ->
+			if err?
+				res.statusCode = 400
+				res.send({message:"Invalid Email"})
+			else
+				res.statusCode = 200
+				res.send("OK")
+		)
 	)
+
 )
 
 
