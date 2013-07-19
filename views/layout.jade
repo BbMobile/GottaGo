@@ -1,83 +1,50 @@
-!!!
-html(ng-app="myApp")
+!!! 5
+html
   head
-    meta(charset='utf8')
-    base(href='/')
-    title Angular Express Seed App
-    link(rel='stylesheet', href='/css/app.css')
+    title Gotta Go
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no')
+    link(rel='stylesheet', type='text/css', href='css/reset.css')
+    link(rel='stylesheet', type='text/css', href='css/fonts.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+    link(rel='stylesheet', type='text/css', href='css/responsive.css')
+    script(type='text/javascript', src='//use.typekit.net/ytv8cko.js')
+    script(type='text/javascript')
+      try{Typekit.load();}catch(e){}
   body
-    block body
-
-    <!DOCTYPE html>
-<html>
-<head>
-	<title>Gotta Go</title>
-
-	<!-- Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
-	<!-- Stylesheets -->
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/fonts.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/responsive.css">
-
-	<!-- JS -->
-
-	<!-- Typekit -->
-	<script type="text/javascript" src="//use.typekit.net/ytv8cko.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
-</head>
-<body>
-	<div class="topbar-wrapper">
-		<div class="topbar">
-			<h1>Gotta<b>Go!</b></h1>
-			<h2>go</h2>
-		</div>
-	</div>
-	<div class="badge-wrapper">
-		<div class="second-floor-badges">
-			<div class="badge twoa vacant">
-				<div class="twoa-vacant">Vacant</div>
-				<!-- <div class="2b-vacant">Occupied</div> -->
-			</div>
-			<div class="badge twob occupied">
-				<!-- <div class="twoa-vacant">Vacant</div> -->
-				<div class="twob-occupied">Occupied</div>
-			</div>
-		</div>
-		<div class="badge-title twoa-title">
-			<h3>Stinky Repo</h3>
-			<div class="timestamp">
-				<span class="hours">00:</span>00:00
-			</div>
-		</div>
-		<div class="badge-title twob-title">
-			<h3>The Holy Commode</h3>
-			<div class="timestamp">
-				<span class="hours">00:</span>00:00
-			</div>
-		</div>
-		<div class="notify">
-			<div class="thronesblurb">
-				<strong>Both thrones are occupied!</strong><br /> 
-				We can let you know when they're vacant.
-			</div>
-			<a href="#" class="notify-button">Notify Me</a>
-			<div class="queue">(4 humans in the queue)</div>
-		</div>
-	</div> <!-- End .badge-wrapper -->
-	<div class="about-wrapper">
-		<div class="about">
-			<h2>Just think of how much time we've saved you?</h2>
-			<div class="avatar joe"></div>
-			<div class="avatar eric"></div>
-			<div class="avatar collin"></div>
-		</div>
-	</div>
-	<div class="doors-wrapper">
-		<div class="doors"></div>
-	</div>
-</body>
-</html>
+    .topbar-wrapper
+      .topbar
+        h1
+          | Gotta
+          b Go!
+        h2 go
+    .badge-wrapper
+      .second-floor-badges
+        .badge.twoa.vacant
+          .twoa-vacant Vacant
+        .badge.twob.occupied
+          .twob-occupied Occupied
+      .badge-title.twoa-title
+        h3 Stinky Repo
+        .timestamp
+          span.hours 00:
+          | 00:00
+      .badge-title.twob-title
+        h3 The Holy Commode
+        .timestamp
+          span.hours 00:
+          | 00:00
+      .notify
+        .thronesblurb
+          strong Both thrones are occupied!
+          br
+          | We can let you know when they're vacant.
+        a.notify-button(href='#') Notify Me
+        .queue (4 humans in the queue)
+    .about-wrapper
+      .about
+        h2 Just think of how much time we've saved you?
+        .avatar.joe
+        .avatar.eric
+        .avatar.collin
+    .doors-wrapper
+      .doors
