@@ -170,7 +170,7 @@ app.post('/api/event', (req, res) ->
 
 					console.log("mailOptions " + mailOptions)
 					if mailto.length > 1
-						mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
+						mailOptions.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
 
 					mail(mailOptions, (err) ->
 

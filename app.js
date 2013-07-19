@@ -175,7 +175,7 @@ app.post('/api/event', function(req, res) {
           mailOptions.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
           console.log("mailOptions " + mailOptions);
           if (mailto.length > 1) {
-            mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
+            mailOptions.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
           }
           return mail(mailOptions, function(err) {});
         });
