@@ -148,10 +148,8 @@ app.post('/api/event', function(req, res) {
     } else {
       res.statusCode = 200;
       res.send("OK");
-      console.log("1event.status " + (parseInt(event.status) === 0 || event.status === "0"));
       if (parseInt(event.status) === 0 || event.status === "0") {
-        console.log("2event.status " + event.status);
-        Que.find({
+        return Que.find({
           'floor': event.floor
         }, {}, {
           sort: {
@@ -161,7 +159,6 @@ app.post('/api/event', function(req, res) {
           var person, _i, _len;
 
           if (err != null) {
-            console.log("err " + err);
             return false;
           }
           console.log("que " + que);
@@ -175,9 +172,9 @@ app.post('/api/event', function(req, res) {
           if (mailto.length > 1) {
             mailOptions.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
           }
-          return mail(mailOptions, function(err) {});
+          mail(mailOptions, function(err) {});
+          return Que.find().remove();
         });
-        return Que.find().remove();
       }
     }
   });

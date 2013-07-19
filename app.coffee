@@ -148,15 +148,12 @@ app.post('/api/event', (req, res) ->
 			res.statusCode = 200
 			res.send("OK")
 
-			console.log("1event.status "+ (parseInt(event.status) is 0 or event.status is "0"))
 
 			# Unlocked is 0
 			if parseInt(event.status) is 0 or event.status is "0"
-				console.log("2event.status "+ event.status)
 
 				Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 					if err?
-						console.log("err "+ err)
 
 						return false
 
@@ -175,9 +172,10 @@ app.post('/api/event', (req, res) ->
 					mail(mailOptions, (err) ->
 
 					)
+
+					Que.find().remove()
 				)
 
-				Que.find().remove()
 	)
 
 
