@@ -88,7 +88,7 @@ app.get('/partials/:name', routes.partials)
 app.get('/api/mail', (req, res) ->
 	console.log(req, res)
 
-	Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+	Que.find({'floor' : 2, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 		if err?
 			return false
 		console.log(que)
@@ -96,7 +96,7 @@ app.get('/api/mail', (req, res) ->
 			mailto.push("<#{person.contact}>")
 
 		mailOptions.to = mailto.join(",")
-		mailOption.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
+		mailOption.text = "A Bathroom on the #{2}nd is available!! \n " # plaintext body
 
 		if mailto.length > 1
 			mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
