@@ -108,7 +108,7 @@ app.post('/api/event', (req, res) ->
 app.get('/api/status', (req, res) ->
 	statusArray = []
 
-	for floor in config.floors
+	for floor, index in config.floors
 		floorArray = []
 		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
 			if err?
@@ -124,16 +124,19 @@ app.get('/api/status', (req, res) ->
 				return res.send("Error")
 
 			floorArray.push( event )
+			statusArray.push( floorArray )
+
+			if index is config.floors.length
+				res.statusCode = 200
+				res.send( statusArray )
 		)
 
-		statusArray.push(floorArray)
 
-	res.statusCode = 200
-	res.send( statusArray )
+
 )
 
 app.get('/api/que/:floor', (req, res) ->
-	if err?
+	if 1
 		res.statusCode = 400
 		res.send("Error")
 	else
