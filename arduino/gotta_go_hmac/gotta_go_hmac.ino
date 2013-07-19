@@ -134,7 +134,7 @@ void updateBathroomStatus( bathroomObj ) {
     Sha256.initHmac(hmacKey4,20);
     Sha256.print(data);
 
-    var hash = Sha256.resultHmac()
+    var hash = "hash="+Sha256.resultHmac();
     
     // /apps/thinghttp/send_request?api_key=7568KTGD1GFQN1DF
     client.print("POST /apps/thinghttp/send_request HTTP/1.1\n");

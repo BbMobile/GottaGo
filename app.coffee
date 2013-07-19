@@ -105,6 +105,41 @@ app.post('/api/event', (req, res) ->
 
 # Angular API
 # app.get('/api/name', api.name)
+app.get('/api/status', (req, res) ->
+	statusArray = []
+
+	for floor in config.floors
+		floorArray = []
+		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
+			if err?
+				res.statusCode = 400
+				return res.send("Error")
+
+			floorArray.push( event )
+		)
+
+		Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
+			if err?
+				res.statusCode = 400
+				return res.send("Error")
+
+			floorArray.push( event )
+		)
+
+		statusArray.push(floorArray)
+
+	res.statusCode = 200
+	res.send( statusArray )
+)
+
+app.get('/api/que/:floor', (req, res) ->
+	if err?
+		res.statusCode = 400
+		res.send("Error")
+	else
+		res.statusCode = 200
+		res.send("OK")
+)
 
 
 # redirect all others to the index (HTML5 history)

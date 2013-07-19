@@ -100,6 +100,58 @@ app.post('/api/event', function(req, res) {
   });
 });
 
+app.get('/api/status', function(req, res) {
+  var floor, floorArray, statusArray, _i, _len, _ref;
+
+  statusArray = [];
+  _ref = config.floors;
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    floor = _ref[_i];
+    floorArray = [];
+    Event.findOne({
+      'floor': floor,
+      'room': 'a'
+    }, {}, {
+      sort: {
+        'time': -1
+      }
+    }).exec(function(err, event) {
+      if (err != null) {
+        res.statusCode = 400;
+        return res.send("Error");
+      }
+      return floorArray.push(event);
+    });
+    Event.findOne({
+      'floor': floor,
+      'room': 'b'
+    }, {}, {
+      sort: {
+        'time': -1
+      }
+    }).exec(function(err, event) {
+      if (err != null) {
+        res.statusCode = 400;
+        return res.send("Error");
+      }
+      return floorArray.push(event);
+    });
+    statusArray.push(floorArray);
+  }
+  res.statusCode = 200;
+  return res.send(statusArray);
+});
+
+app.get('/api/que/:floor', function(req, res) {
+  if (typeof err !== "undefined" && err !== null) {
+    res.statusCode = 400;
+    return res.send("Error");
+  } else {
+    res.statusCode = 200;
+    return res.send("OK");
+  }
+});
+
 app.get('*', routes.index);
 
 http.createServer(app).listen(app.get('port'), function() {
