@@ -126,12 +126,32 @@ app.post('/api/event', function(req, res) {
           for (_i = 0, _len = que.length; _i < _len; _i++) {
             person = que[_i];
             mailOptions.to = person.contact;
-            _results.push(mail(mailOptions));
+            _results.push(mail(mailOptions, function(err) {}));
           }
           return _results;
         }).remove();
       }
     }
+  });
+});
+
+app.get('/api/mail', function(req, res) {
+  var mailOptions;
+
+  mailOptions = {
+    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>",
+    to: "Joe Taylor <iamjoetaylor@gmail.com>",
+    subject: "Hello ✔",
+    text: "Hello world ✔",
+    html: "<b>Hello world ✔</b>"
+  };
+  return mail(mailOptions, function(err) {
+    if (err != null) {
+      res.statusCode = 400;
+      return res.send(err);
+    }
+    res.statusCode = 200;
+    return res.send("ok");
   });
 });
 
@@ -144,12 +164,14 @@ smtpTransport = nodemailer.createTransport("SMTP", {
   host: "mail1.medu.com"
 });
 
-mail = function(mailOptions) {
+mail = function(mailOptions, callback) {
   return smtpTransport.sendMail(mailOptions, function(error, response) {
     if (error) {
       console.log(error);
+      callback(error);
     } else {
       console.log("Message sent: " + response.message);
+      callback();
     }
     return smtpTransport.close();
   });

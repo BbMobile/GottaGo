@@ -121,12 +121,33 @@ app.post('/api/event', (req, res) ->
 
 					for person in que
 						mailOptions.to = person.contact
-						mail(mailOptions)
+						mail(mailOptions, (err) ->
+
+						)
 
 				).remove()
 	)
 
 
+)
+
+app.get('/api/mail', (req, res) ->
+	mailOptions = {
+	    from: "So You Gotta Go ✔ <soYouGottaGo@gottaGo.medu.com>", # sender address
+	    to: "Joe Taylor <iamjoetaylor@gmail.com>", # list of receivers
+	    subject: "Hello ✔", # Subject line
+	    text: "Hello world ✔", # plaintext body
+	    html: "<b>Hello world ✔</b>" # html body
+	}
+
+	mail(mailOptions, (err) ->
+		if err?
+			res.statusCode = 400
+			return res.send(err)
+
+		res.statusCode = 200
+		res.send("ok")
+	)
 )
 
 # create reusable transport method (opens pool of SMTP connections)
@@ -140,14 +161,16 @@ smtpTransport = nodemailer.createTransport("SMTP",{
 })
 
 
-mail = (mailOptions) ->
+mail = (mailOptions, callback) ->
 
 	# send mail with defined transport object
 	smtpTransport.sendMail(mailOptions, (error, response) ->
     if error
       console.log(error)
+      callback(error)
     else
       console.log("Message sent: " + response.message)
+      callback()
 
     # if you don't want to use this transport object anymore, uncomment following line
     smtpTransport.close() # shut down the connection pool, no more messages
