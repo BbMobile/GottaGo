@@ -86,6 +86,15 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 app.get('/api/mail', function(req, res) {
+  var mailOptions, mailto;
+
+  mailOptions = {
+    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>",
+    to: "",
+    subject: "A Bathroom on the " + params.floor + "nd is available!!",
+    text: "A Bathroom on the " + params.floor + "nd is available!! "
+  };
+  mailto = [];
   console.log(req, res);
   Que.find({
     'floor': 2,

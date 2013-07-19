@@ -86,6 +86,16 @@ app.get('/', routes.index)
 app.get('/partials/:name', routes.partials)
 
 app.get('/api/mail', (req, res) ->
+	# setup e-mail data with unicode symbols
+	mailOptions = {
+	    from: "So You Gotta Go <soYouGottaGo@gottaGo.medu.com>", # sender address
+	    to: "", # list of receivers
+	    subject: "A Bathroom on the #{params.floor}nd is available!!", # Subject line
+	    text: "A Bathroom on the #{params.floor}nd is available!! " # plaintext body
+	    # html: "<b>Hello world ✔</b>" # html body
+	}
+	mailto = []
+
 	console.log(req, res)
 
 	Que.find({'floor' : 2, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
