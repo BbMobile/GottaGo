@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('gottaGo.controllers', ['ngResource'])
-.controller('GGMainCtrl', ($scope, Status, Que, roomNames) ->
+.controller('GGMainCtrl', ($scope, Status, Que, roomNames, $timeout) ->
   $scope.floorsArray = []
   $scope.que = []
   $scope.floor = {}
@@ -22,12 +22,15 @@ angular.module('gottaGo.controllers', ['ngResource'])
         $scope.que.push(response.length)
       )
 
-  $scope.floorsArray = Status.success((response) ->
-    $scope.floorsArray = response
+  setInterval( ->
+    Status.get().success((response) ->
+      $scope.floorsArray = response
 
-    getQue()
+      getQue()
 
-  )
+    )
+  , 2000)
+
 
 
   $scope.addToQue = (floor, contact) ->

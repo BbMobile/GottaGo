@@ -6,10 +6,14 @@ services = angular.module('gottaGo.services', ['ngResource']);
 GGAppAPIUrl = "/api";
 
 services.factory("Status", function($http) {
-  return $http({
-    method: "GET",
-    url: "/api/status"
-  });
+  return {
+    'get': function() {
+      return $http({
+        method: "GET",
+        url: "/api/status"
+      });
+    }
+  };
 });
 
 services.factory("Que", function($http) {
