@@ -1,0 +1,194 @@
+html {
+	-webkit-font-aliasing: antialiased;
+}
+::selection {
+	background: #2ab573;
+	}
+::-moz-selection {
+	background: #2ab573;
+}
+body {
+	background: #fff;
+	font: 20px "Proxima Nova", helvetica neue, helvetica, arial,sans-serif;
+	color: #3e3e3e;
+}
+strong {
+	font-weight: 200;
+}
+a {
+	font-family: "Proxima Nova Bold";
+}
+.topbar-wrapper {
+	width: 100%;
+	height: 125px;
+	background: #3e3e3e;
+	border-bottom: 10px solid #ebebeb;
+	overflow: hidden;
+}
+.topbar {
+	width: 940px;
+	padding: 0 20px;
+	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+.topbar h1 {
+	display: block;
+	float: left;
+	padding: 40px 0 0 0;
+	font-size: 42px;
+	color: #fff;
+	text-shadow: 0 2px 0 #1b1b1b;
+}
+.topbar b {
+	font-weight: 700;
+}
+.topbar h2 {
+	display: block;
+	float: right;
+	height: 268px;
+	width: 347px;
+	background: url(../img/go.png) no-repeat 0 -67px;
+}
+.badge-wrapper {
+	width: 940px;
+	height: auto;
+	padding: 0 20px;
+	margin: 0 auto;
+}
+.second-floor-badges {
+	float: left;
+	width: 100%;
+	padding: 90px 0 0 0;
+	color: #fff;
+}
+.badge {
+	float: left;
+	display: block;
+	width: 458px;
+	height: 458px;
+	text-align: center;
+	border-radius: 10px;
+	font-family: "Proxima Nova Bold";
+	font-size: 80px;
+	text-align: center;
+	text-transform: uppercase;
+	line-height: 450px;
+}
+.vacant {
+	background: #2ab573;
+	box-shadow: inset 0 -20px 0 #239660;
+}
+.occupied {
+	background: #e83952;
+	box-shadow: inset 0 20px 0 #c12f44;
+}
+.twob {
+	margin: 0 0 0 24px;
+}
+.badge-title {
+	float: left;
+	width: 458px;
+	height: 200px;
+	padding: 100px 0;
+	text-align: center;
+	font-family: "Proxima Nova Bold";
+}
+.twob-title {
+	margin: 0 0 0 20px;
+}
+.badge-title h3 {
+	font-size: 80px;
+}
+.timestamp span.hours {
+	color: #b1b1b1;
+}
+.notify {
+	width: 100%;
+	float: left;
+	text-align: center;
+	color: #b1b1b1;
+	margin: 0 0 100px 0;
+}
+.notify strong {
+	font-size: 34px;
+	color: #3e3e3e;
+}
+.notify .notify-button {
+	display: inline-block;
+	margin: 20px 0 0 0;
+	width: 300px;
+	height: 70px;
+	border-radius: 10px;
+	background: #0081f6;
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwODFmNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDY5Y2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #0081f6 0%, #0069ca 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0081f6), color-stop(100%,#0069ca));
+	background: -webkit-linear-gradient(top,  #0081f6 0%,#0069ca 100%);
+	background: -o-linear-gradient(top,  #0081f6 0%,#0069ca 100%);
+	background: -ms-linear-gradient(top,  #0081f6 0%,#0069ca 100%);
+	background: linear-gradient(to bottom,  #0081f6 0%,#0069ca 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0081f6', endColorstr='#0069ca',GradientType=0 );
+	box-shadow: inset 0 -10px 0 #005099;
+	color: #fff;
+	font-size: 40px;
+	text-transform: uppercase;
+	font-weight: bold;
+	line-height: 60px;
+}
+.notify .notify-button:active {
+	box-shadow: inset 0 10px 0 #fff;
+	line-height: 80px;
+}
+.queue {
+	padding: 20px 0 0 0;
+	opacity: .6;
+}
+
+.about-wrapper {
+	width: 100%;
+	float: left;
+	height: 400px;
+	background: #404041;
+	box-shadow: inset 0 10px 0 #323233;
+}
+.about {
+	width: 960px;
+	margin: 0 auto;
+	height: 400px;
+}
+.about h2 {
+	width: 100%;
+	margin: 40px 0 0 0;
+	text-align: center;
+	color: #babdc2;
+	font-weight: bold;
+}
+.about .avatar {
+	float: left;
+	height: 218px;
+	width: 218px;
+	margin: 40px 5% 0 5%;
+	border-radius: 10px;
+	box-shadow: 0 10px 0 #323232;
+}
+.joe {
+	background: url(../img/joe.png) no-repeat center center;
+	background-size: 100%;
+}
+.eric {
+	background: url(../img/eric.png) no-repeat center center;
+	background-size: 100%;
+}
+.collin {
+	background: url(../img/collin.png) no-repeat center center;
+	background-size: 100%;
+}
+.doors-wrapper {
+	width: 100%;
+	float: left;
+	height: 703px;
+	background: url(../img/doors.png) no-repeat center 0;
+	box-shadow: inset 0 -10px 0 #c27529;
+	border-bottom: 50px solid #f7941e;
+}

@@ -1,0 +1,181 @@
+/* Smartphones ----------- */
+@media only screen and (min-width : 320px) and (max-width: 767px) {
+
+	.topbar-wrapper {
+		height: 60px;
+	}
+	.topbar {
+		width: 100%;
+		text-align: center;
+		padding: 0;
+	}
+	.topbar h1 {
+		width: 100%;
+		font-size: 32px;
+		padding: 14px 0 0 0;
+	}
+	.topbar h2 {
+		display: none;
+	}
+	.badge-wrapper {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		position: relative;
+	}
+	.second-floor-badges {
+		padding: 20px 0 0 0;
+	}
+	.badge {
+		width: 94%;
+		height: 110px;
+		font-size: 40px;
+		line-height: 110px;
+		padding: 0;
+		margin: 0;
+	}
+	.vacant {
+		box-shadow: inset 0 -10px 0 #239660;
+	}
+	.occupied {
+		box-shadow: inset 0 10px 0 #c12f44;
+	}
+	.twoa {
+		margin: 0 3% 50px 3%;
+	}
+	.twob {
+		margin: 0 3% 50px 3%;
+	}
+	.badge-title {
+		width: 90%;
+		margin: 0;
+		padding: 0;
+		line-height: normal;
+		height: auto;
+	}
+	.badge-title .timestamp {
+		float: right;
+	}
+	.twoa-title {
+		position: absolute;
+		top: 140px;
+		left: 5%;
+	}
+	.twob-title {
+		position: absolute;
+		top: 300px;
+		left: 5%;
+	}
+	.badge-title h3 {
+		float: left;
+		font-size: 22px;
+		clear: both;
+		text-align: left;
+	}
+	.notify {
+		font-size: 22px;
+		padding: 40px 0 20px 0;
+	}
+	.notify strong {
+		font-size: 22px;
+	}
+	.about-wrapper {
+		height: auto;
+		box-shadow: inset 0 10px 0 #323233;
+	}
+	.about {
+		width: 94%;
+		padding: 0 3% 20px 3%;
+	}
+	.about .avatar {
+		height: 100px;
+		width: 100%;
+		margin: 10px 0;
+	}
+	.eric {
+		background-position: center 30%;
+	}
+	.doors-wrapper {
+		height: 250px;
+		background: url(../img/doors.png) no-repeat center 0;
+		background-size: auto 250px;
+		box-shadow: inset 0 -4px 0 #c27529;
+		border-bottom: 15px solid #f7941e;
+	}
+
+}
+
+/* iPads ----------- */
+@media only screen and (min-width : 768px) and (max-width : 1024px) {
+
+	.topbar-wrapper {
+		height: 72px;
+	}
+	.topbar {
+		width: 728px;
+		margin: 0 auto;
+		padding: 0 20px;
+	}
+	.topbar h1 {
+		padding: 15px 0 0 0;
+	}
+	.topbar h2 {
+		line-height: 72px;
+	}
+	.badge-wrapper {
+		width: 768px;
+		padding: 0;
+	}
+	.second-floor-badges {
+		width: 100%;
+		color: #fff;
+		padding: 60px 0 0 0;
+	}
+	.badge {
+		width: 344px;
+		height: 344px;
+		font-size: 60px;
+		line-height: 344px;
+	}
+	.twoa {
+		margin: 0 0 0 20px;
+	}
+	.twob {
+		margin: 0 0 0 40px;
+	}
+	.badge-title {
+		width: 49%;
+	}
+	.twob-title {
+		margin: 0 0 0 15px;
+	}
+	.badge-title h3 {
+		font-size: 80px;
+	}
+	.about-wrapper {
+		height: 300px;
+		box-shadow: inset 0 10px 0 #323233;
+	}
+	.about {
+		width: 768px;
+	}
+	.about h2 {
+		width: 100%;
+		margin: 40px 0 0 0;
+		text-align: center;
+		color: #babdc2;
+		font-weight: bold;
+	}
+	.about .avatar {
+		height: 126px;
+		width: 126px;
+		margin: 40px 8% 0 8%;
+	}
+	.doors-wrapper {
+		height: 500px;
+		background: url(../img/doors.png) no-repeat center 0;
+		background-size: auto 500px;
+		box-shadow: inset 0 -8px 0 #c27529;
+		border-bottom: 30px solid #f7941e;
+	}
+}
