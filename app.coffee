@@ -7,7 +7,7 @@ path = require('path')
 models = require('./models')
 config = require('./config')
 
-api = require('./routes/api')
+# api = require('./routes/api')
 
 app = express()
 
@@ -82,7 +82,25 @@ app.get('/', routes.index)
 app.get('/partials/:name', routes.partials)
 
 # Private API
-app.post('/api/event', api.event)
+app.post('/api/event', (req, res) ->
+	params = req.body
+
+	event = new Event(
+		{
+			'floor': params.floor
+			'room': params.room
+			'status': params.status
+		}
+	)
+	event.save( (err) ->
+		if err?
+			res.statusCode = 400
+			res.send("Error")
+		else
+			res.statusCode = 200
+			res.send("OK")
+	)
+)
 
 
 # Angular API

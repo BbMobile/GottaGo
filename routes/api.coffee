@@ -1,3 +1,16 @@
+models = require('../models')
+mongoose = require('mongoose')
+
+
+# Models
+
+models.defineModels(mongoose, ->
+  Event = mongoose.model('Event')
+  db = mongoose.connect(app.set('db-uri'))
+)
+
+
+
 ###
 # Private
 ###
