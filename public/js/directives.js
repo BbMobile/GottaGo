@@ -84,7 +84,7 @@ angular.module('gottaGo.directives', [])
                   //We are not using $timeout for a reason. Please read here - https://github.com/siddii/angular-timer/pull/5
                   $scope.timeoutId = setTimeout(function () {
                       tick();
-                      $rootScope.$$phase || $rootScope.$apply()
+                      $scope.$$phase || $scope.$apply()
                   }, $scope.interval);
 
                   $scope.$emit('timer-tick', {timeoutId: $scope.timeoutId, millis: $scope.millis});
