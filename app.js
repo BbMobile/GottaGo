@@ -168,7 +168,6 @@ app.post('/api/event', function(req, res) {
           }
           mailOptions.bcc = mailto.join(",");
           mailOptions.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
-          console.log("mailOptions " + mailOptions);
           if (mailto.length > 1) {
             mailOptions.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
           }
@@ -229,7 +228,6 @@ app.get('/api/status', function(req, res) {
         'time': -1
       }
     }).exec(function(err, event) {
-      console.log(event);
       if (err != null) {
         res.statusCode = 400;
         return res.send("Error");

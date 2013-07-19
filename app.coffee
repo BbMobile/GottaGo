@@ -165,7 +165,6 @@ app.post('/api/event', (req, res) ->
 					mailOptions.bcc = mailto.join(",")
 					mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
-					console.log("mailOptions " + mailOptions)
 					if mailto.length > 1
 						mailOptions.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
 
