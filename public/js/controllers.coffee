@@ -34,7 +34,7 @@ angular.module('gottaGo.controllers', ['ngResource'])
 
       getQue()
     )
-  , 4000)
+  , 2000)
 
   isDifferent = (newData) ->
     if $scope.floorsArray.length is 0

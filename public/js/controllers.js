@@ -35,7 +35,7 @@
       isDifferent(response);
       return getQue();
     });
-  }, 4000);
+  }, 2000);
   isDifferent = function(newData) {
     var floor, floorIndex, room, roomIndex, _i, _j, _len, _len1, _ref;
 
