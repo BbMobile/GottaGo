@@ -106,7 +106,7 @@ app.get('/api/mail', (req, res) ->
 			mailto.push("<#{person.contact}>")
 
 		mailOptions.to = mailto.join(",")
-		mailOption.text = "A Bathroom on the 2nd is available!! \n " # plaintext body
+		mailOptions.text = "A Bathroom on the 2nd is available!! \n " # plaintext body
 
 		if mailto.length > 1
 			mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
@@ -158,7 +158,7 @@ app.post('/api/event', (req, res) ->
 						mailto.push("<#{person.contact}>")
 
 					mailOptions.to = mailto.join(",")
-					mailOption.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
+					mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
 					if mailto.length > 1
 						mailOption.text += "This message was sent to #{mailto.length} humans. SO HURRY!"

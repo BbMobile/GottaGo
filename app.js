@@ -115,7 +115,7 @@ app.get('/api/mail', function(req, res) {
       mailto.push("<" + person.contact + ">");
     }
     mailOptions.to = mailto.join(",");
-    mailOption.text = "A Bathroom on the 2nd is available!! \n ";
+    mailOptions.text = "A Bathroom on the 2nd is available!! \n ";
     if (mailto.length > 1) {
       mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
     }
@@ -167,7 +167,7 @@ app.post('/api/event', function(req, res) {
             mailto.push("<" + person.contact + ">");
           }
           mailOptions.to = mailto.join(",");
-          mailOption.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
+          mailOptions.text = "A Bathroom on the " + event.floor + "nd is available!! \n ";
           if (mailto.length > 1) {
             mailOption.text += "This message was sent to " + mailto.length + " humans. SO HURRY!";
           }
