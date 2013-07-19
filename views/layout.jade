@@ -56,10 +56,10 @@ html
         a.addqueue(ng-click="addToQue(floor[0].floor, notifyContact)", ng-show="notify[floor[0].floor]=='input'")
           | Add Queue
         div(ng-show="notify[floor[0].floor]=='qued'") You are in the queue!
-        .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[$index]}} humans in the queue)
+        .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[0].length}} humans in the queue)
         .queue(ng-show="notify[floor[0].floor]=='qued'")
-          span(ng-show="que[$index]-1>0") ({{que[$index]-1}} OTHER humans in the queue)
-          span(ng-hide="que[$index]-1>0") (You are the only one in the queue right now)
+          span(ng-show="que[0].length-1>0") ({{que[0].length-1}} OTHER humans in the queue)
+          span(ng-hide="que[0].length-1>0") (You are the only one in the queue right now)
     .about-wrapper
       .about
         h2 Just think of how much time we've saved you?
