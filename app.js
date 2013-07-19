@@ -148,7 +148,7 @@ app.post('/api/event', function(req, res) {
     } else {
       res.statusCode = 200;
       res.send("OK");
-      console.log("1event.status " + event.status);
+      console.log("1event.status " + (event.status === 0 || event.status === "0"));
       if (event.status === 0 || event.status === "0") {
         console.log("2event.status " + event.status);
         return Que.find({

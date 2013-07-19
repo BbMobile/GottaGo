@@ -148,7 +148,7 @@ app.post('/api/event', (req, res) ->
 			res.statusCode = 200
 			res.send("OK")
 
-			console.log("1event.status "+ event.status)
+			console.log("1event.status "+ (event.status is 0 or event.status is "0"))
 
 			# Unlocked is 0
 			if event.status is 0 or event.status is "0"
