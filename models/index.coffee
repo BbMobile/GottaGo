@@ -11,16 +11,20 @@ defineModels = (mongoose, fn) ->
   Event = new Schema({
     'floor': Number
     'room': String
-    'time': { type: Date, default: Date.now }
+    'time': {type: Date, default: Date.now}
     'status': Number
   },
   {
-    toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toObject: { virtuals: true, getters:true }
+    toJSON: { virtuals: true, getters:true }
   })
 
   Event.virtual('name').get( ->
     return 'config.room.names[this.floor + this.room]'
+  )
+  Event.pre('save', (next, save) ->
+    this.timestamp_ms = this.time.getTime()
+    next()
   )
 
   Que = new Schema({

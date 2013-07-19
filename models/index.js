@@ -20,14 +20,20 @@ defineModels = function(mongoose, fn) {
     'status': Number
   }, {
     toObject: {
-      virtuals: true
+      virtuals: true,
+      getters: true
     },
     toJSON: {
-      virtuals: true
+      virtuals: true,
+      getters: true
     }
   });
   Event.virtual('name').get(function() {
     return 'config.room.names[this.floor + this.room]';
+  });
+  Event.pre('save', function(next, save) {
+    this.timestamp_ms = this.time.getTime();
+    return next();
   });
   Que = new Schema({
     'floor': Number,

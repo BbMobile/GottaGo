@@ -7,33 +7,44 @@ html
     link(rel='stylesheet', type='text/css', href='/css/fonts.css')
     link(rel='stylesheet', type='text/css', href='/css/style.css')
     link(rel='stylesheet', type='text/css', href='/css/responsive.css')
-    script(type='text/javascript', src='//use.typekit.net/ytv8cko.js')
+    script(type='text/javascript', src='/js/lib/angular/angular.js')
+    script(type='text/javascript', src='/js/lib/angular/angular-resource.js')
+    script(type='text/javascript', src='/js/app.js')
+    script(type='text/javascript', src='/js/controllers.js')
+    script(type='text/javascript', src='/js/directives.js')
+    script(type='text/javascript', src='/js/filters.js')
+    script(type='text/javascript', src='/js/services.js')
+
     script.
       try{Typekit.load();}catch(e){}
-  body
+  body(ng-app="gottaGo", ng-controller="GGMainCtrl")
     .topbar-wrapper
       .topbar
         h1
           | Gotta
           b Go!
         h2 go
-    .badge-wrapper
-      .second-floor-badges
-        .badge.twoa.vacant
+    .badge-wrapper(ng-repeat="floor in floorsArray")
+      div(ng-class="{{floor.floor}}-floor-badges")
+        .badge.twoa.vacant(ng-show="floor[0].status==0")
           .twoa-vacant Vacant
-        .badge.twob.occupied
+        .badge.twoa.occupied(ng-hide="floor[0].status==0")
+          .twoa-occupied Occupied
+        .badge.twob.vacant(ng-show="floor[1].status==0")
+          .twob-vacant Vacant
+        .badge.twob.occupied(ng-hide="floor[1].status==0")
           .twob-occupied Occupied
       .badge-title.twoa-title
-        h3 Stinky Repo
-        .timestamp
-          span.hours 00:
-          | 00:00
+        h3 {{getRoomNames(floor[0].floor,floor[0].room)}}
+        timer(interval="1000").timestamp
+          span.hours {{hours|double}}:
+          | {{minutes|double}}:{{seconds|double}}
       .badge-title.twob-title
-        h3 The Holy Commode
-        .timestamp
-          span.hours 00:
-          | 00:00
-      .notify
+        h3 {{getRoomNames(floor[1].floor,floor[1].room)}}
+        timer(interval="1000").timestamp
+          span.hours {{hours|double}}:
+          | {{minutes|double}}:{{seconds|double}}
+      .notify(ng-show="floor[0].status==1&&floor[1].status==1")
         .thronesblurb
           strong Both thrones are occupied!
           br
