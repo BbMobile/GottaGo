@@ -1,12 +1,13 @@
 express = require('express')
 mongoose = require('mongoose')
 mongoStore = require('connect-mongodb')
-#routes = require('./routes')
-#user = require('./routes/user')
+routes = require('./routes')
 http = require('http')
 path = require('path')
 models = require('./models')
 config = require('./config')
+
+api = require('./routes/api')
 
 app = express()
 
@@ -76,33 +77,22 @@ models.defineModels(mongoose, ->
 
 # Routes
 
-app.get('/', (req, res) ->
-	Event.find( (err, events) ->
-		res.type('text/json')
-		res.send(events)
-	)
-)
+# serve index and view partials
+app.get('/', routes.index)
+app.get('/partials/:name', routes.partials)
+
+# Private API
+app.post('/api/event', api.event)
 
 
-app.post('/api/event', (req, res) ->
-	params = req.body
+# Angular API
+# app.get('/api/name', api.name)
 
-	event = new Event(
-		{
-	  	'floor': params.floor
-	  	'room': params.room
-	  	'status': params.status
-	  }
-  )
-	event.save( (err) ->
-		if err?
-			res.statusCode = 400;
-			res.send("Error");
-		else
-			res.statusCode = 200;
-			res.send("OK");
-	)
-)
+
+# redirect all others to the index (HTML5 history)
+app.get('*', routes.index)
+
+
 
 
 http.createServer(app).listen(app.get('port'), ->
