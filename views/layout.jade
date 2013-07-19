@@ -54,7 +54,7 @@ html
           | Notify Me
         input(ng-model="notifyContact", ng-show="notify[floor[0].floor]=='input'")
         a.addqueue(ng-click="addToQue(floor[0].floor, notifyContact)", ng-show="notify[floor[0].floor]=='input'")
-          | Add Que
+          | Add Queue
         div(ng-show="notify[floor[0].floor]=='qued'") You are in the que!
         .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[$index]}} humans in the queue)
         .queue(ng-show="notify[floor[0].floor]=='qued'") ({{que[$index]-1}} OTHER humans in the queue)
