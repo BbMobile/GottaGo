@@ -86,6 +86,8 @@ app.get('/', routes.index)
 app.get('/partials/:name', routes.partials)
 
 app.get('/api/mail', (req, res) ->
+	console.log(req, res)
+
 	Que.find({'floor' : event.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 		if err?
 			return false
@@ -103,6 +105,8 @@ app.get('/api/mail', (req, res) ->
 
 		)
 	)
+	res.statusCode = 200
+	res.send( statusArray )
 )
 
 # Private API

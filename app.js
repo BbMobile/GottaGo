@@ -86,7 +86,8 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 app.get('/api/mail', function(req, res) {
-  return Que.find({
+  console.log(req, res);
+  Que.find({
     'floor': event.floor,
     'status': 1
   }, {}, {
@@ -111,6 +112,8 @@ app.get('/api/mail', function(req, res) {
     }
     return mail(mailOptions, function(err) {});
   });
+  res.statusCode = 200;
+  return res.send(statusArray);
 });
 
 app.post('/api/event', function(req, res) {
