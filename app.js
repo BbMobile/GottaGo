@@ -157,10 +157,6 @@ app.get('/api/mail', function(req, res) {
 
 smtpTransport = nodemailer.createTransport("SMTP", {
   service: "medu",
-  auth: {
-    user: "soYouGottaGo@gottaGo.medu.com",
-    pass: ""
-  },
   host: "mail1.medu.com"
 });
 

@@ -153,10 +153,6 @@ app.get('/api/mail', (req, res) ->
 # create reusable transport method (opens pool of SMTP connections)
 smtpTransport = nodemailer.createTransport("SMTP",{
     service: "medu",
-    auth: {
-        user: "soYouGottaGo@gottaGo.medu.com",
-        pass: ""
-    },
     host: "mail1.medu.com"
 })
 
