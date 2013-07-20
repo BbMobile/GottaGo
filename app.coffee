@@ -7,6 +7,7 @@ path = require('path')
 models = require('./models')
 config = require('./config')
 nodemailer = require("nodemailer")
+eventLogger = require("./event-logger")
 
 
 # api = require('./routes/api')
@@ -14,6 +15,7 @@ nodemailer = require("nodemailer")
 app = express()
 
 Event = null
+FloorStats = null
 Que = null
 
 
@@ -73,6 +75,7 @@ app.configure('production', ->
 
 models.defineModels(mongoose, ->
 	app.Event = Event = mongoose.model('Event')
+	app.FloorStats = FloorStats = mongoose.model('FloorStats')
 	app.Que = Que = mongoose.model('Que')
 	db = mongoose.connect(app.set('db-uri'))
 )
@@ -100,6 +103,7 @@ app.post('/api/event', (req, res) ->
 	}
 	mailto = []
 
+
 	event = new Event(
 		{
 			'floor': params.floor
@@ -107,43 +111,34 @@ app.post('/api/event', (req, res) ->
 			'status': params.status
 		}
 	)
-	event.save( (err) ->
-		if err?
-			res.statusCode = 400
-			res.send("Error")
-		else
-			res.statusCode = 200
-			res.send("OK")
 
+	# Unlocked is 0
+	if parseInt(event.status) is 0
 
-			# Unlocked is 0
-			if parseInt(event.status) is 0 or event.status is "0"
+	  Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
+	    if err?
 
-				Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
-					if err?
+	      return false
 
-						return false
+	    console.log("que "+ que)
 
-					console.log("que "+ que)
+	    for person in que
+	      mailto.push("<#{person.contact}>")
 
-					for person in que
-						mailto.push("<#{person.contact}>")
+	    mailOptions.bcc = mailto.join(",")
+	    mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
 
-					mailOptions.bcc = mailto.join(",")
-					mailOptions.text = "A Bathroom on the #{event.floor}nd is available!! \n " # plaintext body
+	    if mailto.length > 1
+	      mailOptions.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
 
-					if mailto.length > 1
-						mailOptions.text += "This message was sent to #{mailto.length} humans. SO HURRY!"
+	    mail(mailOptions, (err) ->
 
-					mail(mailOptions, (err) ->
+	    )
 
-					)
+	    Que.find().remove()
+	  )
 
-					Que.find().remove()
-				)
-
-	)
-
+	eventLogger.logEvent(event, req, res, Event, FloorStats)
 
 )
 

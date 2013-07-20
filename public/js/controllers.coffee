@@ -8,11 +8,10 @@ angular.module('gottaGo.controllers', ['ngResource'])
   $scope.notify = {}
 
   $scope.milliseconds = (stamp) ->
-    debugger;
     return Date.parse(stamp).getTime()
 
   $scope.getRoomNames = (floor, room) ->
-    return roomNames[floor+room]
+    return roomNames[floor + room]
 
   getQue = ->
     $scope.que = ["0"]

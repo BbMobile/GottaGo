@@ -27,6 +27,22 @@ defineModels = (mongoose, fn) ->
     next()
   )
 
+  # Model: FloorStats
+
+  FloorStats = new Schema({
+    "year": Number
+    "day": Number
+    "hour": Number
+    "month": Number
+    "occupations": Number
+    "duration": Number
+    'floor': Number
+    'room': String
+  })
+
+
+  # Model: Que
+
   Que = new Schema({
     'floor': Number
     'contact': {
@@ -53,6 +69,7 @@ defineModels = (mongoose, fn) ->
 
 
   mongoose.model('Event', Event)
+  mongoose.model('FloorStats', FloorStats)
   mongoose.model('Que', Que)
   fn()
 

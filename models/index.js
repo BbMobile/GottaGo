@@ -6,7 +6,7 @@ crypto = require('crypto');
 config = require('../config');
 
 defineModels = function(mongoose, fn) {
-  var Event, ObjectId, Que, Schema;
+  var Event, FloorStats, ObjectId, Que, Schema;
 
   Schema = mongoose.Schema;
   ObjectId = Schema.ObjectId;
@@ -35,6 +35,16 @@ defineModels = function(mongoose, fn) {
     this.timestamp_ms = this.time.getTime();
     return next();
   });
+  FloorStats = new Schema({
+    "year": Number,
+    "day": Number,
+    "hour": Number,
+    "month": Number,
+    "occupation": Number,
+    "duration": Number,
+    'floor': Number,
+    'room': String
+  });
   Que = new Schema({
     'floor': Number,
     'contact': {
@@ -48,6 +58,7 @@ defineModels = function(mongoose, fn) {
     'status': Number
   });
   mongoose.model('Event', Event);
+  mongoose.model('FloorStats', FloorStats);
   mongoose.model('Que', Que);
   return fn();
 };
