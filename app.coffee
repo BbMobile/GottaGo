@@ -16,6 +16,7 @@ app = express()
 
 Event = null
 FloorStats = null
+Visits = null
 Que = null
 
 
@@ -76,6 +77,7 @@ app.configure('production', ->
 models.defineModels(mongoose, ->
 	app.Event = Event = mongoose.model('Event')
 	app.FloorStats = FloorStats = mongoose.model('FloorStats')
+	app.Visits = Visits = mongoose.model('Visits')
 	app.Que = Que = mongoose.model('Que')
 	db = mongoose.connect(app.set('db-uri'))
 )
@@ -117,10 +119,7 @@ app.post('/api/event', (req, res) ->
 
 	  Que.find({'floor' : event.floor }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
 	    if err?
-
 	      return false
-
-	    console.log("que "+ que)
 
 	    for person in que
 	      mailto.push("<#{person.contact}>")
@@ -138,7 +137,7 @@ app.post('/api/event', (req, res) ->
 	    Que.find().remove()
 	  )
 
-	eventLogger.logEvent(event, req, res, Event, FloorStats)
+	eventLogger.logEvent(event, req, res, Event, FloorStats, Visits)
 
 )
 

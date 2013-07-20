@@ -32,7 +32,7 @@ getStartOfOccupation = function(event, Event, callback) {
   });
 };
 
-exports.logEvent = function(event, req, res, Event, FloorStats) {
+exports.logEvent = function(event, req, res, Event, FloorStats, Visits) {
   event.save(function(err) {
     if (err != null) {
       res.statusCode = 400;
@@ -45,25 +45,30 @@ exports.logEvent = function(event, req, res, Event, FloorStats) {
   if (parseInt(event.status) === 1) {
     return FloorStats.update(occupationsPerHour(event.floor, event.room), {
       $inc: {
-        occupation: 1
+        occupations: 1
       }
     }, {
       upsert: true
     }, function(err) {});
   } else {
     return getStartOfOccupation(event, Event, function(response) {
-      var diff, endOfOccupation, startOfOccupation;
+      var diff, endOfOccupation, startOfOccupation, timeObject, visit, visitData;
 
       endOfOccupation = event.time;
       startOfOccupation = response;
       diff = new Date(endOfOccupation - startOfOccupation).getTime();
-      return FloorStats.update(occupationsPerHour(event.floor, event.room), {
+      timeObject = occupationsPerHour(event.floor, event.room);
+      FloorStats.update(timeObject, {
         $inc: {
           duration: diff
         }
       }, {
         upsert: true
       }, function(err) {});
+      visitData = timeObject;
+      visitData.duration = diff;
+      visit = new Visits(visitData);
+      return visit.save();
     });
   }
 };

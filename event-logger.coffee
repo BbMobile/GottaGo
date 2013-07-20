@@ -18,7 +18,7 @@ getStartOfOccupation = (event, Event, callback) ->
     callback( event.time )
   )
 
-exports.logEvent = (event, req, res, Event, FloorStats) ->
+exports.logEvent = (event, req, res, Event, FloorStats, Visits) ->
   event.save( (err) ->
     if err?
       res.statusCode = 400
@@ -42,13 +42,22 @@ exports.logEvent = (event, req, res, Event, FloorStats) ->
       startOfOccupation = response
 
       diff = new Date(endOfOccupation - startOfOccupation).getTime()
+      timeObject = occupationsPerHour(event.floor, event.room)
 
       FloorStats.update(
-        occupationsPerHour(event.floor, event.room),
+        timeObject,
         {$inc: { duration: diff }},
         {upsert: true}, (err) ->
 
       )
+
+      visitData = timeObject
+      visitData.duration = diff
+
+      visit = new Visits( visitData )
+
+      visit.save()
+
     )
 
 
