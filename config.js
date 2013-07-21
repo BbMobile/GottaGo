@@ -21,7 +21,7 @@ exports.log = {
 };
 
 exports.server = {
-  port: 9600,
+  port: 8080,
   ip: '127.0.0.1'
 };
 

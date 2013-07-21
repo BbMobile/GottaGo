@@ -7,13 +7,6 @@ html
     link(rel='stylesheet', type='text/css', href='/css/fonts.css')
     link(rel='stylesheet', type='text/css', href='/css/style.css')
     link(rel='stylesheet', type='text/css', href='/css/responsive.css')
-    script(type='text/javascript', src='/js/lib/angular/angular.js')
-    script(type='text/javascript', src='/js/lib/angular/angular-resource.js')
-    script(type='text/javascript', src='/js/app.js')
-    script(type='text/javascript', src='/js/controllers.js')
-    script(type='text/javascript', src='/js/directives.js')
-    script(type='text/javascript', src='/js/filters.js')
-    script(type='text/javascript', src='/js/services.js')
 
     script.
       try{Typekit.load();}catch(e){}
@@ -56,10 +49,10 @@ html
         a.addqueue(ng-click="addToQue(floor[0].floor, notifyContact)", ng-show="notify[floor[0].floor]=='input'")
           | Add Queue
         div(ng-show="notify[floor[0].floor]=='qued'") You are in the queue!
-        .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[0]}} humans in the queue)
+        .queue(ng-hide="notify[floor[0].floor]=='qued'") ({{que[floor[0].floor]}} humans in the queue)
         .queue(ng-show="notify[floor[0].floor]=='qued'")
-          span(ng-show="que[0]-1>0") ({{que[0]-1}} OTHER humans in the queue)
-          span(ng-hide="que[0]-1>0") (You are the only one in the queue right now)
+          span(ng-show="que[floor[0].floor]-1>0") ({{que[floor[0].floor]-1}} OTHER humans in the queue)
+          span(ng-hide="que[floor[0].floor]-1>0") (You are the only one in the queue right now)
     .about-wrapper
       .about
         h2 Just think of how much time we've saved you?
@@ -68,3 +61,13 @@ html
         .avatar.collin
     .doors-wrapper
       .doors
+
+
+    script(type='text/javascript', src='/js/lib/angular/angular.js')
+    script(type='text/javascript', src='/js/lib/angular/angular-resource.js')
+    script(src='/socket.io/socket.io.js')
+    script(type='text/javascript', src='/js/app.js')
+    script(type='text/javascript', src='/js/controllers.js')
+    script(type='text/javascript', src='/js/directives.js')
+    script(type='text/javascript', src='/js/filters.js')
+    script(type='text/javascript', src='/js/services.js')

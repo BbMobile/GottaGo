@@ -15,7 +15,7 @@ exports.env[currentEnv] = true
 exports.log =
   path: __dirname + "/var/log/app_#{currentEnv}.log"
 exports.server =
-  port: 9600
+  port: 8080
   #In staging and production, listen loopback. nginx listens on the network.
   ip: '127.0.0.1'
 if currentEnv not in ['production', 'staging']

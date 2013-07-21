@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 angular.module('gottaGo.controllers', ['ngResource'])
-.controller('GGMainCtrl', ($scope, Status, Que, roomNames, $timeout) ->
+.controller('GGMainCtrl', ($scope, socket, Que, roomNames, $timeout) ->
   $scope.floorsArray = []
   $scope.que = []
   $scope.floor = {}
@@ -13,47 +13,33 @@ angular.module('gottaGo.controllers', ['ngResource'])
   $scope.getRoomNames = (floor, room) ->
     return roomNames[floor + room]
 
-  getQue = ->
-    $scope.que = ["0"]
 
-    for floor in $scope.floorsArray
-      Que.get(floor[0].floor).success((response) ->
-        $scope.que.push(response.length)
-      )
 
-  Status.get().success((response) ->
-    isDifferent(response)
 
-    getQue()
+  socket.on('init', (data) ->
+    console.log(data)
+    $scope.floorsArray = data.floorsArray
+    $scope.que = data.queObj
   )
 
-  setInterval( ->
-    Status.get().success((response) ->
-      isDifferent(response)
-
-      getQue()
-    )
-  , 2000)
-
-  isDifferent = (newData) ->
-    if $scope.floorsArray.length is 0
-      $scope.floorsArray = newData
-      return
-
+  socket.on('event', (data) ->
     for floor, floorIndex in $scope.floorsArray
       for room, roomIndex in floor
-        if room.time isnt newData[floorIndex][roomIndex].time
-          $scope.floorsArray = newData
-
-          #Wilkl not work with multi floors
-          $scope.notify[2] = ''
+        if room.room is data.room and room.floor is data.floor
+          $scope.floorsArray[floorIndex].splice(roomIndex, 1, data)
           return
+  )
+
+  socket.on('que', (data) ->
+    $scope.que[data.floor] = data.count
+    if data.count is 0
+      $scope.notify[data.floor] = ''
+  )
 
 
   $scope.addToQue = (floor, contact) ->
     Que.post(floor, {contact:contact}).success((response) ->
       $scope.notify[floor] = 'qued'
-      getQue()
     )
 
 )

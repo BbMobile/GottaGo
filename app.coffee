@@ -2,15 +2,12 @@ express = require('express')
 mongoose = require('mongoose')
 mongoStore = require('connect-mongodb')
 routes = require('./routes')
-http = require('http')
 path = require('path')
 models = require('./models')
 config = require('./config')
 nodemailer = require("nodemailer")
 eventLogger = require("./event-logger")
 
-
-# api = require('./routes/api')
 
 app = express()
 
@@ -84,6 +81,14 @@ models.defineModels(mongoose, ->
 
 
 
+
+io = require('socket.io').listen(app.listen(app.get('port'), ->
+  console.log("Express server listening on port " + app.get('port'))
+))
+
+
+
+
 # Routes
 
 # serve index and view partials
@@ -114,6 +119,8 @@ app.post('/api/event', (req, res) ->
 		}
 	)
 
+	io.sockets.emit('event', event);
+
 	# Unlocked is 0
 	if parseInt(event.status) is 0
 
@@ -135,6 +142,7 @@ app.post('/api/event', (req, res) ->
 	    )
 
 	    Que.find().remove()
+	    io.sockets.emit('que', {floor:event.floor,count:0})
 	  )
 
 	eventLogger.logEvent(event, req, res, Event, FloorStats, Visits)
@@ -164,48 +172,6 @@ mail = (mailOptions, callback) ->
 	)
 
 
-# Angular API
-# app.get('/api/name', api.name)
-app.get('/api/status', (req, res) ->
-	statusArray = []
-
-	for floor, index in config.floors
-		floorArray = []
-		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
-			if err?
-				res.statusCode = 400
-				return res.send("Error")
-
-			floorArray.push( event )
-		)
-
-		Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, event) ->
-			if err?
-				res.statusCode = 400
-				return res.send("Error")
-
-			floorArray.push( event )
-			statusArray.push( floorArray )
-
-			if index is config.floors.length
-				res.statusCode = 200
-				res.send( statusArray )
-		)
-
-
-
-)
-
-app.get('/api/que/:floor', (req, res) ->
-	Que.find({'floor' : req.params.floor, 'status' : 1 }, {}, {sort: { 'time' : -1 }}).exec( (err, que) ->
-		if err?
-			res.statusCode = 400
-			return res.send("Error")
-
-		res.statusCode = 200
-		res.send(que)
-	)
-)
 
 app.post('/api/que/:floor', (req, res) ->
 	params = req.body
@@ -225,6 +191,10 @@ app.post('/api/que/:floor', (req, res) ->
 				res.statusCode = 400
 				res.send({message:"Invalid Email"})
 			else
+				Que.count({floor:floor}, (err, count = 0) ->
+					io.sockets.emit('que', {floor:floor,count:count})
+				)
+
 				res.statusCode = 200
 				res.send("OK")
 		)
@@ -238,7 +208,38 @@ app.get('(!public)*', routes.index)
 
 
 
+io.sockets.on('connection', (socket) ->
+	# Angular API
+	statusArray = []
+	queObj = {}
 
-http.createServer(app).listen(app.get('port'), ->
-  console.log("Express server listening on port " + app.get('port'))
+	for floor, index in config.floors
+		floorArray = []
+		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventA) ->
+			if err?
+				res.statusCode = 400
+				return res.send("Error")
+
+			floorArray.push( eventA )
+
+			Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventB) ->
+				if err?
+					res.statusCode = 400
+					return res.send("Error")
+
+				floorArray.push( eventB )
+				statusArray.push( floorArray )
+
+				Que.count({floor:floor}, (err, count = 0) ->
+					queObj[floor] = count
+					console.log(floor, count ,queObj)
+
+					if index is config.floors.length
+						# send the new user their name and a list of users
+
+						io.sockets.emit('init', {floorsArray: statusArray, queObj: queObj });
+				)
+
+			)
+		)
 )

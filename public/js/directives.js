@@ -17,6 +17,11 @@ angular.module('gottaGo.directives', [])
                   $element.append($compile('<span>{{millis}}</span>')($scope));
               }
 
+              $scope.$watch("startTimeAttr", function() {
+                resetTimeout();
+                $scope.start();
+              });
+
               $scope.startTime = null;
               $scope.timeoutId = null;
               $scope.countdown = $scope.countdownattr && parseInt($scope.countdownattr, 10) > 0 ? parseInt($scope.countdownattr, 10) : undefined;
