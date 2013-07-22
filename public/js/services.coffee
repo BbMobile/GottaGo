@@ -19,7 +19,7 @@ services.factory("Que", ($http) ->
 # Demonstrate how to register services
 # In this case it is a simple value service.
 services.factory('socket', ($rootScope) ->
-  socket = window.io.connect('http://localhost:8080');
+  socket = window.io.connect('/');
   return {
     on: (eventName, callback) ->
       socket.on(eventName, ->
