@@ -190,6 +190,103 @@ input {
 	padding: 20px 0 0 0;
 	opacity: .6;
 }
+.analytics-wrapper {
+	width: 100%;
+	float: left;
+	min-height: 400px;
+	background: #eaecf0;
+}
+.analytics {
+	width: 960px;
+	margin: 0 auto;
+	padding: 120px 0 0 0;
+}
+.analytics h2 {
+	display: block;
+	float: left;
+	width: 458px;
+	font-size: 80px;
+	font-family: "Proxima Nova Bold";
+	color: #fff;
+	text-shadow: 0 10px 0 #dee0e4;
+	text-align: center;
+}
+.analytics h3 {
+	display: block;
+	float: left;
+	width: 458px;
+	text-align: center;
+	color: #babdc2;
+	line-height: 28px;
+}
+.analytics .peak-weekly {
+	float: left;
+	width: 920px;
+	padding: 30px;
+	background: #fff;
+	border-radius: 10px;
+	margin: 50px 0;
+}
+.peak-weekly header {
+	margin: 0 0 20px 20px;
+}
+.analytics .peak-weekly .peak-hour {
+	width: 10%;
+	height: 190px;
+	float: left;
+	margin: 0 0 20px 0;
+}
+.analytics .peak-weekly .peak-hour .hour-value {
+	position: relative;
+	display: block;
+	float: left;
+	width: 60%;
+	margin: 0 20%;
+	height: inherit;
+	text-indent: -9999px;
+	overflow: hidden;
+}
+.analytics .peak-weekly .peak-hour .hour-value .hour-value-bg {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 200px;
+	background: #007ff3;
+}
+.analytics .peak-weekly .peak-hour .hour {
+	display: block;
+	float: left;
+	width: 100%;
+	height: 20px;
+	padding: 10px 0 0 0;
+	text-align: center;
+}
+.analytics-section {
+	width: 100%;
+	float: left;
+	min-height: 200px;
+}
+.counter {
+	float: left;
+	width: 50%;
+	font-size: 120px;
+	color: #fff;
+	text-align: center;
+	text-shadow: 0 10px 0 #dee0e4;
+	font-family: "Proxima Nova Bold";
+}
+.analytics-name {
+	float: left;
+	padding: 40px 0 0 0;
+	text-align: center;
+	width: 50%;
+	float: left;
+	font-size: 34px;
+	color: #babdc2;
+	font-family: "Proxima Nova Bold"
+}
 .about-wrapper {
 	width: 100%;
 	float: left;

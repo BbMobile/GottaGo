@@ -54,6 +54,67 @@ html
         .queue(ng-show="notify[floor[0].floor]=='qued'")
           span(ng-show="que[floor[0].floor]-1>0") ({{que[floor[0].floor]-1}} OTHER humans in the queue)
           span(ng-hide="que[floor[0].floor]-1>0") (You are the only one in the queue right now)
+
+    .analytics-wrapper
+      .analytics
+        header
+          h2 Analytics
+          h3 We like numbers and data and visuals and stuff. Everyday we track the combined bathroom usage and use it to do cool math things.
+        .peak-weekly
+          header 
+            b Peak Usage 
+            | Weekly
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 9am
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 10am
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 11am
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 12pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 1pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 2pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 3pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 4pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 5pm
+          .peak-hour
+            .hour-value
+              .hour-value-bg(styl='top: 30%;')
+            .hour 6pm
+
+      .analytics-section.average-visit
+        .counter 00:00
+        .analytics-name Average Visit Length - Weekly
+      .analytics-section.finkle
+        .counter 00
+        .analytics-name Daily Finkle Visits
+      .analytics-section.einhorn
+        .counter 00
+        .analytics-name Daily Einhorn Visits
+
     .about-wrapper
       .about
         h2 Just think of how much time we've saved you?
