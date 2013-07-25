@@ -104,16 +104,15 @@ html
             .hour-value
               .hour-value-bg(style='top: {{100-((stats.reqPerHour.18||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 6pm
-
-      .analytics-section.average-visit
-        .counter {{stats.averageDur|ms}}
-        .analytics-name Average Visit Length
-      .analytics-section.finkle
-        .counter {{stats.a.todayVisits}}
-        .analytics-name Finkle Visits Today
-      .analytics-section.einhorn
-        .counter {{stats.b.todayVisits}}
-        .analytics-name Einhorn Visits Today
+        .analytics-section.average-visit
+          .counter {{stats.averageDur|ms}}
+          .analytics-name Average Visit Length
+        .analytics-section.finkle
+          .counter {{stats.a.todayVisits}}
+          .analytics-name Finkle Visits Today
+        .analytics-section.einhorn
+          .counter {{stats.b.todayVisits}}
+          .analytics-name Einhorn Visits Today
 
     .about-wrapper
       .about
