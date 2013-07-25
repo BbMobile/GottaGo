@@ -63,7 +63,7 @@ html
         .peak-weekly
           header
             b Peak Usage
-            |  Weekly
+            |  by hour
           .peak-hour
             .hour-value
               .hour-value-bg(style='top: {{100-((stats.reqPerHour.9||0) / stats.reqPerHour.top * 100)}}%;')
