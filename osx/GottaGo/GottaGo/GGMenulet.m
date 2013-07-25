@@ -3,6 +3,7 @@
 @implementation GGMenulet
 
 @synthesize statusItem = _statusItem;
+@synthesize webSocket = _webSocket;
 
 - (void)awakeFromNib
 {
@@ -34,11 +35,39 @@
 	[menu insertItem:quitMenuItem atIndex:2];
 	
 	[self.statusItem setMenu:menu];
+	
+	NSURL *url = [NSURL URLWithString:@"http://gottago.medu.com:8080"];
+	self.webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:url]];
+	dispatch_async(dispatch_get_main_queue(), ^{
+        self.webSocket.delegate = self;
+        [self.webSocket open];
+    });
 }
 
 - (IBAction)quit:(id)sender
 {
 	[NSApp terminate:self];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
+{
+	NSLog(@"webSocket:didReceiveMessage:");
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+	NSLog(@"webSocketDidOpen:");
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
+{
+	NSLog(@"webSocket:didFailWithError:");
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
+{
+	NSLog(@"didCloseWithCode:reason:wasClean");
+	NSLog(@"%@", reason);
 }
 
 @end
