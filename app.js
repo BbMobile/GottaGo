@@ -247,7 +247,7 @@ io.sockets.on('connection', function(socket) {
           queObj[floor] = count;
           console.log(floor, count, queObj);
           if (index === config.floors.length) {
-            return FloorStats.aggregate({
+            return Visits.aggregate({
               $match: {
                 duration: {
                   $gt: 20000,
@@ -257,9 +257,6 @@ io.sockets.on('connection', function(socket) {
             }, {
               "$group": {
                 _id: "$floor",
-                requests: {
-                  $sum: 1
-                },
                 averagedur: {
                   $avg: "$duration"
                 }
