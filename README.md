@@ -1,16 +1,20 @@
 GottaGo
 =======
+**What is it?**
 
-When you gotta go you _GottaGo_.
+GottaGo is a bathroom availability service developed for the Blackboard Mobile Summer 2013 Hackathon by Collin Allen, Eric Littlejohn, and Joe Taylor. The status of bathrooms is indicated by LED lights on the wall outside the bathroom as well as on the GottaGo status website available on the Blackboard Mobile internal network. It serves as a highly visible set of places to check to see if your walk to the bathroom is a worthwhile one.
 
-**What is It?**
+**Why do this?**
 
-GottaGo is a bathroom availability monitoring system created for the Summer 2013 BbMobile Hackathon by Collin Allen, Eric Littlejohn, and Joe Taylor. It works by keeping track of door locks and reporting the current states to a server at http://gottago.medu.com.
+In an office with a 9-to-1 person-to-toilet ratio, the probability that you'll approach the bathroom with both rooms occupied is very high, and it happens to many folks throughout the day. Do you return to your seat and try again a random amount of time later? Someone might grab the next availability before you. Do you wait by the bathroom? It might still be a while. Very first-world problems, all of which can be solved with first-world technology.
 
-**How Does it Work?**
+**How does it work?**
 
-It's powered by an Arduino that monitors a switch inside each bathroom door lock, as well as a app server running Node.js and MongoDB. The Arduino does an HTTP POST to the app server whenever the door is locked or unlocked, and the state is then reflected in lights on the wall near the bathroom as well as the GottaGo web site.
+Each bathroom door jamb has a microswitch installed, and that switch gets triggered when the door is locked. The state of the switch gets sent via a network-connected [Arduino](http://arduino.cc) to a [Node.js](https://github.com/joyent/node)/[MongoDB](https://github.com/mongodb/mongo)/[AngularJS](https://github.com/angular/angular.js) app to display the status on the internal network.
 
-**Hacking**
+**Want to hack on GottaGo?**
 
-If you'd like to hack on this project, the app server code lives in the root of this repo, and the Arduino code can be uploaded to the blue Arduino on the bathroom wall via USB. The Arduino code lives at `arduino/gotta_go/gotta_go.ino` and when running while connected, it will dump out debug information in the Serial Monitor in the Arduino IDE.
+The Node.js code is in the root of the repo, and the Arduino code is at `arduino/gotta_go/gotta_go.ino`.
+
+* The Node.js code can be deployed to the app server, where a `gottago` service is running Node.js via [forever](https://github.com/nodejitsu/forever)
+* The Arduino code can be uploaded to the wall-mounted Arduino via USB, and HTTP requests are logged via the Serial Monitor in the Arduino IDE
