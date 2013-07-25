@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F08D7B0F17A19808004F5D88 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F08D7B0E17A19808004F5D88 /* Cocoa.framework */; };
+		F08D7B1917A19808004F5D88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F08D7B1717A19808004F5D88 /* InfoPlist.strings */; };
+		F08D7B1B17A19808004F5D88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D7B1A17A19808004F5D88 /* main.m */; };
+		F08D7B1F17A19808004F5D88 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F08D7B1D17A19808004F5D88 /* Credits.rtf */; };
+		F08D7B2217A19808004F5D88 /* GGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D7B2117A19808004F5D88 /* GGAppDelegate.m */; };
+		F08D7B2517A19808004F5D88 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F08D7B2317A19808004F5D88 /* MainMenu.xib */; };
+		F0C7883317A1987C0016B09A /* GGMenulet.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C7883217A1987C0016B09A /* GGMenulet.m */; };
+		F0C7883517A1B1B00016B09A /* MenuIcons.png in Resources */ = {isa = PBXBuildFile; fileRef = F0C7883417A1B1B00016B09A /* MenuIcons.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F08D7B0B17A19808004F5D88 /* GottaGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GottaGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F08D7B0E17A19808004F5D88 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F08D7B1117A19808004F5D88 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		F08D7B1217A19808004F5D88 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F08D7B1317A19808004F5D88 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F08D7B1617A19808004F5D88 /* GottaGo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GottaGo-Info.plist"; sourceTree = "<group>"; };
+		F08D7B1817A19808004F5D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F08D7B1A17A19808004F5D88 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F08D7B1C17A19808004F5D88 /* GottaGo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GottaGo-Prefix.pch"; sourceTree = "<group>"; };
+		F08D7B1E17A19808004F5D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		F08D7B2017A19808004F5D88 /* GGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GGAppDelegate.h; sourceTree = "<group>"; };
+		F08D7B2117A19808004F5D88 /* GGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GGAppDelegate.m; sourceTree = "<group>"; };
+		F08D7B2417A19808004F5D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F0C7883117A1987C0016B09A /* GGMenulet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGMenulet.h; sourceTree = "<group>"; };
+		F0C7883217A1987C0016B09A /* GGMenulet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGMenulet.m; sourceTree = "<group>"; };
+		F0C7883417A1B1B00016B09A /* MenuIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuIcons.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F08D7B0817A19808004F5D88 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08D7B0F17A19808004F5D88 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F08D7B0217A19808004F5D88 = {
+			isa = PBXGroup;
+			children = (
+				F08D7B1417A19808004F5D88 /* GottaGo */,
+				F08D7B0D17A19808004F5D88 /* Frameworks */,
+				F08D7B0C17A19808004F5D88 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F08D7B0C17A19808004F5D88 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F08D7B0B17A19808004F5D88 /* GottaGo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F08D7B0D17A19808004F5D88 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F08D7B0E17A19808004F5D88 /* Cocoa.framework */,
+				F08D7B1017A19808004F5D88 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F08D7B1017A19808004F5D88 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F08D7B1117A19808004F5D88 /* AppKit.framework */,
+				F08D7B1217A19808004F5D88 /* CoreData.framework */,
+				F08D7B1317A19808004F5D88 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		F08D7B1417A19808004F5D88 /* GottaGo */ = {
+			isa = PBXGroup;
+			children = (
+				F08D7B2017A19808004F5D88 /* GGAppDelegate.h */,
+				F08D7B2117A19808004F5D88 /* GGAppDelegate.m */,
+				F0C7883117A1987C0016B09A /* GGMenulet.h */,
+				F0C7883217A1987C0016B09A /* GGMenulet.m */,
+				F08D7B2317A19808004F5D88 /* MainMenu.xib */,
+				F08D7B1517A19808004F5D88 /* Supporting Files */,
+			);
+			path = GottaGo;
+			sourceTree = "<group>";
+		};
+		F08D7B1517A19808004F5D88 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F0C7883417A1B1B00016B09A /* MenuIcons.png */,
+				F08D7B1617A19808004F5D88 /* GottaGo-Info.plist */,
+				F08D7B1717A19808004F5D88 /* InfoPlist.strings */,
+				F08D7B1A17A19808004F5D88 /* main.m */,
+				F08D7B1C17A19808004F5D88 /* GottaGo-Prefix.pch */,
+				F08D7B1D17A19808004F5D88 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F08D7B0A17A19808004F5D88 /* GottaGo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F08D7B2817A19808004F5D88 /* Build configuration list for PBXNativeTarget "GottaGo" */;
+			buildPhases = (
+				F08D7B0717A19808004F5D88 /* Sources */,
+				F08D7B0817A19808004F5D88 /* Frameworks */,
+				F08D7B0917A19808004F5D88 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GottaGo;
+			productName = GottaGo;
+			productReference = F08D7B0B17A19808004F5D88 /* GottaGo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F08D7B0317A19808004F5D88 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = GG;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Blackboard Inc.";
+			};
+			buildConfigurationList = F08D7B0617A19808004F5D88 /* Build configuration list for PBXProject "GottaGo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F08D7B0217A19808004F5D88;
+			productRefGroup = F08D7B0C17A19808004F5D88 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F08D7B0A17A19808004F5D88 /* GottaGo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F08D7B0917A19808004F5D88 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08D7B1917A19808004F5D88 /* InfoPlist.strings in Resources */,
+				F08D7B1F17A19808004F5D88 /* Credits.rtf in Resources */,
+				F08D7B2517A19808004F5D88 /* MainMenu.xib in Resources */,
+				F0C7883517A1B1B00016B09A /* MenuIcons.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F08D7B0717A19808004F5D88 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F08D7B1B17A19808004F5D88 /* main.m in Sources */,
+				F08D7B2217A19808004F5D88 /* GGAppDelegate.m in Sources */,
+				F0C7883317A1987C0016B09A /* GGMenulet.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F08D7B1717A19808004F5D88 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F08D7B1817A19808004F5D88 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F08D7B1D17A19808004F5D88 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F08D7B1E17A19808004F5D88 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		F08D7B2317A19808004F5D88 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F08D7B2417A19808004F5D88 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F08D7B2617A19808004F5D88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F08D7B2717A19808004F5D88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F08D7B2917A19808004F5D88 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
+				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F08D7B2A17A19808004F5D88 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
+				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F08D7B0617A19808004F5D88 /* Build configuration list for PBXProject "GottaGo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F08D7B2617A19808004F5D88 /* Debug */,
+				F08D7B2717A19808004F5D88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F08D7B2817A19808004F5D88 /* Build configuration list for PBXNativeTarget "GottaGo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F08D7B2917A19808004F5D88 /* Debug */,
+				F08D7B2A17A19808004F5D88 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F08D7B0317A19808004F5D88 /* Project object */;
+}
