@@ -237,9 +237,9 @@ io.sockets.on('connection', (socket) ->
 					if index is config.floors.length
 						# send the new user their name and a list of users
 
-						FloorStats.aggregate(
+						Visits.aggregate(
 							{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-							{ "$group": { _id: "$floor", requests: { $sum:1}, averagedur: { $avg: "$duration"}}}
+							{ "$group": { _id: "$floor", averagedur: { $avg: "$duration"}}}
 						, (err, res) ->
 							if err
 								return handleError(err)
