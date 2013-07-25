@@ -237,7 +237,56 @@ io.sockets.on('connection', (socket) ->
 					if index is config.floors.length
 						# send the new user their name and a list of users
 
-						io.sockets.emit('init', {floorsArray: statusArray, queObj: queObj });
+						FloorStats.aggregate(
+							{ "$group": { _id: "$floor", requests: { $sum:1}, averagedur: { $avg: "$duration"}}}
+						, (err, res) ->
+							if err
+								return handleError(err)
+
+
+							today = new Date().getDate()
+
+							Visits.aggregate(
+								{ $match : { day : { $gt : today - 1 } } },
+								{ "$group": { _id: "$room", requests: { $sum:1} } },
+								{$sort: {_id: 1} }
+							, (err, res2) ->
+
+								Visits.aggregate(
+									{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
+								, (err, res3) ->
+
+									reqPerHourObj = {}
+
+									for hour in res3
+										reqPerHourObj[hour._id] = hour.requests
+
+									reqPerHourObj.top = res3[0].requests
+
+									io.sockets.emit('init',
+										{
+											floorsArray: statusArray,
+											queObj: queObj,
+											stats:
+												{
+													reqPerHour: reqPerHourObj
+													averageDur:res[0].averagedur,
+													a:
+														{
+															todayVisits: res2[0].requests
+														}
+													b:
+														{
+															todayVisits: res2[1].requests
+														}
+												}
+										}
+									)
+								)
+
+							)
+						)
+
 				)
 
 			)

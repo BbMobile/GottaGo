@@ -17,9 +17,10 @@ angular.module('gottaGo.controllers', ['ngResource'])
 
 
   socket.on('init', (data) ->
-    console.log(data)
+    # console.log(data)
     $scope.floorsArray = data.floorsArray
     $scope.que = data.queObj
+    $scope.stats = data.stats
   )
 
   socket.on('event', (data) ->

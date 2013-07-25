@@ -247,9 +247,77 @@ io.sockets.on('connection', function(socket) {
           queObj[floor] = count;
           console.log(floor, count, queObj);
           if (index === config.floors.length) {
-            return io.sockets.emit('init', {
-              floorsArray: statusArray,
-              queObj: queObj
+            return FloorStats.aggregate({
+              "$group": {
+                _id: "$floor",
+                requests: {
+                  $sum: 1
+                },
+                averagedur: {
+                  $avg: "$duration"
+                }
+              }
+            }, function(err, res) {
+              var today;
+
+              if (err) {
+                return handleError(err);
+              }
+              today = new Date().getDate();
+              return Visits.aggregate({
+                $match: {
+                  day: {
+                    $gt: today - 1
+                  }
+                }
+              }, {
+                "$group": {
+                  _id: "$room",
+                  requests: {
+                    $sum: 1
+                  }
+                }
+              }, {
+                $sort: {
+                  _id: 1
+                }
+              }, function(err, res2) {
+                return Visits.aggregate({
+                  "$group": {
+                    _id: "$hour",
+                    requests: {
+                      $sum: 1
+                    }
+                  }
+                }, {
+                  $sort: {
+                    requests: -1
+                  }
+                }, function(err, res3) {
+                  var hour, reqPerHourObj, _j, _len1;
+
+                  reqPerHourObj = {};
+                  for (_j = 0, _len1 = res3.length; _j < _len1; _j++) {
+                    hour = res3[_j];
+                    reqPerHourObj[hour._id] = hour.requests;
+                  }
+                  reqPerHourObj.top = res3[0].requests;
+                  return io.sockets.emit('init', {
+                    floorsArray: statusArray,
+                    queObj: queObj,
+                    stats: {
+                      reqPerHour: reqPerHourObj,
+                      averageDur: res[0].averagedur,
+                      a: {
+                        todayVisits: res2[0].requests
+                      },
+                      b: {
+                        todayVisits: res2[1].requests
+                      }
+                    }
+                  });
+                });
+              });
             });
           }
         });

@@ -8,7 +8,7 @@
     "jade": "*",
     "connect-mongodb": "1.1.1",
     "less-middleware": "*",
-    "mongoose": "2.7.0",
+    "mongoose": "latest",
     "nodemailer": "~0.5.0",
     "socket.io": "latest"
   }

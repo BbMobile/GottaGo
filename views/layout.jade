@@ -61,59 +61,59 @@ html
           h2 Analytics
           h3 We like numbers and data and visuals and stuff. Everyday we track the combined bathroom usage and use it to do cool math things.
         .peak-weekly
-          header 
-            b Peak Usage 
-            | Weekly
+          header
+            b Peak Usage {{100-(stats.reqPerHour.9 / stats.reqPerHour.top * 100)}} {{stats.reqPerHour.8 / stats.reqPerHour.top}} {{stats.reqPerHour.8 }} {{ stats.reqPerHour.top}}
+            |  Weekly
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.9||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 9am
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.10||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 10am
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.11||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 11am
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.12||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 12pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.13||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 1pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.14||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 2pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.15||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 3pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.16||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 4pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.17||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 5pm
           .peak-hour
             .hour-value
-              .hour-value-bg(styl='top: 30%;')
+              .hour-value-bg(style='top: {{100-((stats.reqPerHour.18||0) / stats.reqPerHour.top * 100)}}%;')
             .hour 6pm
 
       .analytics-section.average-visit
-        .counter 00:00
-        .analytics-name Average Visit Length - Weekly
+        .counter {{stats.averageDur|ms}}
+        .analytics-name Average Visit Length
       .analytics-section.finkle
-        .counter 00
-        .analytics-name Daily Finkle Visits
+        .counter {{stats.a.todayVisits}}
+        .analytics-name Finkle Visits Today
       .analytics-section.einhorn
-        .counter 00
-        .analytics-name Daily Einhorn Visits
+        .counter {{stats.b.todayVisits}}
+        .analytics-name Einhorn Visits Today
 
     .about-wrapper
       .about

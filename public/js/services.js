@@ -37,7 +37,7 @@ services.factory("Que", function($http) {
 services.factory('socket', function($rootScope) {
   var socket;
 
-  socket = window.io.connect('http://gottago.medu.com:8080');
+  socket = window.io.connect('//');
   return {
     on: function(eventName, callback) {
       return socket.on(eventName, function() {

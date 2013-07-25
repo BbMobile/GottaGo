@@ -8,10 +8,10 @@ occupationsPerHour = function(floor, room) {
   return {
     floor: floor,
     room: room,
-    year: d.getUTCFullYear(),
-    month: d.getUTCMonth(),
-    day: d.getUTCDate(),
-    hour: d.getUTCHours()
+    year: d.getFullYear(),
+    month: d.getMonth(),
+    day: d.getDate(),
+    hour: d.getHours()
   };
 };
 

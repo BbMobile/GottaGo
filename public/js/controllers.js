@@ -11,9 +11,9 @@
     return roomNames[floor + room];
   };
   socket.on('init', function(data) {
-    console.log(data);
     $scope.floorsArray = data.floorsArray;
-    return $scope.que = data.queObj;
+    $scope.que = data.queObj;
+    return $scope.stats = data.stats;
   });
   socket.on('event', function(data) {
     var floor, floorIndex, room, roomIndex, _i, _j, _len, _len1, _ref;

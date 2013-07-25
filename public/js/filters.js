@@ -11,4 +11,21 @@
       return input;
     }
   };
+}).filter('ms', function() {
+  return function(s) {
+    var addZ, hrs, mins, ms, secs;
+
+    addZ = function(n) {
+      return (n < (typeof 10 === "function" ? 10({
+        '0': ''
+      }) : void 0)) + n;
+    };
+    ms = s % 1000;
+    s = (s - ms) / 1000;
+    secs = s % 60;
+    s = (s - secs) / 60;
+    mins = s % 60;
+    hrs = (s - mins) / 60;
+    return addZ(hrs) + ':' + addZ(mins) + ':' + addZ(secs);
+  };
 });
