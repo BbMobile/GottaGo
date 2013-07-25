@@ -55,7 +55,7 @@ html
           span(ng-show="que[floor[0].floor]-1>0") ({{que[floor[0].floor]-1}} OTHER humans in the queue)
           span(ng-hide="que[floor[0].floor]-1>0") (You are the only one in the queue right now)
 
-    .analytics-wrapper
+    .analytics-wrapper(ng-show="stats")
       .analytics
         header
           h2 Analytics
