@@ -261,7 +261,7 @@ io.sockets.on('connection', (socket) ->
 									for hour in res3
 										reqPerHourObj[hour._id] = hour.requests
 
-									reqPerHourObj.top = res3[0].requests
+									reqPerHourObj.top = res3[0]?.requests
 
 									io.sockets.emit('init',
 										{
@@ -270,14 +270,14 @@ io.sockets.on('connection', (socket) ->
 											stats:
 												{
 													reqPerHour: reqPerHourObj
-													averageDur:res[0].averagedur,
+													averageDur:res[0]?.averagedur,
 													a:
 														{
-															todayVisits: res2[0].requests
+															todayVisits: res2[0]?.requests
 														}
 													b:
 														{
-															todayVisits: res2[1].requests
+															todayVisits: res2[1]?.requests
 														}
 												}
 										}

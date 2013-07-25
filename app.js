@@ -294,25 +294,25 @@ io.sockets.on('connection', function(socket) {
                     requests: -1
                   }
                 }, function(err, res3) {
-                  var hour, reqPerHourObj, _j, _len1;
+                  var hour, reqPerHourObj, _j, _len1, _ref1, _ref2, _ref3, _ref4;
 
                   reqPerHourObj = {};
                   for (_j = 0, _len1 = res3.length; _j < _len1; _j++) {
                     hour = res3[_j];
                     reqPerHourObj[hour._id] = hour.requests;
                   }
-                  reqPerHourObj.top = res3[0].requests;
+                  reqPerHourObj.top = (_ref1 = res3[0]) != null ? _ref1.requests : void 0;
                   return io.sockets.emit('init', {
                     floorsArray: statusArray,
                     queObj: queObj,
                     stats: {
                       reqPerHour: reqPerHourObj,
-                      averageDur: res[0].averagedur,
+                      averageDur: (_ref2 = res[0]) != null ? _ref2.averagedur : void 0,
                       a: {
-                        todayVisits: res2[0].requests
+                        todayVisits: (_ref3 = res2[0]) != null ? _ref3.requests : void 0
                       },
                       b: {
-                        todayVisits: res2[1].requests
+                        todayVisits: (_ref4 = res2[1]) != null ? _ref4.requests : void 0
                       }
                     }
                   });
