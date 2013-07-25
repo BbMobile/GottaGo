@@ -248,6 +248,13 @@ io.sockets.on('connection', function(socket) {
           console.log(floor, count, queObj);
           if (index === config.floors.length) {
             return FloorStats.aggregate({
+              $match: {
+                duration: {
+                  $gt: 20000,
+                  $lt: 3600000
+                }
+              }
+            }, {
               "$group": {
                 _id: "$floor",
                 requests: {
@@ -271,6 +278,13 @@ io.sockets.on('connection', function(socket) {
                   }
                 }
               }, {
+                $match: {
+                  duration: {
+                    $gt: 20000,
+                    $lt: 3600000
+                  }
+                }
+              }, {
                 "$group": {
                   _id: "$room",
                   requests: {
@@ -283,6 +297,13 @@ io.sockets.on('connection', function(socket) {
                 }
               }, function(err, res2) {
                 return Visits.aggregate({
+                  $match: {
+                    duration: {
+                      $gt: 20000,
+                      $lt: 3600000
+                    }
+                  }
+                }, {
                   "$group": {
                     _id: "$hour",
                     requests: {

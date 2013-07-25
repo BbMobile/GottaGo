@@ -238,6 +238,7 @@ io.sockets.on('connection', (socket) ->
 						# send the new user their name and a list of users
 
 						FloorStats.aggregate(
+							{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
 							{ "$group": { _id: "$floor", requests: { $sum:1}, averagedur: { $avg: "$duration"}}}
 						, (err, res) ->
 							if err
@@ -248,11 +249,13 @@ io.sockets.on('connection', (socket) ->
 
 							Visits.aggregate(
 								{ $match : { day : { $gt : today - 1 } } },
+								{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
 								{ "$group": { _id: "$room", requests: { $sum:1} } },
 								{$sort: {_id: 1} }
 							, (err, res2) ->
 
 								Visits.aggregate(
+									{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
 									{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
 								, (err, res3) ->
 
