@@ -32,7 +32,7 @@ getStartOfOccupation = function(event, Event, callback) {
   });
 };
 
-exports.logEvent = function(event, req, res, Event, FloorStats, Visits) {
+exports.logEvent = function(event, req, res, Event, FloorStats, Visits, callback) {
   event.save(function(err) {
     if (err != null) {
       res.statusCode = 400;
@@ -68,7 +68,9 @@ exports.logEvent = function(event, req, res, Event, FloorStats, Visits) {
       visitData = timeObject;
       visitData.duration = diff;
       visit = new Visits(visitData);
-      return visit.save();
+      return visit.save(function(err) {
+        return callback();
+      });
     });
   }
 };

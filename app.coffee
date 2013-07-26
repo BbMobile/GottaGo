@@ -145,7 +145,9 @@ app.post('/api/event', (req, res) ->
 	    io.sockets.emit('que', {floor:event.floor,count:0})
 	  )
 
-	eventLogger.logEvent(event, req, res, Event, FloorStats, Visits)
+	eventLogger.logEvent(event, req, res, Event, FloorStats, Visits, ->
+		pushAnalytics()
+	)
 
 )
 
@@ -237,57 +239,13 @@ io.sockets.on('connection', (socket) ->
 					if index is config.floors.length
 						# send the new user their name and a list of users
 
-						Visits.aggregate(
-							{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-							{ "$group": { _id: "$floor", averagedur: { $avg: "$duration"}}}
-						, (err, res) ->
-							if err
-								return handleError(err)
+						pushAnalytics()
 
-
-							today = new Date().getDate()
-
-							Visits.aggregate(
-								{ $match : { day : { $gt : today - 1 } } },
-								{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-								{ "$group": { _id: "$room", requests: { $sum:1} } },
-								{$sort: {_id: 1} }
-							, (err, res2) ->
-
-								Visits.aggregate(
-									{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-									{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
-								, (err, res3) ->
-
-									reqPerHourObj = {}
-
-									for hour in res3
-										reqPerHourObj[hour._id] = hour.requests
-
-									reqPerHourObj.top = res3[0]?.requests
-
-									io.sockets.emit('init',
-										{
-											floorsArray: statusArray,
-											queObj: queObj,
-											stats:
-												{
-													reqPerHour: reqPerHourObj
-													averageDur:res[0]?.averagedur,
-													a:
-														{
-															todayVisits: res2[0]?.requests
-														}
-													b:
-														{
-															todayVisits: res2[1]?.requests
-														}
-												}
-										}
-									)
-								)
-
-							)
+						io.sockets.emit('init',
+							{
+								floorsArray: statusArray
+								queObj: queObj
+							}
 						)
 
 				)
@@ -295,3 +253,58 @@ io.sockets.on('connection', (socket) ->
 			)
 		)
 )
+
+
+pushAnalytics = ->
+	Visits.aggregate(
+		{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
+		{ "$group": { _id: "$floor", averagedur: { $avg: "$duration"}}}
+	, (err, res) ->
+		if err
+			return handleError(err)
+
+
+		console.log( res[0]?.averagedur )
+
+		today = new Date().getDate()
+
+		Visits.aggregate(
+			{ $match : { day : { $gt : today - 1 } } },
+			{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
+			{ "$group": { _id: "$room", requests: { $sum:1} } },
+			{$sort: {_id: 1} }
+		, (err, res2) ->
+
+			Visits.aggregate(
+				{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
+				{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
+			, (err, res3) ->
+
+				reqPerHourObj = {}
+
+				for hour in res3
+					reqPerHourObj[hour._id] = hour.requests
+
+				reqPerHourObj.top = res3[0]?.requests
+
+				io.sockets.emit('analytics',
+					{
+						stats:
+							{
+								reqPerHour: reqPerHourObj
+								averageDur:res[0]?.averagedur,
+								a:
+									{
+										todayVisits: res2[0]?.requests
+									}
+								b:
+									{
+										todayVisits: res2[1]?.requests
+									}
+							}
+					}
+				)
+			)
+
+		)
+	)

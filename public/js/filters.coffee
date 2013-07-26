@@ -12,7 +12,7 @@ angular.module('gottaGo.filters', [])
   .filter('ms', ->
     return (s) ->
       addZ = (n) ->
-        return (n<10? '0':'') + n
+        return if n<10 then '0' + n else '' + n
 
       ms = s % 1000
       s = (s - ms) / 1000

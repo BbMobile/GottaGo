@@ -18,7 +18,7 @@ getStartOfOccupation = (event, Event, callback) ->
     callback( event.time )
   )
 
-exports.logEvent = (event, req, res, Event, FloorStats, Visits) ->
+exports.logEvent = (event, req, res, Event, FloorStats, Visits, callback) ->
   event.save( (err) ->
     if err?
       res.statusCode = 400
@@ -56,7 +56,9 @@ exports.logEvent = (event, req, res, Event, FloorStats, Visits) ->
 
       visit = new Visits( visitData )
 
-      visit.save()
+      visit.save( (err) ->
+        callback()
+      )
 
     )
 

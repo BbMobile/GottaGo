@@ -20,7 +20,6 @@ angular.module('gottaGo.controllers', ['ngResource'])
     # console.log(data)
     $scope.floorsArray = data.floorsArray
     $scope.que = data.queObj
-    $scope.stats = data.stats
   )
 
   socket.on('event', (data) ->
@@ -35,6 +34,10 @@ angular.module('gottaGo.controllers', ['ngResource'])
     $scope.que[data.floor] = data.count
     if data.count is 0
       $scope.notify[data.floor] = ''
+  )
+
+  socket.on('analytics', (data) ->
+    $scope.stats = data.stats
   )
 
 

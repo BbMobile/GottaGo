@@ -108,10 +108,10 @@ html
           .counter {{stats.averageDur|ms}}
           .analytics-name Average Visit Length
         .analytics-section.finkle
-          .counter {{stats.a.todayVisits}}
+          .counter {{stats.a.todayVisits || 0}}
           .analytics-name Finkle Visits Today
         .analytics-section.einhorn
-          .counter {{stats.b.todayVisits}}
+          .counter {{stats.b.todayVisits || 0}}
           .analytics-name Einhorn Visits Today
 
     .about-wrapper

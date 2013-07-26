@@ -16,9 +16,11 @@
     var addZ, hrs, mins, ms, secs;
 
     addZ = function(n) {
-      return (n < (typeof 10 === "function" ? 10({
-        '0': ''
-      }) : void 0)) + n;
+      if (n < 10) {
+        return '0' + n;
+      } else {
+        return '' + n;
+      }
     };
     ms = s % 1000;
     s = (s - ms) / 1000;

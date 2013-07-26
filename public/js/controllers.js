@@ -12,8 +12,7 @@
   };
   socket.on('init', function(data) {
     $scope.floorsArray = data.floorsArray;
-    $scope.que = data.queObj;
-    return $scope.stats = data.stats;
+    return $scope.que = data.queObj;
   });
   socket.on('event', function(data) {
     var floor, floorIndex, room, roomIndex, _i, _j, _len, _len1, _ref;
@@ -35,6 +34,9 @@
     if (data.count === 0) {
       return $scope.notify[data.floor] = '';
     }
+  });
+  socket.on('analytics', function(data) {
+    return $scope.stats = data.stats;
   });
   return $scope.addToQue = function(floor, contact) {
     return Que.post(floor, {
