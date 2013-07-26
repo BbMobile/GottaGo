@@ -254,6 +254,11 @@ input {
 	width: 100%;
 	height: 200px;
 	background: #007ff3;
+	-webkit-transition: all .3s ease-in;
+	-moz-transition: all .3s ease-in;
+	-ms-transition: all .3s ease-in;
+	-o-transition: all .3s ease-in;
+	transition: all .3s ease-in;
 }
 .analytics .peak-weekly .peak-hour .hour {
 	display: block;
