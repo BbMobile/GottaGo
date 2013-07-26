@@ -1,15 +1,21 @@
 #import <Foundation/Foundation.h>
-#import <SRWebSocket.h>
+#import <SocketIO.h>
+#import <SocketIOPacket.h>
+#import "GGFloor.h"
+#import "GGRoom.h"
 
-@interface GGMenulet : NSObject <SRWebSocketDelegate>
+@interface GGMenulet : NSObject <SocketIODelegate>
 {
 	NSStatusItem *statusItem;
-	SRWebSocket *webSocket;
+	NSMutableDictionary *floors;
+	SocketIO *socket;
 }
 
 @property (strong) NSStatusItem *statusItem;
-@property (strong) SRWebSocket *webSocket;
+@property (strong) NSMutableDictionary *floors;
+@property (strong) SocketIO *socket;
 
+- (void)update;
 - (IBAction)quit:(id)sender;
 
 @end
