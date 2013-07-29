@@ -3,6 +3,10 @@
 @implementation GGMenulet
 
 @synthesize statusItem = _statusItem;
+@synthesize floor4MenuItem = _floor4MenuItem;
+@synthesize floor3MenuItem = _floor3MenuItem;
+@synthesize floor2MenuItem = _floor2MenuItem;
+@synthesize floor1MenuItem = _floor1MenuItem;
 @synthesize floors = _floors;
 @synthesize socket = _socket;
 
@@ -27,19 +31,105 @@
 	[menuItem setEnabled:NO];
 	[menu insertItem:menuItem atIndex:0];
 	
-	NSMenuItem *separatorMenuItem = [NSMenuItem separatorItem];
-	[menu insertItem:separatorMenuItem atIndex:1];
+	NSMenuItem *separatorMenuItem1 = [NSMenuItem separatorItem];
+	[menu insertItem:separatorMenuItem1 atIndex:1];
+	
+	// Build the floor list
+	// So hacky -- should really be built upon the list of floors delivered in the initial socket.io message
+	NSString *preferredFloor = [self preferredFloor];
+	
+	self.floor4MenuItem = [[NSMenuItem alloc] initWithTitle:@"Floor 4" action:@selector(chooseFloor4:) keyEquivalent:@""];
+	[self.floor4MenuItem setTarget:self];
+	[self.floor4MenuItem setEnabled:NO];
+	[menu insertItem:self.floor4MenuItem atIndex:2];
+	if ([preferredFloor isEqualToString:@"4"]) [self.floor4MenuItem setState:NSOnState];
+	
+	self.floor3MenuItem = [[NSMenuItem alloc] initWithTitle:@"Floor 3" action:@selector(chooseFloor3:) keyEquivalent:@""];
+	[self.floor3MenuItem setTarget:self];
+	[self.floor3MenuItem setEnabled:YES];
+	[menu insertItem:self.floor3MenuItem atIndex:3];
+	if ([preferredFloor isEqualToString:@"3"]) [self.floor3MenuItem setState:NSOnState];
+	
+	self.floor2MenuItem = [[NSMenuItem alloc] initWithTitle:@"Floor 2" action:@selector(chooseFloor2:) keyEquivalent:@""];
+	[self.floor2MenuItem setTarget:self];
+	[self.floor2MenuItem setEnabled:YES];
+	[menu insertItem:self.floor2MenuItem atIndex:4];
+	if ([preferredFloor isEqualToString:@"2"]) [self.floor2MenuItem setState:NSOnState];
+	
+	self.floor1MenuItem = [[NSMenuItem alloc] initWithTitle:@"Floor 1" action:@selector(chooseFloor1:) keyEquivalent:@""];
+	[self.floor1MenuItem setTarget:self];
+	[self.floor1MenuItem setEnabled:NO];
+	[menu insertItem:self.floor1MenuItem atIndex:5];
+	if ([preferredFloor isEqualToString:@"1"]) [self.floor1MenuItem setState:NSOnState];
+	
+	NSMenuItem *separatorMenuItem2 = [NSMenuItem separatorItem];
+	[menu insertItem:separatorMenuItem2 atIndex:6];
 	
 	NSMenuItem *quitMenuItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quit:) keyEquivalent:@""];
 	[quitMenuItem setTarget:self];
 	[quitMenuItem setEnabled:YES];
-	[menu insertItem:quitMenuItem atIndex:2];
+	[menu insertItem:quitMenuItem atIndex:7];
 	
 	[self.statusItem setMenu:menu];
 	
 	self.floors = [NSMutableDictionary dictionary];
 	
 	[self connect];
+}
+
+- (void)chooseFloor4:(id)sender
+{
+	[self.floor4MenuItem setState:NSOnState];
+	[self.floor3MenuItem setState:NSOffState];
+	[self.floor2MenuItem setState:NSOffState];
+	[self.floor1MenuItem setState:NSOffState];
+	[self setPreferredFloor:@"4"];
+	[self update];
+}
+
+- (void)chooseFloor3:(id)sender
+{
+	[self.floor4MenuItem setState:NSOffState];
+	[self.floor3MenuItem setState:NSOnState];
+	[self.floor2MenuItem setState:NSOffState];
+	[self.floor1MenuItem setState:NSOffState];
+	[self setPreferredFloor:@"3"];
+	[self update];
+}
+
+- (void)chooseFloor2:(id)sender
+{
+	[self.floor4MenuItem setState:NSOffState];
+	[self.floor3MenuItem setState:NSOffState];
+	[self.floor2MenuItem setState:NSOnState];
+	[self.floor1MenuItem setState:NSOffState];
+	[self setPreferredFloor:@"2"];
+	[self update];
+}
+
+- (void)chooseFloor1:(id)sender
+{
+	[self.floor4MenuItem setState:NSOffState];
+	[self.floor3MenuItem setState:NSOffState];
+	[self.floor2MenuItem setState:NSOffState];
+	[self.floor1MenuItem setState:NSOnState];
+	[self setPreferredFloor:@"1"];
+	[self update];
+}
+
+- (NSString *)preferredFloor
+{
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	NSString *preferredFloor = [prefs stringForKey:@"preferredFloor"];
+	
+	return (preferredFloor) ? preferredFloor : @"2"; // Default floor is 2 -- the first floor to recieve a GottaGo unit
+}
+
+- (void)setPreferredFloor:(NSString *)floorKey
+{
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	[prefs setObject:floorKey forKey:@"preferredFloor"];
+	[prefs synchronize];
 }
 
 - (void)connect
@@ -59,18 +149,28 @@
 	NSMutableArray *strings = [NSMutableArray array];
 	NSString *imagePrefix = @"MenuIcons-";
 	
-	for (NSString *floorKey in self.floors)
+	for (int f = 1; f <= 4; f++)
 	{
-		GGFloor *floor = [self.floors valueForKey:floorKey];
-		//NSLog(@"Floor %@ with %ld rooms:", floorKey, [floor.rooms count]);
-		for (NSString *roomKey in floor.rooms)
+		NSString *floorKey = [NSString stringWithFormat:@"%d", f];
+		if ([floorKey isEqualToString:[self preferredFloor]])
 		{
-			GGRoom *room = [floor.rooms valueForKey:roomKey];
-			//NSLog(@"  Room %@: %@", roomKey, room);
-			[strings addObject:(room.isOccupied) ? @"O" : @"V"];
+			GGFloor *floor = [self.floors valueForKey:floorKey];
+			if (!floor)
+			{
+				// No floor data exists, so mark it as offline
+				[strings addObject:@"X"];
+				[strings addObject:@"X"];
+			}
+			else
+			{
+				GGRoom *room1 = [floor.rooms valueForKey:@"a"];
+				GGRoom *room2 = [floor.rooms valueForKey:@"b"];
+				[strings addObject:(room1.isOccupied) ? @"O" : @"V"];
+				[strings addObject:(room2.isOccupied) ? @"O" : @"V"];
+			}
 		}
 	}
-	
+		
 	NSImage *menuIcon = [NSImage imageNamed:[imagePrefix stringByAppendingString:[strings componentsJoinedByString:@""]]];
 	[self.statusItem setImage:menuIcon];
 }
@@ -103,6 +203,7 @@
 	NSDictionary *args = [packet.args objectAtIndex:0];
 	
 	NSArray *floorsArray = [args valueForKey:@"floorsArray"];
+	NSLog(@"%@", args);
 	if (floorsArray)
 	{
 		for (NSArray *floor in floorsArray)
