@@ -15,7 +15,10 @@
 @property (strong) NSMutableDictionary *floors;
 @property (strong) SocketIO *socket;
 
+- (void)connect;
+- (void)reconnect;
 - (void)update;
+- (void)showOffline;
 - (IBAction)quit:(id)sender;
 
 @end

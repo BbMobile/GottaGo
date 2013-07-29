@@ -11,11 +11,11 @@
 	self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
 	[self.statusItem setEnabled:YES];
 	[self.statusItem setHighlightMode:YES];
-	[self.statusItem setTitle:@"Checking Checking"];
+	//[self.statusItem setTitle:@"Checking Checking"];
 	[self.statusItem setTarget:self];
 	
 	// Set icon
-	NSImage *menuIcon = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MenuIcons" ofType:@"png"]];
+	NSImage *menuIcon = [NSImage imageNamed:@"MenuIcons-XX"];
 	[self.statusItem setImage:menuIcon];
 	
 	// Set menu
@@ -37,12 +37,48 @@
 	
 	[self.statusItem setMenu:menu];
 	
-	// Setup floor data
 	self.floors = [NSMutableDictionary dictionary];
 	
-	// Setup socket.io connection
+	[self connect];
+}
+
+- (void)connect
+{
 	self.socket = [[SocketIO alloc] initWithDelegate:self];
 	[self.socket connectToHost:@"dev-gottago.medu.com" onPort:8080];
+}
+
+- (void)reconnect
+{
+	[self showOffline];
+	[NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(connect) userInfo:nil repeats:NO];
+}
+
+- (void)update
+{
+	NSMutableArray *strings = [NSMutableArray array];
+	NSString *imagePrefix = @"MenuIcons-";
+	
+	for (NSString *floorKey in self.floors)
+	{
+		GGFloor *floor = [self.floors valueForKey:floorKey];
+		//NSLog(@"Floor %@ with %ld rooms:", floorKey, [floor.rooms count]);
+		for (NSString *roomKey in floor.rooms)
+		{
+			GGRoom *room = [floor.rooms valueForKey:roomKey];
+			//NSLog(@"  Room %@: %@", roomKey, room);
+			[strings addObject:(room.isOccupied) ? @"O" : @"V"];
+		}
+	}
+	
+	NSImage *menuIcon = [NSImage imageNamed:[imagePrefix stringByAppendingString:[strings componentsJoinedByString:@""]]];
+	[self.statusItem setImage:menuIcon];
+}
+
+- (void)showOffline
+{
+	NSImage *menuIcon = [NSImage imageNamed:@"MenuIcons-XX"];
+	[self.statusItem setImage:menuIcon];
 }
 
 - (IBAction)quit:(id)sender
@@ -52,24 +88,14 @@
 
 #pragma mark - SocketIODelegate
 
-- (void)socketIODidConnect:(SocketIO *)socket
-{
-	NSLog(@"socketIODidConnect:");
-}
-
 - (void)socketIODidDisconnect:(SocketIO *)socket disconnectedWithError:(NSError *)error
 {
-	NSLog(@"socketIODidDisconnect:disconnectedWithError");
+	[self reconnect];
 }
 
-- (void)socketIO:(SocketIO *)socket didReceiveMessage:(SocketIOPacket *)packet
+- (void)socketIO:(SocketIO *)socket onError:(NSError *)error
 {
-	NSLog(@"socketIO:didReceiveMessage");
-}
-
-- (void)socketIO:(SocketIO *)socket didReceiveJSON:(SocketIOPacket *)packet
-{
-	NSLog(@"socketIO:didReceiveJSON");
+	[self reconnect];
 }
 
 - (void)socketIO:(SocketIO *)socket didReceiveEvent:(SocketIOPacket *)packet
@@ -105,35 +131,6 @@
 		
 		[self update];
 	}
-}
-
-- (void)update
-{
-	NSMutableArray *strings = [NSMutableArray array];
-	
-	for (NSString *floorKey in self.floors)
-	{
-		GGFloor *floor = [self.floors valueForKey:floorKey];
-		NSLog(@"Floor %@ with %ld rooms:", floorKey, [floor.rooms count]);
-		for (NSString *roomKey in floor.rooms)
-		{
-			GGRoom *room = [floor.rooms valueForKey:roomKey];
-			NSLog(@"  Room %@: %@", roomKey, room);
-			[strings addObject:(room.isOccupied) ? @"Occupied" : @"Vacant"];
-		}
-	}
-	
-	[self.statusItem setTitle:[strings componentsJoinedByString:@" "]];
-}
-
-- (void)socketIO:(SocketIO *)socket didSendMessage:(SocketIOPacket *)packet
-{
-	//NSLog(@"socketIO:didSendMessage");
-}
-
-- (void)socketIO:(SocketIO *)socket onError:(NSError *)error
-{
-	NSLog(@"socketIO:onError");
 }
 
 @end

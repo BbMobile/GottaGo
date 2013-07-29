@@ -10,6 +10,16 @@
 		40A8ADE0CDE74DF481289B70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0B73CAE5714415BF09654F /* libPods.a */; };
 		F0151CF417A3239400E54D46 /* GGFloor.m in Sources */ = {isa = PBXBuildFile; fileRef = F0151CF317A3239400E54D46 /* GGFloor.m */; };
 		F0151CF717A323AB00E54D46 /* GGRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = F0151CF617A323AB00E54D46 /* GGRoom.m */; };
+		F0151D0017A6D0D000E54D46 /* MenuIcons-OO.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CF817A6D0D000E54D46 /* MenuIcons-OO.png */; };
+		F0151D0117A6D0D000E54D46 /* MenuIcons-OO@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CF917A6D0D000E54D46 /* MenuIcons-OO@2x.png */; };
+		F0151D0217A6D0D000E54D46 /* MenuIcons-OV.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFA17A6D0D000E54D46 /* MenuIcons-OV.png */; };
+		F0151D0317A6D0D000E54D46 /* MenuIcons-OV@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFB17A6D0D000E54D46 /* MenuIcons-OV@2x.png */; };
+		F0151D0417A6D0D000E54D46 /* MenuIcons-VO.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFC17A6D0D000E54D46 /* MenuIcons-VO.png */; };
+		F0151D0517A6D0D000E54D46 /* MenuIcons-VO@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFD17A6D0D000E54D46 /* MenuIcons-VO@2x.png */; };
+		F0151D0617A6D0D000E54D46 /* MenuIcons-VV.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFE17A6D0D000E54D46 /* MenuIcons-VV.png */; };
+		F0151D0717A6D0D000E54D46 /* MenuIcons-VV@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CFF17A6D0D000E54D46 /* MenuIcons-VV@2x.png */; };
+		F0151D0A17A6D51C00E54D46 /* MenuIcons-XX.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151D0817A6D51C00E54D46 /* MenuIcons-XX.png */; };
+		F0151D0B17A6D51C00E54D46 /* MenuIcons-XX@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151D0917A6D51C00E54D46 /* MenuIcons-XX@2x.png */; };
 		F08D7B0F17A19808004F5D88 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F08D7B0E17A19808004F5D88 /* Cocoa.framework */; };
 		F08D7B1917A19808004F5D88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F08D7B1717A19808004F5D88 /* InfoPlist.strings */; };
 		F08D7B1B17A19808004F5D88 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D7B1A17A19808004F5D88 /* main.m */; };
@@ -17,7 +27,6 @@
 		F08D7B2217A19808004F5D88 /* GGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F08D7B2117A19808004F5D88 /* GGAppDelegate.m */; };
 		F08D7B2517A19808004F5D88 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F08D7B2317A19808004F5D88 /* MainMenu.xib */; };
 		F0C7883317A1987C0016B09A /* GGMenulet.m in Sources */ = {isa = PBXBuildFile; fileRef = F0C7883217A1987C0016B09A /* GGMenulet.m */; };
-		F0C7883517A1B1B00016B09A /* MenuIcons.png in Resources */ = {isa = PBXBuildFile; fileRef = F0C7883417A1B1B00016B09A /* MenuIcons.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +36,16 @@
 		F0151CF317A3239400E54D46 /* GGFloor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGFloor.m; sourceTree = "<group>"; };
 		F0151CF517A323AB00E54D46 /* GGRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGRoom.h; sourceTree = "<group>"; };
 		F0151CF617A323AB00E54D46 /* GGRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGRoom.m; sourceTree = "<group>"; };
+		F0151CF817A6D0D000E54D46 /* MenuIcons-OO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-OO.png"; sourceTree = "<group>"; };
+		F0151CF917A6D0D000E54D46 /* MenuIcons-OO@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-OO@2x.png"; sourceTree = "<group>"; };
+		F0151CFA17A6D0D000E54D46 /* MenuIcons-OV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-OV.png"; sourceTree = "<group>"; };
+		F0151CFB17A6D0D000E54D46 /* MenuIcons-OV@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-OV@2x.png"; sourceTree = "<group>"; };
+		F0151CFC17A6D0D000E54D46 /* MenuIcons-VO.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-VO.png"; sourceTree = "<group>"; };
+		F0151CFD17A6D0D000E54D46 /* MenuIcons-VO@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-VO@2x.png"; sourceTree = "<group>"; };
+		F0151CFE17A6D0D000E54D46 /* MenuIcons-VV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-VV.png"; sourceTree = "<group>"; };
+		F0151CFF17A6D0D000E54D46 /* MenuIcons-VV@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-VV@2x.png"; sourceTree = "<group>"; };
+		F0151D0817A6D51C00E54D46 /* MenuIcons-XX.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-XX.png"; sourceTree = "<group>"; };
+		F0151D0917A6D51C00E54D46 /* MenuIcons-XX@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MenuIcons-XX@2x.png"; sourceTree = "<group>"; };
 		F08D7B0B17A19808004F5D88 /* GottaGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GottaGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F08D7B0E17A19808004F5D88 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F08D7B1117A19808004F5D88 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -42,7 +61,6 @@
 		F08D7B2417A19808004F5D88 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F0C7883117A1987C0016B09A /* GGMenulet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGMenulet.h; sourceTree = "<group>"; };
 		F0C7883217A1987C0016B09A /* GGMenulet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGMenulet.m; sourceTree = "<group>"; };
-		F0C7883417A1B1B00016B09A /* MenuIcons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MenuIcons.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +134,16 @@
 		F08D7B1517A19808004F5D88 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F0C7883417A1B1B00016B09A /* MenuIcons.png */,
+				F0151CF817A6D0D000E54D46 /* MenuIcons-OO.png */,
+				F0151CF917A6D0D000E54D46 /* MenuIcons-OO@2x.png */,
+				F0151CFA17A6D0D000E54D46 /* MenuIcons-OV.png */,
+				F0151CFB17A6D0D000E54D46 /* MenuIcons-OV@2x.png */,
+				F0151CFC17A6D0D000E54D46 /* MenuIcons-VO.png */,
+				F0151CFD17A6D0D000E54D46 /* MenuIcons-VO@2x.png */,
+				F0151CFE17A6D0D000E54D46 /* MenuIcons-VV.png */,
+				F0151CFF17A6D0D000E54D46 /* MenuIcons-VV@2x.png */,
+				F0151D0817A6D51C00E54D46 /* MenuIcons-XX.png */,
+				F0151D0917A6D51C00E54D46 /* MenuIcons-XX@2x.png */,
 				F08D7B1617A19808004F5D88 /* GottaGo-Info.plist */,
 				F08D7B1717A19808004F5D88 /* InfoPlist.strings */,
 				F08D7B1A17A19808004F5D88 /* main.m */,
@@ -183,7 +210,16 @@
 				F08D7B1917A19808004F5D88 /* InfoPlist.strings in Resources */,
 				F08D7B1F17A19808004F5D88 /* Credits.rtf in Resources */,
 				F08D7B2517A19808004F5D88 /* MainMenu.xib in Resources */,
-				F0C7883517A1B1B00016B09A /* MenuIcons.png in Resources */,
+				F0151D0017A6D0D000E54D46 /* MenuIcons-OO.png in Resources */,
+				F0151D0117A6D0D000E54D46 /* MenuIcons-OO@2x.png in Resources */,
+				F0151D0217A6D0D000E54D46 /* MenuIcons-OV.png in Resources */,
+				F0151D0317A6D0D000E54D46 /* MenuIcons-OV@2x.png in Resources */,
+				F0151D0417A6D0D000E54D46 /* MenuIcons-VO.png in Resources */,
+				F0151D0517A6D0D000E54D46 /* MenuIcons-VO@2x.png in Resources */,
+				F0151D0617A6D0D000E54D46 /* MenuIcons-VV.png in Resources */,
+				F0151D0717A6D0D000E54D46 /* MenuIcons-VV@2x.png in Resources */,
+				F0151D0A17A6D51C00E54D46 /* MenuIcons-XX.png in Resources */,
+				F0151D0B17A6D51C00E54D46 /* MenuIcons-XX@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
