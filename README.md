@@ -1,5 +1,6 @@
 GottaGo
 =======
+
 **What is it?**
 
 GottaGo is a bathroom availability service developed for the Blackboard Mobile Summer 2013 Hackathon by Collin Allen, Eric Littlejohn, and Joe Taylor. The status of bathrooms is indicated by LED lights on the wall outside the bathroom as well as on the GottaGo status website available on the Blackboard Mobile internal network. It serves as a highly visible set of places to check to see if your walk to the bathroom is a worthwhile one.
@@ -14,7 +15,12 @@ Each bathroom door jamb has a microswitch installed, and that switch gets trigge
 
 **Want to hack on GottaGo?**
 
-The Node.js code is in the root of the repo, and the Arduino code is at `arduino/gotta_go/gotta_go.ino`.
+Node.js code is in the root of the repo.
 
-* The Node.js code can be deployed to the app server, where a `gottago` service is running Node.js via [forever](https://github.com/nodejitsu/forever)
-* The Arduino code can be uploaded to the wall-mounted Arduino via USB, and HTTP requests are logged via the Serial Monitor in the Arduino IDE
+* The Node.js code can be deployed to the app server and run with [forever](https://github.com/nodejitsu/forever) or just by doing `node app.js`
+* MongoDB must also be running on the app server for event logging and analytics
+
+Arduino code is at `arduino/gotta_go/gotta_go.ino`, and can be uploaded via the Arduino IDE.
+
+* Adjust the MAC address and floor for each Arduino you install
+* HTTP requests are logged via the Serial Monitor in the Arduino IDE
