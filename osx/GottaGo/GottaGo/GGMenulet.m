@@ -135,7 +135,7 @@
 - (void)connect
 {
 	self.socket = [[SocketIO alloc] initWithDelegate:self];
-	[self.socket connectToHost:@"dev-gottago.medu.com" onPort:8080];
+	[self.socket connectToHost:@"gottago.medu.com" onPort:8080];
 }
 
 - (void)reconnect
@@ -203,7 +203,6 @@
 	NSDictionary *args = [packet.args objectAtIndex:0];
 	
 	NSArray *floorsArray = [args valueForKey:@"floorsArray"];
-	NSLog(@"%@", args);
 	if (floorsArray)
 	{
 		for (NSArray *floor in floorsArray)
