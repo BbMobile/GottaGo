@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		40A8ADE0CDE74DF481289B70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0B73CAE5714415BF09654F /* libPods.a */; };
+		F00B636117AAFD6F00A3276F /* GottaGo.icns in Resources */ = {isa = PBXBuildFile; fileRef = F00B636017AAFD6F00A3276F /* GottaGo.icns */; };
 		F0151CF417A3239400E54D46 /* GGFloor.m in Sources */ = {isa = PBXBuildFile; fileRef = F0151CF317A3239400E54D46 /* GGFloor.m */; };
 		F0151CF717A323AB00E54D46 /* GGRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = F0151CF617A323AB00E54D46 /* GGRoom.m */; };
 		F0151D0017A6D0D000E54D46 /* MenuIcons-OO.png in Resources */ = {isa = PBXBuildFile; fileRef = F0151CF817A6D0D000E54D46 /* MenuIcons-OO.png */; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		128B4587455942E8A36D1D53 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		6F0B73CAE5714415BF09654F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F00B636017AAFD6F00A3276F /* GottaGo.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GottaGo.icns; sourceTree = "<group>"; };
 		F0151CF217A3239400E54D46 /* GGFloor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGFloor.h; sourceTree = "<group>"; };
 		F0151CF317A3239400E54D46 /* GGFloor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGFloor.m; sourceTree = "<group>"; };
 		F0151CF517A323AB00E54D46 /* GGRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGRoom.h; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 		F08D7B0217A19808004F5D88 = {
 			isa = PBXGroup;
 			children = (
+				F00B636017AAFD6F00A3276F /* GottaGo.icns */,
 				F08D7B1417A19808004F5D88 /* GottaGo */,
 				F08D7B0D17A19808004F5D88 /* Frameworks */,
 				F08D7B0C17A19808004F5D88 /* Products */,
@@ -220,6 +223,7 @@
 				F0151D0717A6D0D000E54D46 /* MenuIcons-VV@2x.png in Resources */,
 				F0151D0A17A6D51C00E54D46 /* MenuIcons-XX.png in Resources */,
 				F0151D0B17A6D51C00E54D46 /* MenuIcons-XX@2x.png in Resources */,
+				F00B636117AAFD6F00A3276F /* GottaGo.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +369,8 @@
 			baseConfigurationReference = 128B4587455942E8A36D1D53 /* Pods.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -372,6 +378,7 @@
 					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				INSTALL_PATH = /build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -382,6 +389,8 @@
 			baseConfigurationReference = 128B4587455942E8A36D1D53 /* Pods.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -389,6 +398,7 @@
 					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				INSTALL_PATH = /build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
