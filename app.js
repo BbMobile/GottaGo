@@ -282,18 +282,21 @@ pushAnalytics = function() {
       _id: 1
     }
   }, function(err, res) {
-    var today, _ref;
+    var date, month, today, _ref;
 
     if (err) {
       return handleError(err);
     }
     console.log((_ref = res[0]) != null ? _ref.averagedur : void 0);
-    today = new Date().getDate();
+    date = new Date();
+    today = date.getDate();
+    month = date.getMonth();
     return Visits.aggregate({
       $match: {
         day: {
           $gt: today - 1
-        }
+	},
+	month: month
       }
     }, {
       $match: {
