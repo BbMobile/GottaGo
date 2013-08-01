@@ -24,3 +24,12 @@ Arduino code is at `arduino/gotta_go/gotta_go.ino`, and can be uploaded via the 
 
 * Adjust the MAC address and floor for each Arduino you install
 * HTTP requests are logged via the Serial Monitor in the Arduino IDE
+
+OS X menu bar status monitor code is at `osx/GottaGo/`.
+
+* [rbenv](https://github.com/sstephenson/rbenv) is useful but not required for keeping Ruby gems separate from OS X system gems
+* Install the [CocoaPods](http://cocoapods.org/) Ruby gem: `gem install cocoapods`
+* From the `osx/GottaGo/` directory containing the `Podfile`, install dependncies: `pod install`
+* Build the OS X app: `make`
+* Copy the app to `/Applications`
+* Launch it at startup by adding it to System Preferences ↝ Users and Groups ↝ _Your User_ ↝ Login Items
