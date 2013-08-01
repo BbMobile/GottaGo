@@ -365,6 +365,8 @@
 			baseConfigurationReference = 128B4587455942E8A36D1D53 /* Pods.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -372,6 +374,7 @@
 					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				INSTALL_PATH = /build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -382,6 +385,8 @@
 			baseConfigurationReference = 128B4587455942E8A36D1D53 /* Pods.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "$(SRCROOT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GottaGo/GottaGo-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -389,6 +394,7 @@
 					"COCOAPODS=1",
 				);
 				INFOPLIST_FILE = "GottaGo/GottaGo-Info.plist";
+				INSTALL_PATH = /build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
