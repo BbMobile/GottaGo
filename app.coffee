@@ -258,7 +258,8 @@ io.sockets.on('connection', (socket) ->
 pushAnalytics = ->
 	Visits.aggregate(
 		{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-		{ "$group": { _id: "$floor", averagedur: { $avg: "$duration"}}}
+		{ "$group": { _id: "$floor", averagedur: { $avg: "$duration"}}},
+		{$sort: {_id: 1} }
 	, (err, res) ->
 		if err
 			return handleError(err)

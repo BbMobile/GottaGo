@@ -5,7 +5,7 @@ currentEnv = process.env.NODE_ENV || 'development';
 
 exports.appName = "GottaGo";
 
-exports.floors = [2];
+exports.floors = [2, 3];
 
 exports.env = {
   production: false,

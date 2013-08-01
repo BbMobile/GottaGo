@@ -277,6 +277,10 @@ pushAnalytics = function() {
         $avg: "$duration"
       }
     }
+  }, {
+    $sort: {
+      _id: 1
+    }
   }, function(err, res) {
     var today, _ref;
 
