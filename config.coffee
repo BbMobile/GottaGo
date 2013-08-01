@@ -1,7 +1,7 @@
 #Set the current environment to true in the env object
 currentEnv = process.env.NODE_ENV or 'development'
 exports.appName = "GottaGo"
-exports.floors = [2, 3]
+exports.floors = [2]
 # exports.room =
 #   names =
 #     '2a' : 'Stinky Repo'
