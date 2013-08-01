@@ -18,7 +18,11 @@ html
         h1
           | Gotta
           b Go!
-        h2 go
+        .floor-picker
+          header Floor Picker
+          .floor-toggle-wrapper 
+            .second-floor 2
+            .third-floor 3
     .badge-wrapper(ng-repeat="floor in floorsArray", ng-cloak)
       div(class="floor-badges")
         .badge.twoa.vacant(ng-show="floor[0].status==0")

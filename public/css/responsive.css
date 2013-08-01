@@ -10,12 +10,40 @@
 		padding: 0;
 	}
 	.topbar h1 {
-		width: 100%;
+		float: left;
+		display: block;
+		width: 50%;
 		font-size: 32px;
 		padding: 14px 0 0 0;
 	}
+	/*
 	.topbar h2 {
 		display: none;
+	}
+	*/
+	.floor-picker {
+		width: 50%;
+		margin: 5px 3%;
+	}
+	.floor-picker header {
+		display: none;
+	}
+	.floor-toggle-wrapper {
+		width: 120px;
+		height: 38px;
+		font-size: 28px;
+	}
+	.floor-toggle-wrapper .second-floor {
+		float: left;
+		width: 50px;
+		height: 36px;
+		line-height: 38px;
+	}
+	.floor-toggle-wrapper .third-floor {
+		float: right;
+		width: 50px;
+		height: 36px;
+		line-height: 38px;
 	}
 	.badge-wrapper {
 		width: 100%;
@@ -155,8 +183,13 @@
 	.topbar h1 {
 		padding: 15px 0 0 0;
 	}
+	/*
 	.topbar h2 {
 		line-height: 72px;
+	}
+	*/
+	.floor-picker {
+		padding: 10px 0 0 0;
 	}
 	.badge-wrapper {
 		width: 768px;
