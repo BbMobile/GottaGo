@@ -32,4 +32,4 @@ OS X menu bar status monitor code is at `osx/GottaGo/`.
 * From the `osx/GottaGo/` directory containing the `Podfile`, install dependncies: `pod install`
 * Build the OS X app: `make`
 * Copy the app to `/Applications`
-* Launch it at startup by adding it to System Preferences ↝ Users and Groups ↝ _Your User_ ↝ Login Items
+* Launch it at startup by adding it to System Preferences → Users and Groups → _Your User_ → Login Items
