@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('gottaGo.controllers', ['ngResource'])
-.controller('GGMainCtrl', ($scope, socket, Que, roomNames, $timeout) ->
+.controller('GGMainCtrl', ($rootScope, $scope, socket, Que, roomNames, $timeout) ->
   $scope.floorsArray = []
   $scope.que = []
   $scope.floor = {}
@@ -19,6 +19,7 @@ angular.module('gottaGo.controllers', ['ngResource'])
   socket.on('init', (data) ->
     console.log(data.floorsArray)
     $scope.floorsArray = data.floorsArray
+    $rootScope.currentFloorArray = $scope.floorsArray[0]
     $scope.que = data.queObj
   )
 
@@ -27,6 +28,8 @@ angular.module('gottaGo.controllers', ['ngResource'])
       for room, roomIndex in floor
         if room.room is data.room and room.floor is data.floor
           $scope.floorsArray[floorIndex].splice(roomIndex, 1, data)
+          $rootScope.currentFloorArray = $scope.floorsArray[0]
+
           return
   )
 
