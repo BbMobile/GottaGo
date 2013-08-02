@@ -270,7 +270,7 @@ pushAnalytics = ->
 		month = date.getMonth()
 
 		Visits.aggregate(
-			{ $match : { floor: "2", day : { $gt : today - 1 }, month: month } },
+			{ $match : { floor: 2, day : { $gt : today - 1 }, month: month } },
 			{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
 			{ "$group": { _id: "$room", requests: { $sum:1} } },
 			{$sort: {_id: 1} }

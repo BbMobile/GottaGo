@@ -292,7 +292,7 @@ pushAnalytics = function() {
     month = date.getMonth();
     return Visits.aggregate({
       $match: {
-        floor: "2",
+        floor: 2,
         day: {
           $gt: today - 1
         },
