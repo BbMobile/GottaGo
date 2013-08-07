@@ -6,6 +6,10 @@ angular.module('gottaGo.controllers', ['ngResource'])
   $scope.que = []
   $scope.floor = {}
   $scope.notify = {}
+  $scope.selectedFloor = 2
+
+  $scope.changeSelectedFloor = ->
+    $scope.selectedFloor = if $scope.selectedFloor is 2 then 3 else 2
 
   $scope.milliseconds = (stamp) ->
     return Date.parse(stamp).getTime()
@@ -18,7 +22,7 @@ angular.module('gottaGo.controllers', ['ngResource'])
 
   socket.on('init', (data) ->
     # console.log(data)
-    $scope.floorsArray = data.floorsArray.pop()
+    $scope.floorsArray = data.floorsArray
     $scope.que = data.queObj
   )
 

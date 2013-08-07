@@ -4,6 +4,10 @@
   $scope.que = [];
   $scope.floor = {};
   $scope.notify = {};
+  $scope.selectedFloor = 2;
+  $scope.changeSelectedFloor = function() {
+    return $scope.selectedFloor = $scope.selectedFloor === 2 ? 3 : 2;
+  };
   $scope.milliseconds = function(stamp) {
     return Date.parse(stamp).getTime();
   };
@@ -11,7 +15,7 @@
     return roomNames[floor + room];
   };
   socket.on('init', function(data) {
-    $scope.floorsArray = data.floorsArray.pop();
+    $scope.floorsArray = data.floorsArray;
     return $scope.que = data.queObj;
   });
   socket.on('event', function(data) {

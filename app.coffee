@@ -212,26 +212,45 @@ app.get('(!public)*', routes.index)
 
 io.sockets.on('connection', (socket) ->
 	# Angular API
-	statusArray = []
+	statusArray = [ #all floors
+		[ #2nd Floor
+		],
+		[ #3rd floor
+		]
+	]
 	queObj = {}
+	checklistObject = {}
 
-	for floor, index in config.floors
-		floorArray = []
-		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventA) ->
-			if err?
-				res.statusCode = 400
-				return res.send("Error")
+	Event.aggregate(
+		{$group:
+			{_id :{floor: '$floor', room: '$room', status:'$status'}, time: {$max: '$time'} } }, {$sort: {time: -1}}, {$project: {floor:"$_id.floor", room:"$_id.room", status:"$_id.status", time:"$time"}
+		}, (err, currentStatusArray) ->
+			###
+			[ { _id: { floor: 2, room: 'b', status: 0 },
+			    time: Fri Aug 02 2013 13:39:34 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'b', status: 1 },
+			    time: Fri Aug 02 2013 13:39:14 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'a', status: 1 },
+			    time: Fri Aug 02 2013 13:39:01 GMT-0700 (PDT) },
+			  { _id: { floor: 3, room: 'a', status: 0 },
+			    time: Wed Jul 31 2013 16:37:17 GMT-0700 (PDT) },
+			  { _id: { floor: 3, room: 'a', status: 1 },
+			    time: Wed Jul 31 2013 16:36:55 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'a', status: 0 },
+			    time: Fri Jul 26 2013 11:00:36 GMT-0700 (PDT) } ]
 
-			floorArray.push( eventA )
+			###
 
-			Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventB) ->
-				if err?
-					res.statusCode = 400
-					return res.send("Error")
+			for roomEvent in currentStatusArray
+				if not checklistObject[roomEvent.floor + roomEvent.room]
+					statusArrayIndex = if roomEvent.floor is 2 then 0 else 1
+					floorArrayIndex = if roomEvent.room is 'a' then 0 else 1
+					checklistObject[roomEvent.floor + roomEvent.room] = true
+					statusArray[statusArrayIndex].splice( floorArrayIndex, 0, roomEvent )
 
-				floorArray.push( eventB )
-				statusArray.push( floorArray )
+			console.log(statusArray)
 
+			for floor, index in config.floors
 				Que.count({floor:floor}, (err, count = 0) ->
 					queObj[floor] = count
 					console.log(floor, count ,queObj)
@@ -247,11 +266,47 @@ io.sockets.on('connection', (socket) ->
 								queObj: queObj
 							}
 						)
-
 				)
 
-			)
-		)
+	)
+
+	# for floor, index in config.floors
+	# 	floorArray = []
+	# 	Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventA) ->
+	# 		if err?
+	# 			res.statusCode = 400
+	# 			return res.send("Error")
+
+	# 		floorArray.push( eventA )
+
+	# 		Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventB) ->
+	# 			if err?
+	# 				res.statusCode = 400
+	# 				return res.send("Error")
+
+	# 			floorArray.push( eventB )
+	# 			statusArray.push( floorArray )
+
+	# 			Que.count({floor:floor}, (err, count = 0) ->
+	# 				queObj[floor] = count
+	# 				console.log(floor, count ,queObj)
+
+	# 				if index is config.floors.length
+	# 					# send the new user their name and a list of users
+
+	# 					pushAnalytics()
+
+	# 					io.sockets.emit('init',
+	# 						{
+	# 							floorsArray: statusArray
+	# 							queObj: queObj
+	# 						}
+	# 					)
+
+	# 			)
+
+	# 		)
+	# 	)
 )
 
 
