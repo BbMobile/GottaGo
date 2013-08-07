@@ -6,6 +6,10 @@ angular.module('gottaGo.controllers', ['ngResource'])
   $scope.que = []
   $scope.floor = {}
   $scope.notify = {}
+  $scope.selectedFloor = 2
+
+  $scope.changeSelectedFloor = ->
+    $scope.selectedFloor = if $scope.selectedFloor is 2 then 3 else 2
 
   $scope.milliseconds = (stamp) ->
     return Date.parse(stamp).getTime()
@@ -17,9 +21,8 @@ angular.module('gottaGo.controllers', ['ngResource'])
 
 
   socket.on('init', (data) ->
-    console.log(data.floorsArray)
     $scope.floorsArray = data.floorsArray
-    $rootScope.currentFloorArray = $scope.floorsArray[0]
+    $rootScope.currentFloorArray = $scope.floorsArray[ $scope.floorArrayIndex( $scope.selectedFloor ) ]
     $scope.que = data.queObj
   )
 
@@ -28,9 +31,13 @@ angular.module('gottaGo.controllers', ['ngResource'])
       for room, roomIndex in floor
         if room.room is data.room and room.floor is data.floor
           $scope.floorsArray[floorIndex].splice(roomIndex, 1, data)
-          $rootScope.currentFloorArray = $scope.floorsArray[0]
+          $rootScope.currentFloorArray = $scope.floorsArray[ $scope.floorArrayIndex( $scope.selectedFloor ) ]
 
           return
+  )
+
+  $scope.$watch('selectedFloor', (newValue) ->
+    $rootScope.currentFloorArray = $scope.floorsArray[ $scope.floorArrayIndex( newValue ) ]
   )
 
   socket.on('que', (data) ->
@@ -49,4 +56,9 @@ angular.module('gottaGo.controllers', ['ngResource'])
       $scope.notify[floor] = 'qued'
     )
 
+  $scope.floorArrayIndex = (selectedFloor) ->
+    return if selectedFloor is 2 then 0 else 1
+
+
 )
+
