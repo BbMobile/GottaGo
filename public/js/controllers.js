@@ -15,9 +15,8 @@
     return roomNames[floor + room];
   };
   socket.on('init', function(data) {
-    console.log(data.floorsArray);
     $scope.floorsArray = data.floorsArray;
-    $rootScope.currentFloorArray = $scope.floorsArray[0];
+    $rootScope.currentFloorArray = $scope.floorsArray[$scope.floorArrayIndex($scope.selectedFloor)];
     return $scope.que = data.queObj;
   });
   socket.on('event', function(data) {
@@ -30,11 +29,14 @@
         room = floor[roomIndex];
         if (room.room === data.room && room.floor === data.floor) {
           $scope.floorsArray[floorIndex].splice(roomIndex, 1, data);
-          $rootScope.currentFloorArray = $scope.floorsArray[0];
+          $rootScope.currentFloorArray = $scope.floorsArray[$scope.floorArrayIndex($scope.selectedFloor)];
           return;
         }
       }
     }
+  });
+  $scope.$watch('selectedFloor', function(newValue) {
+    return $rootScope.currentFloorArray = $scope.floorsArray[$scope.floorArrayIndex(newValue)];
   });
   socket.on('que', function(data) {
     $scope.que[data.floor] = data.count;
@@ -45,11 +47,18 @@
   socket.on('analytics', function(data) {
     return $scope.stats = data.stats;
   });
-  return $scope.addToQue = function(floor, contact) {
+  $scope.addToQue = function(floor, contact) {
     return Que.post(floor, {
       contact: contact
     }).success(function(response) {
       return $scope.notify[floor] = 'qued';
     });
+  };
+  return $scope.floorArrayIndex = function(selectedFloor) {
+    if (selectedFloor === 2) {
+      return 0;
+    } else {
+      return 1;
+    }
   };
 });

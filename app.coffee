@@ -325,14 +325,16 @@ pushAnalytics = ->
 		month = date.getMonth()
 
 		Visits.aggregate(
-			{ $match : { floor: 2, day : { $gt : today - 1 }, month: month } },
+			{ $match : { day : { $gt : today - 1 }, month: month } },
 			{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-			{ "$group": { _id: "$room", requests: { $sum:1} } },
+			{ "$group": { _id: {floor: "$floor", room: "$room"}, requests: { $sum:1} } },
 			{$sort: {_id: 1} }
 		, (err, res2) ->
 
+			reqPerHourArray = []
+
 			Visits.aggregate(
-				{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
+				{ $match : { floor:2, duration : { $gt : 20000, $lt : 3600000 } } },
 				{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
 			, (err, res3) ->
 
@@ -343,22 +345,48 @@ pushAnalytics = ->
 
 				reqPerHourObj.top = res3[0]?.requests
 
-				io.sockets.emit('analytics',
-					{
-						stats:
-							{
-								reqPerHour: reqPerHourObj
-								averageDur:res[0]?.averagedur,
-								a:
-									{
-										todayVisits: res2[0]?.requests
-									}
-								b:
-									{
-										todayVisits: res2[1]?.requests
-									}
-							}
-					}
+				reqPerHourArray.push( reqPerHourObj )
+
+				Visits.aggregate(
+					{ $match : { floor:3, duration : { $gt : 20000, $lt : 3600000 } } },
+					{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
+				, (err, res4) ->
+
+					reqPerHourObj = {}
+
+					for hour in res4
+						reqPerHourObj[hour._id] = hour.requests
+
+					reqPerHourObj.top = res4[0]?.requests
+
+					reqPerHourArray.push( reqPerHourObj )
+
+
+					io.sockets.emit('analytics',
+						{
+							stats:[
+								{
+									reqPerHour: reqPerHourArray[0]
+									averageDur:res[0]?.averagedur,
+									todayVisits:
+										{
+											a: res2[0]?.requests
+											b: res2[1]?.requests
+										}
+								}
+								{
+									reqPerHour: reqPerHourArray[1]
+									averageDur:res[1]?.averagedur,
+									todayVisits:
+										{
+											a: res2[2]?.requests
+											b: res2[3]?.requests
+										}
+								}
+
+							]
+						}
+					)
 				)
 			)
 

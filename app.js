@@ -314,7 +314,6 @@ pushAnalytics = function() {
     month = date.getMonth();
     return Visits.aggregate({
       $match: {
-        floor: 2,
         day: {
           $gt: today - 1
         },
@@ -329,7 +328,10 @@ pushAnalytics = function() {
       }
     }, {
       "$group": {
-        _id: "$room",
+        _id: {
+          floor: "$floor",
+          room: "$room"
+        },
         requests: {
           $sum: 1
         }
@@ -339,8 +341,12 @@ pushAnalytics = function() {
         _id: 1
       }
     }, function(err, res2) {
+      var reqPerHourArray;
+
+      reqPerHourArray = [];
       return Visits.aggregate({
         $match: {
+          floor: 2,
           duration: {
             $gt: 20000,
             $lt: 3600000
@@ -358,7 +364,7 @@ pushAnalytics = function() {
           requests: -1
         }
       }, function(err, res3) {
-        var hour, reqPerHourObj, _i, _len, _ref, _ref1, _ref2, _ref3;
+        var hour, reqPerHourObj, _i, _len, _ref;
 
         reqPerHourObj = {};
         for (_i = 0, _len = res3.length; _i < _len; _i++) {
@@ -366,17 +372,55 @@ pushAnalytics = function() {
           reqPerHourObj[hour._id] = hour.requests;
         }
         reqPerHourObj.top = (_ref = res3[0]) != null ? _ref.requests : void 0;
-        return io.sockets.emit('analytics', {
-          stats: {
-            reqPerHour: reqPerHourObj,
-            averageDur: (_ref1 = res[0]) != null ? _ref1.averagedur : void 0,
-            a: {
-              todayVisits: (_ref2 = res2[0]) != null ? _ref2.requests : void 0
-            },
-            b: {
-              todayVisits: (_ref3 = res2[1]) != null ? _ref3.requests : void 0
+        reqPerHourArray.push(reqPerHourObj);
+        return Visits.aggregate({
+          $match: {
+            floor: 3,
+            duration: {
+              $gt: 20000,
+              $lt: 3600000
             }
           }
+        }, {
+          "$group": {
+            _id: "$hour",
+            requests: {
+              $sum: 1
+            }
+          }
+        }, {
+          $sort: {
+            requests: -1
+          }
+        }, function(err, res4) {
+          var _j, _len1, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+
+          reqPerHourObj = {};
+          for (_j = 0, _len1 = res4.length; _j < _len1; _j++) {
+            hour = res4[_j];
+            reqPerHourObj[hour._id] = hour.requests;
+          }
+          reqPerHourObj.top = (_ref1 = res4[0]) != null ? _ref1.requests : void 0;
+          reqPerHourArray.push(reqPerHourObj);
+          return io.sockets.emit('analytics', {
+            stats: [
+              {
+                reqPerHour: reqPerHourArray[0],
+                averageDur: (_ref2 = res[0]) != null ? _ref2.averagedur : void 0,
+                todayVisits: {
+                  a: (_ref3 = res2[0]) != null ? _ref3.requests : void 0,
+                  b: (_ref4 = res2[1]) != null ? _ref4.requests : void 0
+                }
+              }, {
+                reqPerHour: reqPerHourArray[1],
+                averageDur: (_ref5 = res[1]) != null ? _ref5.averagedur : void 0,
+                todayVisits: {
+                  a: (_ref6 = res2[2]) != null ? _ref6.requests : void 0,
+                  b: (_ref7 = res2[3]) != null ? _ref7.requests : void 0
+                }
+              }
+            ]
+          });
         });
       });
     });

@@ -32,5 +32,5 @@
   '2a': 'Finkle',
   '2b': 'Einhorn',
   '3a': 'Harry',
-  '3b': 'Llyod'
+  '3b': 'Lloyd'
 });

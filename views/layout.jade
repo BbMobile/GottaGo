@@ -71,53 +71,53 @@ html(ng-app="gottaGo")
             |  by hour
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.9||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.9||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 9am
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.10||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.10||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 10am
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.11||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.11||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 11am
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.12||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.12||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 12pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.13||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.13||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 1pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.14||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.14||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 2pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.15||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.15||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 3pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.16||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.16||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 4pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.17||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.17||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 5pm
           .peak-hour
             .hour-value
-              .hour-value-bg(style='top: {{100-((stats.reqPerHour.18||0) / stats.reqPerHour.top * 100)}}%;')
+              .hour-value-bg(style='top: {{100-((stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.18||0) / stats[ floorArrayIndex( selectedFloor ) ].reqPerHour.top * 100)}}%;')
             .hour 6pm
         .analytics-section.average-visit
-          .counter {{stats.averageDur|ms}}
+          .counter {{stats[ floorArrayIndex( selectedFloor ) ].averageDur|ms}}
           .analytics-name Average Visit Length
-        .analytics-section.finkle
-          .counter {{stats.a.todayVisits || 0}}
-          .analytics-name Finkle Visits Today
-        .analytics-section.einhorn
-          .counter {{stats.b.todayVisits || 0}}
-          .analytics-name Einhorn Visits Today
+        .analytics-section
+          .counter {{stats[ floorArrayIndex( selectedFloor ) ].todayVisits.a || 0}}
+          .analytics-name {{getRoomNames(selectedFloor,'a')}} Visits Today
+        .analytics-section
+          .counter {{stats[ floorArrayIndex( selectedFloor ) ].todayVisits.b || 0}}
+          .analytics-name {{getRoomNames(selectedFloor,'b')}} Visits Today
 
     .about-wrapper
       .about
