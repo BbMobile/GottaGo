@@ -212,26 +212,45 @@ app.get('(!public)*', routes.index)
 
 io.sockets.on('connection', (socket) ->
 	# Angular API
-	statusArray = []
+	statusArray = [ #all floors
+		[ #2nd Floor
+		],
+		[ #3rd floor
+		]
+	]
 	queObj = {}
+	checklistObject = {}
 
-	for floor, index in config.floors
-		floorArray = []
-		Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventA) ->
-			if err?
-				res.statusCode = 400
-				return res.send("Error")
+	Event.aggregate(
+		{$group:
+			{_id :{floor: '$floor', room: '$room', status:'$status'}, time: {$max: '$time'} } }, {$sort: {time: -1}}, {$project: {floor:"$_id.floor", room:"$_id.room", status:"$_id.status", time:"$time"}
+		}, (err, currentStatusArray) ->
+			###
+			[ { _id: { floor: 2, room: 'b', status: 0 },
+			    time: Fri Aug 02 2013 13:39:34 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'b', status: 1 },
+			    time: Fri Aug 02 2013 13:39:14 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'a', status: 1 },
+			    time: Fri Aug 02 2013 13:39:01 GMT-0700 (PDT) },
+			  { _id: { floor: 3, room: 'a', status: 0 },
+			    time: Wed Jul 31 2013 16:37:17 GMT-0700 (PDT) },
+			  { _id: { floor: 3, room: 'a', status: 1 },
+			    time: Wed Jul 31 2013 16:36:55 GMT-0700 (PDT) },
+			  { _id: { floor: 2, room: 'a', status: 0 },
+			    time: Fri Jul 26 2013 11:00:36 GMT-0700 (PDT) } ]
 
-			floorArray.push( eventA )
+			###
 
-			Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventB) ->
-				if err?
-					res.statusCode = 400
-					return res.send("Error")
+			for roomEvent in currentStatusArray
+				if not checklistObject[roomEvent.floor + roomEvent.room]
+					statusArrayIndex = if roomEvent.floor is 2 then 0 else 1
+					floorArrayIndex = if roomEvent.room is 'a' then 0 else 1
+					checklistObject[roomEvent.floor + roomEvent.room] = true
+					statusArray[statusArrayIndex].splice( floorArrayIndex, 0, roomEvent )
 
-				floorArray.push( eventB )
-				statusArray.push( floorArray )
+			console.log(statusArray)
 
+			for floor, index in config.floors
 				Que.count({floor:floor}, (err, count = 0) ->
 					queObj[floor] = count
 					console.log(floor, count ,queObj)
@@ -247,11 +266,47 @@ io.sockets.on('connection', (socket) ->
 								queObj: queObj
 							}
 						)
-
 				)
 
-			)
-		)
+	)
+
+	# for floor, index in config.floors
+	# 	floorArray = []
+	# 	Event.findOne({'floor' : floor, 'room' : 'a' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventA) ->
+	# 		if err?
+	# 			res.statusCode = 400
+	# 			return res.send("Error")
+
+	# 		floorArray.push( eventA )
+
+	# 		Event.findOne({'floor' : floor, 'room' : 'b' }, {}, {sort: { 'time' : -1 }}).exec( (err, eventB) ->
+	# 			if err?
+	# 				res.statusCode = 400
+	# 				return res.send("Error")
+
+	# 			floorArray.push( eventB )
+	# 			statusArray.push( floorArray )
+
+	# 			Que.count({floor:floor}, (err, count = 0) ->
+	# 				queObj[floor] = count
+	# 				console.log(floor, count ,queObj)
+
+	# 				if index is config.floors.length
+	# 					# send the new user their name and a list of users
+
+	# 					pushAnalytics()
+
+	# 					io.sockets.emit('init',
+	# 						{
+	# 							floorsArray: statusArray
+	# 							queObj: queObj
+	# 						}
+	# 					)
+
+	# 			)
+
+	# 		)
+	# 	)
 )
 
 
@@ -270,14 +325,16 @@ pushAnalytics = ->
 		month = date.getMonth()
 
 		Visits.aggregate(
-			{ $match : { floor: 2, day : { $gt : today - 1 }, month: month } },
+			{ $match : { day : { $gt : today - 1 }, month: month } },
 			{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
-			{ "$group": { _id: "$room", requests: { $sum:1} } },
+			{ "$group": { _id: {floor: "$floor", room: "$room"}, requests: { $sum:1} } },
 			{$sort: {_id: 1} }
 		, (err, res2) ->
 
+			reqPerHourArray = []
+
 			Visits.aggregate(
-				{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
+				{ $match : { floor:2, duration : { $gt : 20000, $lt : 3600000 } } },
 				{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
 			, (err, res3) ->
 
@@ -288,22 +345,48 @@ pushAnalytics = ->
 
 				reqPerHourObj.top = res3[0]?.requests
 
-				io.sockets.emit('analytics',
-					{
-						stats:
-							{
-								reqPerHour: reqPerHourObj
-								averageDur:res[0]?.averagedur,
-								a:
-									{
-										todayVisits: res2[0]?.requests
-									}
-								b:
-									{
-										todayVisits: res2[1]?.requests
-									}
-							}
-					}
+				reqPerHourArray.push( reqPerHourObj )
+
+				Visits.aggregate(
+					{ $match : { floor:3, duration : { $gt : 20000, $lt : 3600000 } } },
+					{ "$group": { _id: "$hour", requests: { $sum:1} } }, {$sort: {requests:-1} }
+				, (err, res4) ->
+
+					reqPerHourObj = {}
+
+					for hour in res4
+						reqPerHourObj[hour._id] = hour.requests
+
+					reqPerHourObj.top = res4[0]?.requests
+
+					reqPerHourArray.push( reqPerHourObj )
+
+
+					io.sockets.emit('analytics',
+						{
+							stats:[
+								{
+									reqPerHour: reqPerHourArray[0]
+									averageDur:res[0]?.averagedur,
+									todayVisits:
+										{
+											a: res2[0]?.requests
+											b: res2[1]?.requests
+										}
+								}
+								{
+									reqPerHour: reqPerHourArray[1]
+									averageDur:res[1]?.averagedur,
+									todayVisits:
+										{
+											a: res2[2]?.requests
+											b: res2[3]?.requests
+										}
+								}
+
+							]
+						}
+					)
 				)
 			)
 

@@ -20,7 +20,7 @@ services.factory("Que", ($http) ->
 # In this case it is a simple value service.
 services.factory('socket', ($rootScope) ->
   #socket = window.io.connect('http://localhost:8080');
-  socket = window.io.connect('http://gottago.medu.com:8080');
+  socket = window.io.connect("http://#{window.location.hostname}:8080");
   return {
     on: (eventName, callback) ->
       socket.on(eventName, ->

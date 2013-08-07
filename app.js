@@ -204,62 +204,84 @@ app.post('/api/que/:floor', function(req, res) {
 app.get('(!public)*', routes.index);
 
 io.sockets.on('connection', function(socket) {
-  var floor, floorArray, index, queObj, statusArray, _i, _len, _ref, _results;
+  var checklistObject, queObj, statusArray;
 
-  statusArray = [];
+  statusArray = [[], []];
   queObj = {};
-  _ref = config.floors;
-  _results = [];
-  for (index = _i = 0, _len = _ref.length; _i < _len; index = ++_i) {
-    floor = _ref[index];
-    floorArray = [];
-    _results.push(Event.findOne({
-      'floor': floor,
-      'room': 'a'
-    }, {}, {
-      sort: {
-        'time': -1
+  checklistObject = {};
+  return Event.aggregate({
+    $group: {
+      _id: {
+        floor: '$floor',
+        room: '$room',
+        status: '$status'
+      },
+      time: {
+        $max: '$time'
       }
-    }).exec(function(err, eventA) {
-      if (err != null) {
-        res.statusCode = 400;
-        return res.send("Error");
+    }
+  }, {
+    $sort: {
+      time: -1
+    }
+  }, {
+    $project: {
+      floor: "$_id.floor",
+      room: "$_id.room",
+      status: "$_id.status",
+      time: "$time"
+    }
+  }, function(err, currentStatusArray) {
+    /*
+    			[ { _id: { floor: 2, room: 'b', status: 0 },
+    			    time: Fri Aug 02 2013 13:39:34 GMT-0700 (PDT) },
+    			  { _id: { floor: 2, room: 'b', status: 1 },
+    			    time: Fri Aug 02 2013 13:39:14 GMT-0700 (PDT) },
+    			  { _id: { floor: 2, room: 'a', status: 1 },
+    			    time: Fri Aug 02 2013 13:39:01 GMT-0700 (PDT) },
+    			  { _id: { floor: 3, room: 'a', status: 0 },
+    			    time: Wed Jul 31 2013 16:37:17 GMT-0700 (PDT) },
+    			  { _id: { floor: 3, room: 'a', status: 1 },
+    			    time: Wed Jul 31 2013 16:36:55 GMT-0700 (PDT) },
+    			  { _id: { floor: 2, room: 'a', status: 0 },
+    			    time: Fri Jul 26 2013 11:00:36 GMT-0700 (PDT) } ]
+    */
+
+    var floor, floorArrayIndex, index, roomEvent, statusArrayIndex, _i, _j, _len, _len1, _ref, _results;
+
+    for (_i = 0, _len = currentStatusArray.length; _i < _len; _i++) {
+      roomEvent = currentStatusArray[_i];
+      if (!checklistObject[roomEvent.floor + roomEvent.room]) {
+        statusArrayIndex = roomEvent.floor === 2 ? 0 : 1;
+        floorArrayIndex = roomEvent.room === 'a' ? 0 : 1;
+        checklistObject[roomEvent.floor + roomEvent.room] = true;
+        statusArray[statusArrayIndex].splice(floorArrayIndex, 0, roomEvent);
       }
-      floorArray.push(eventA);
-      return Event.findOne({
-        'floor': floor,
-        'room': 'b'
-      }, {}, {
-        sort: {
-          'time': -1
+    }
+    console.log(statusArray);
+    _ref = config.floors;
+    _results = [];
+    for (index = _j = 0, _len1 = _ref.length; _j < _len1; index = ++_j) {
+      floor = _ref[index];
+      _results.push(Que.count({
+        floor: floor
+      }, function(err, count) {
+        if (count == null) {
+          count = 0;
         }
-      }).exec(function(err, eventB) {
-        if (err != null) {
-          res.statusCode = 400;
-          return res.send("Error");
+        queObj[floor] = count;
+        console.log(floor, count, queObj);
+        if (index === config.floors.length) {
+          pushAnalytics();
+          return io.sockets.emit('init', {
+            floorsArray: statusArray,
+            queObj: queObj
+          });
         }
-        floorArray.push(eventB);
-        statusArray.push(floorArray);
-        return Que.count({
-          floor: floor
-        }, function(err, count) {
-          if (count == null) {
-            count = 0;
-          }
-          queObj[floor] = count;
-          console.log(floor, count, queObj);
-          if (index === config.floors.length) {
-            pushAnalytics();
-            return io.sockets.emit('init', {
-              floorsArray: statusArray,
-              queObj: queObj
-            });
-          }
-        });
-      });
-    }));
-  }
-  return _results;
+      }));
+    }
+    return _results;
+  });
 });
 
 pushAnalytics = function() {
@@ -292,7 +314,6 @@ pushAnalytics = function() {
     month = date.getMonth();
     return Visits.aggregate({
       $match: {
-        floor: 2,
         day: {
           $gt: today - 1
         },
@@ -307,7 +328,10 @@ pushAnalytics = function() {
       }
     }, {
       "$group": {
-        _id: "$room",
+        _id: {
+          floor: "$floor",
+          room: "$room"
+        },
         requests: {
           $sum: 1
         }
@@ -317,8 +341,12 @@ pushAnalytics = function() {
         _id: 1
       }
     }, function(err, res2) {
+      var reqPerHourArray;
+
+      reqPerHourArray = [];
       return Visits.aggregate({
         $match: {
+          floor: 2,
           duration: {
             $gt: 20000,
             $lt: 3600000
@@ -336,7 +364,7 @@ pushAnalytics = function() {
           requests: -1
         }
       }, function(err, res3) {
-        var hour, reqPerHourObj, _i, _len, _ref, _ref1, _ref2, _ref3;
+        var hour, reqPerHourObj, _i, _len, _ref;
 
         reqPerHourObj = {};
         for (_i = 0, _len = res3.length; _i < _len; _i++) {
@@ -344,17 +372,55 @@ pushAnalytics = function() {
           reqPerHourObj[hour._id] = hour.requests;
         }
         reqPerHourObj.top = (_ref = res3[0]) != null ? _ref.requests : void 0;
-        return io.sockets.emit('analytics', {
-          stats: {
-            reqPerHour: reqPerHourObj,
-            averageDur: (_ref1 = res[0]) != null ? _ref1.averagedur : void 0,
-            a: {
-              todayVisits: (_ref2 = res2[0]) != null ? _ref2.requests : void 0
-            },
-            b: {
-              todayVisits: (_ref3 = res2[1]) != null ? _ref3.requests : void 0
+        reqPerHourArray.push(reqPerHourObj);
+        return Visits.aggregate({
+          $match: {
+            floor: 3,
+            duration: {
+              $gt: 20000,
+              $lt: 3600000
             }
           }
+        }, {
+          "$group": {
+            _id: "$hour",
+            requests: {
+              $sum: 1
+            }
+          }
+        }, {
+          $sort: {
+            requests: -1
+          }
+        }, function(err, res4) {
+          var _j, _len1, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7;
+
+          reqPerHourObj = {};
+          for (_j = 0, _len1 = res4.length; _j < _len1; _j++) {
+            hour = res4[_j];
+            reqPerHourObj[hour._id] = hour.requests;
+          }
+          reqPerHourObj.top = (_ref1 = res4[0]) != null ? _ref1.requests : void 0;
+          reqPerHourArray.push(reqPerHourObj);
+          return io.sockets.emit('analytics', {
+            stats: [
+              {
+                reqPerHour: reqPerHourArray[0],
+                averageDur: (_ref2 = res[0]) != null ? _ref2.averagedur : void 0,
+                todayVisits: {
+                  a: (_ref3 = res2[0]) != null ? _ref3.requests : void 0,
+                  b: (_ref4 = res2[1]) != null ? _ref4.requests : void 0
+                }
+              }, {
+                reqPerHour: reqPerHourArray[1],
+                averageDur: (_ref5 = res[1]) != null ? _ref5.averagedur : void 0,
+                todayVisits: {
+                  a: (_ref6 = res2[2]) != null ? _ref6.requests : void 0,
+                  b: (_ref7 = res2[3]) != null ? _ref7.requests : void 0
+                }
+              }
+            ]
+          });
         });
       });
     });
