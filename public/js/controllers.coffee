@@ -1,12 +1,12 @@
 'use strict'
 
-angular.module('gottaGo.controllers', ['ngResource'])
-.controller('GGMainCtrl', ($rootScope, $scope, socket, Que, roomNames, $timeout) ->
+angular.module('gottaGo.controllers', ['ngResource', 'ngCookies'])
+.controller('GGMainCtrl', ($rootScope, $scope, socket, Que, roomNames, $timeout, $cookieStore) ->
   $scope.floorsArray = []
   $scope.que = []
   $scope.floor = {}
   $scope.notify = {}
-  $scope.selectedFloor = 2
+  $scope.selectedFloor = if $cookieStore.get('GGSelectedFloor') then $cookieStore.get('GGSelectedFloor') else 2
 
   $scope.changeSelectedFloor = ->
     $scope.selectedFloor = if $scope.selectedFloor is 2 then 3 else 2
@@ -37,6 +37,7 @@ angular.module('gottaGo.controllers', ['ngResource'])
   )
 
   $scope.$watch('selectedFloor', (newValue) ->
+    $cookieStore.put('GGSelectedFloor', newValue)
     $rootScope.currentFloorArray = $scope.floorsArray[ $scope.floorArrayIndex( newValue ) ]
   )
 
