@@ -3,6 +3,8 @@
 @implementation GGMenulet
 
 @synthesize statusItem = _statusItem;
+@synthesize goMenuItem = _goMenuItem;
+@synthesize gottaGo = _gottaGo;
 @synthesize floor4MenuItem = _floor4MenuItem;
 @synthesize floor3MenuItem = _floor3MenuItem;
 @synthesize floor2MenuItem = _floor2MenuItem;
@@ -26,10 +28,10 @@
 	NSMenu *menu = [[NSMenu alloc] init];
 	[menu setAutoenablesItems:NO];
 	
-	NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:@"GottaGo" action:nil keyEquivalent:@""];
-	[menuItem setTarget:self];
-	[menuItem setEnabled:NO];
-	[menu insertItem:menuItem atIndex:0];
+	self.goMenuItem = [[NSMenuItem alloc] initWithTitle:@"Notify When Vacant" action:@selector(notifyWhenVacant:) keyEquivalent:@""];
+	[self.goMenuItem setTarget:self];
+	[self.goMenuItem setEnabled:NO];
+	[menu insertItem:self.goMenuItem atIndex:0];
 	
 	NSMenuItem *separatorMenuItem1 = [NSMenuItem separatorItem];
 	[menu insertItem:separatorMenuItem1 atIndex:1];
@@ -73,8 +75,14 @@
 	[self.statusItem setMenu:menu];
 	
 	self.floors = [NSMutableDictionary dictionary];
+	self.gottaGo = NO;
 	
 	[self connect];
+}
+
+- (void)notifyWhenVacant:(id)sender
+{
+	self.gottaGo = YES;
 }
 
 - (void)chooseFloor4:(id)sender
@@ -167,6 +175,16 @@
 				GGRoom *room2 = [floor.rooms valueForKey:@"b"];
 				[strings addObject:(room1.isOccupied) ? @"O" : @"V"];
 				[strings addObject:(room2.isOccupied) ? @"O" : @"V"];
+				
+				// Enable the GottaGo menu item if both rooms are occupied
+				[self.goMenuItem setEnabled:(room1.isOccupied && room2.isOccupied)];
+				
+				// Deliver notification if needed
+				if (self.gottaGo && (!room1.isOccupied || !room2.isOccupied))
+				{
+					self.gottaGo = NO; // Only deliver the notification for a single vacancy
+					[self deliverNotification];
+				}
 			}
 		}
 	}
@@ -184,6 +202,17 @@
 - (IBAction)quit:(id)sender
 {
 	[NSApp terminate:self];
+}
+
+- (void)deliverNotification
+{
+	NSUserNotification *notification = [[NSUserNotification alloc] init];
+	[notification setTitle:@"GottaGo"];
+	[notification setInformativeText:@"A bathroom is now available"];
+	
+	NSUserNotificationCenter *center = [NSUserNotificationCenter defaultUserNotificationCenter];
+	[center setDelegate:self];
+	[center deliverNotification:notification];
 }
 
 #pragma mark - SocketIODelegate
@@ -231,6 +260,13 @@
 		
 		[self update];
 	}
+}
+
+#pragma mark - NSUserNotificationCenterDelegate
+
+- (BOOL)userNotificationCenter:(NSUserNotificationCenter *)center shouldPresentNotification:(NSUserNotification *)notification
+{
+    return YES;
 }
 
 @end

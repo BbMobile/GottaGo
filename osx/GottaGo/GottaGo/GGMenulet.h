@@ -4,9 +4,11 @@
 #import "GGFloor.h"
 #import "GGRoom.h"
 
-@interface GGMenulet : NSObject <SocketIODelegate>
+@interface GGMenulet : NSObject <SocketIODelegate, NSUserNotificationCenterDelegate>
 {
 	NSStatusItem *statusItem;
+	NSMenuItem *goMenuItem;
+	BOOL gottaGo;
 	NSMenuItem *floor4MenuItem;
 	NSMenuItem *floor3MenuItem;
 	NSMenuItem *floor2MenuItem;
@@ -16,6 +18,8 @@
 }
 
 @property (strong) NSStatusItem *statusItem;
+@property (strong) NSMenuItem *goMenuItem;
+@property (assign) BOOL gottaGo;
 @property (strong) NSMenuItem *floor4MenuItem;
 @property (strong) NSMenuItem *floor3MenuItem;
 @property (strong) NSMenuItem *floor2MenuItem;
@@ -23,6 +27,7 @@
 @property (strong) NSMutableDictionary *floors;
 @property (strong) SocketIO *socket;
 
+- (void)notifyWhenVacant:(id)sender;
 - (void)connect;
 - (void)reconnect;
 - (void)update;
@@ -34,5 +39,6 @@
 - (void)setPreferredFloor:(NSString *)floorKey;
 - (void)showOffline;
 - (IBAction)quit:(id)sender;
+- (void)deliverNotification;
 
 @end

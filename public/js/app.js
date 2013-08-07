@@ -20,6 +20,14 @@
       });
     };
   });
+}).run(function($rootScope) {
+  return $rootScope.getFavicon = function() {
+    if ($rootScope.currentFloorArray != null) {
+      return "_" + $rootScope.currentFloorArray[0].status + "_" + $rootScope.currentFloorArray[1].status;
+    } else {
+      return "";
+    }
+  };
 }).value("roomNames", {
   '2a': 'Finkle',
   '2b': 'Einhorn',

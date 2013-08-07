@@ -1,9 +1,10 @@
 !!! 5
-html
+html(ng-app="gottaGo")
   head
     title Gotta Go
     meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no')
-    link(rel='shortcut icon', href='/img/favicon.png', type='image/x-icon')
+    link(rel='shortcut icon', ng-href='/img/favicon{{ getFavicon() }}.png', type='image/x-icon')
+
     link(rel='stylesheet', type='text/css', href='/css/reset.css')
     link(rel='stylesheet', type='text/css', href='/css/fonts.css')
     link(rel='stylesheet', type='text/css', href='/css/style.css')
@@ -11,7 +12,7 @@ html
 
     script.
       try{Typekit.load();}catch(e){}
-  body(ng-app="gottaGo", ng-controller="GGMainCtrl")
+  body(ng-controller="GGMainCtrl")
     {{error}}
     .topbar-wrapper
       .topbar

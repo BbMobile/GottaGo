@@ -304,18 +304,21 @@ pushAnalytics = function() {
       _id: 1
     }
   }, function(err, res) {
-    var today, _ref;
+    var date, month, today;
 
     if (err) {
       return handleError(err);
     }
-    console.log((_ref = res[0]) != null ? _ref.averagedur : void 0);
-    today = new Date().getDate();
+    date = new Date();
+    today = date.getDate();
+    month = date.getMonth();
     return Visits.aggregate({
       $match: {
+        floor: 2,
         day: {
           $gt: today - 1
-        }
+        },
+        month: month
       }
     }, {
       $match: {
@@ -355,23 +358,23 @@ pushAnalytics = function() {
           requests: -1
         }
       }, function(err, res3) {
-        var hour, reqPerHourObj, _i, _len, _ref1, _ref2, _ref3, _ref4;
+        var hour, reqPerHourObj, _i, _len, _ref, _ref1, _ref2, _ref3;
 
         reqPerHourObj = {};
         for (_i = 0, _len = res3.length; _i < _len; _i++) {
           hour = res3[_i];
           reqPerHourObj[hour._id] = hour.requests;
         }
-        reqPerHourObj.top = (_ref1 = res3[0]) != null ? _ref1.requests : void 0;
+        reqPerHourObj.top = (_ref = res3[0]) != null ? _ref.requests : void 0;
         return io.sockets.emit('analytics', {
           stats: {
             reqPerHour: reqPerHourObj,
-            averageDur: (_ref2 = res[0]) != null ? _ref2.averagedur : void 0,
+            averageDur: (_ref1 = res[0]) != null ? _ref1.averagedur : void 0,
             a: {
-              todayVisits: (_ref3 = res2[0]) != null ? _ref3.requests : void 0
+              todayVisits: (_ref2 = res2[0]) != null ? _ref2.requests : void 0
             },
             b: {
-              todayVisits: (_ref4 = res2[1]) != null ? _ref4.requests : void 0
+              todayVisits: (_ref3 = res2[1]) != null ? _ref3.requests : void 0
             }
           }
         });

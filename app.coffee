@@ -320,12 +320,12 @@ pushAnalytics = ->
 			return handleError(err)
 
 
-		console.log( res[0]?.averagedur )
-
-		today = new Date().getDate()
+		date = new Date()
+		today = date.getDate()
+		month = date.getMonth()
 
 		Visits.aggregate(
-			{ $match : { day : { $gt : today - 1 } } },
+			{ $match : { floor: 2, day : { $gt : today - 1 }, month: month } },
 			{ $match : { duration : { $gt : 20000, $lt : 3600000 } } },
 			{ "$group": { _id: "$room", requests: { $sum:1} } },
 			{$sort: {_id: 1} }

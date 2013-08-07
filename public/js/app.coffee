@@ -8,8 +8,8 @@ angular.module('gottaGo', [
   'gottaGo.services',
   'gottaGo.directives',
   'ngResource'
-]).
-config( ($routeProvider, $locationProvider, $httpProvider) ->
+])
+.config( ($routeProvider, $locationProvider, $httpProvider) ->
   $routeProvider.
     otherwise({
       redirectTo: '/'
@@ -33,6 +33,13 @@ config( ($routeProvider, $locationProvider, $httpProvider) ->
             return $q.reject(response)
           )
   )
+)
+.run( ( $rootScope ) ->
+  $rootScope.getFavicon = ->
+    if $rootScope.currentFloorArray?
+      return "_#{$rootScope.currentFloorArray[0].status}_#{$rootScope.currentFloorArray[1].status}"
+    else
+      return ""
 )
 .value("roomNames", {
   '2a':'Finkle'
